@@ -1,0 +1,12 @@
+# Site settings
+title: Felix Wolfsteller - Technical Blog
+email: felix.wolfsteller@gmail.com
+description: > # this means to ignore newlines until "baseurl:"
+  Technical Blog of Felix Wolfsteller (econya), serving you articles
+  about ruby and linux.
+baseurl: "" # the subpath of your site, e.g. /blog/
+url: "http://yourdomain.com" # the base hostname & protocol for your site
+github_username:  fwolfste
+
+# Build settings
+markdown: kramdown
