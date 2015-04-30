@@ -7,7 +7,9 @@ categories: docker dokku dokku-alt virtualization
 
 > My notes in walking along the dokku path.
 
-With the VM setup from part I we go on and install dokku.
+<img src="/assets/diagram.png"/>
+
+With the VM setup from part I we go on and install dokku, to end up with something like in the diagram above, one day.
 
 ## Dokku installation
 
@@ -107,4 +109,4 @@ Afterwards, to not forget to restart `rinetd`:
 
 ## Next steps
 
-After validating that your dokku serves you, visit ruby-sample.yourdomain.tld and relax.  Afterwards, you probably want to install some dokku-plugins and ride a real rails app.  Lets see when I can get this covered in a blog post.
+After validating that your dokku serves you, visit ruby-sample.yourdomain.tld and relax.  Afterwards, you probably want to install some dokku-plugins and ride a real rails app, setup ssl, backups and stuff.  Lets see when I can get this covered in a blog post.
