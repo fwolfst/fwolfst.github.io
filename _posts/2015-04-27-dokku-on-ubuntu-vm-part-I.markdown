@@ -137,6 +137,10 @@ In the `vmbuilder` step you might find following options helpful:
 * `--mirror http://your-apt-mirror-cache-or-proxy`
 This might save you some time and network traffic.
 
+#### Having a better idea?
+
+Awesome!  Get in contact with me!
+
 [dokku]:       https://github.com/progrium/dokku
 [dokku-alt]:   https://github.com/dokku-alt/dokku-alt
 [dokku-pg-i71]: https://github.com/Kloadut/dokku-pg-plugin/issues/71

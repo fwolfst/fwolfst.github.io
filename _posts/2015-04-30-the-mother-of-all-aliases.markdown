@@ -27,3 +27,9 @@ If you happen to work in multiple terminals, add a
 `alias ralias='source ~/.bash_aliases'` (reload alias)
 to allow you to quickly resource the `~/.bash_aliases`.
 
+---
+
+#### Having a better idea?
+
+Awesome!  Get in contact with me!
+

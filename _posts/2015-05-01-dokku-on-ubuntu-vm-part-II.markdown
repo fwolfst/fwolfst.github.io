@@ -110,3 +110,10 @@ Afterwards, to not forget to restart `rinetd`:
 ## Next steps
 
 After validating that your dokku serves you, visit ruby-sample.yourdomain.tld and relax.  Afterwards, you probably want to install some dokku-plugins and ride a real rails app, setup ssl, backups and stuff.  Lets see when I can get this covered in a blog post.
+
+---
+
+#### Having a better idea?
+
+Awesome!  Get in contact with me!
+
