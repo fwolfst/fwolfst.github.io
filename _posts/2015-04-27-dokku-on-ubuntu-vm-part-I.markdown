@@ -1,9 +1,11 @@
 ---
 layout: post
-title:  "dokku on ubuntu vm - Part 1: Setting up the VM"
+title:  "dokku on Ubuntu VM - Part 1: Setting up the VM"
 date:   2015-04-27 17:01:25
 categories: docker dokku dokku-alt virtualization
 ---
+
+> My notes in walking along the dokku path.
 
 (Not only) the rails community is going all excited about playing around with docker instead of with full-blown virtual machines.
 
@@ -25,7 +27,7 @@ These tools scratch itches of mine: deployment for me is less fun than doing oth
 * A bit of *patience*, as initial setup requires some data to be downloaded (you can speed this up by using local repositories)
 * DNS set up to resolve your domain
 
-Instead of spoiling my main system with other package installations, configurations and tasks, I will create a virtual machine running ubuntu to be my docker/dokku host.  I will call that machine `vlaada` and it will be a minimal Ubuntu 14.04 (trusty) system.  To be on the safe side, I will not create the vm by hand or with any mind-blowing creatures like puppet or chef, but use `vmbuilder` (`apt-get install python-vm-builder`).  Note that while I use kvm and libvirt here you can use other hypervisors.
+Instead of spoiling my main system with other package installations, configurations and tasks, I will create a virtual machine running ubuntu to be my docker/dokku host.  I will call that machine `vlaada` and it will be a minimal Ubuntu 14.04 (trusty) system.  To be on the safe side, I will not create the VM by hand or with any mind-blowing creatures like puppet or chef, but use `vmbuilder` (`apt-get install python-vm-builder`).  Note that while I use kvm and libvirt here you can use other hypervisors.
 
 {% highlight bash %}
 #!/bin/bash
@@ -76,20 +78,20 @@ The content of `setup-vlaada`-script:
 # called from vmbuilder, first argument is path to chroot us.
 
 echo "Enable passwordless sudo for admins"
-printf '# Allow members of group admin to not need a password' >> $1/etc/sudoers
-printf '%admin ALL=NOPASSWD: ALL' >> $1/etc/sudoers
+echo '# Allow members of group admin to not need a password' >> $1/etc/sudoers
+echo '%admin ALL=NOPASSWD: ALL' >> $1/etc/sudoers
 
 echo "Enable (passwordless) sudo for dokku"
-printf '# Allow members of group dokku to not need a password' >> $1/etc/sudoers
-printf '%dokku ALL=(ALL:ALL) ALL' >> $1/etc/sudoers
-printf '%dokku ALL=NOPASSWD: ALL' >> $1/etc/sudoers
+echo '# Allow members of group dokku to not need a password' >> $1/etc/sudoers
+echo '%dokku ALL=(ALL:ALL) ALL' >> $1/etc/sudoers
+echo '%dokku ALL=NOPASSWD: ALL' >> $1/etc/sudoers
 {% endhighlight %}
 
 If that looks scary to you, it is.  It basically allows the dokku and dokkulord users to sudo without password.
 
 On my favorite machine, this vm-creation-process takes around 20 minutes.  On my development machine with ecovillage-internet multiply this by 3.
 
-If you are inpatient when no white letters run over your black screen, the command above will tell you where to `sudo tail -f ` to to see what is happening (` .... logging to file: /tmp/tmpXXXXYYYZZZ`).
+If you are impatient when no white letters run over your black screen, the command above will tell you where to `sudo tail -f ` to to see what is happening (` .... logging to file: /tmp/tmpXXXXYYYZZZ`).
 
 vmbuilder will then provide us with a qcow image in the subfolder `ubuntu-kvm`.  Now might be a good time to clone this machine, e.g. using
 `virt-clone --auto-clone -o vlaada --prompt` (`apt-get install virtinst` to get `virt-clone`, this only applies to the libvirt setting I use).
