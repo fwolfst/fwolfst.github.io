@@ -5,6 +5,8 @@ date:   2015-05-18 15:47:25
 categories: docker dokku dokku-alt virtualization
 ---
 
+> Or how to use virt-convert on a practical example.
+
 Ever wanted to check how Microsoft Internet Explorer renders stuff but no license at hand?
 
 Welcome [http://dev.modern.ie][dev-modern-ie], where you can *download time-bombed VMs*.  Pretty cool service from Microsoft.
@@ -39,6 +41,8 @@ virt-convert IE10\ -\ Win7.ovf  --destination . --disk-format qcow2
 {% endhighlight %}
 
 This starts the viewer directly and you are ready to enjoy your IE experience (remember: you probably get paid to do so).
+
+Note that you can even install an Excel viewer, although I am not sure whether thats fine with the EULA (like powering Windows XP with more than two cpu cores).
 
 ---
 
