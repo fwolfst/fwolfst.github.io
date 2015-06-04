@@ -79,35 +79,42 @@ Dabei auf den Voreintrag bei "Inkl. Steuern", Steuertabelle, Zahlungsbedingungen
 Mein erster Lieferant ist die manitu GmbH, wo ich meinen Server miete.
 Bei Lieferanten wähle ich die Steuertabelle "Vorsteuer 19 USt.", ich zahle zwar im Preis die Steuern mit, bekomme sie aber hoffentlich vom Finanzamt/Staat zurück.
 
-### Schritt 5: Rechnungen anlegen
-
-Über Geschäft->Kundenübersicht, dann rechte Maustaste auf den entsprechenden Kunden (Freundeskreis Ökodorf) neue Rechnung, 
-oder eben Lieferantenrechnung.
-
-### Schritt 6: Rechnungs-Bericht-Optionen anpassen
-
-Die Standard-Rechnungen sind nicht wirklich brauchbar.  Entweder Lisp lernen oder damit leben, am besten noch mit Steuer, da Logo wählen.
-Berichtsoptionen speichern.  Beim nächsten Mal kann man eine Rechnung duplizieren.
-
-### Schritt 7: Online-Banking einrichten (Beispiel GLS Bank)
-
-Cool, klappt.
-
-### Schritt 8: Arbeiten
+### Schritt 5: Arbeiten
 
 Jezt ist es Zeit ein paar verrückte Dinge mit Servern, Ruby, docker, bash-Skripten, python code usw. anzustellen und dabei die Stoppuhr mitlaufen zu lassen (hoffentlich kommt mir irgendwann ein brauchbares time- and project-tracking-cli-Tool mit gnucash-Anbindung über den Weg ...).
 
-### Schritt 9: Rechnung schreiben
+### Schritt 6: Rechnung schreiben
 
 Fast forward, ich habe einige Stunden gearbeitet und stelle diese nun dem Kunden in Rechnung.  Berichtsoptionen etc.
 
-### Schritt 10: Geld ausgeben
+Über Geschäft->Kundenübersicht, dann rechte Maustaste auf den entsprechenden Kunden (Freundeskreis Ökodorf) neue Rechnung, 
+oder eben Lieferantenrechnung.
+![Neue Rechnung](/assets/gnucash_5_rechnung.png)
+
+Die Standard-Rechnungen sind nicht wirklich brauchbar.  Entweder Lisp lernen oder damit leben, am besten noch mit Steuer, da Logo wählen.
+Berichtsoptionen speichern.  Beim nächsten Mal kann man eine Rechnung duplizieren.  In den Berichtsoptionen gibt man nun noch die Übersetzung für einige Begriffe an (apropos: Bei Übersetzung für "An:" ändert man "To:" zu "An"...)
+
+### Schritt 7: Geld ausgeben
 
 manitu hat mir eine Rechnung geschrieben, ich trage sie als Lieferantenrechnung ein.
 
-### Schritt 11: Zahlungseingang verarbeiten
+### Schritt 8: Lieferanten-Rechnungen anlegen
 
-### Schritt 12: Zahlungsausgang verarbeiten
+s.o.
+
+### Schritt 9: Online-Banking einrichten (Beispiel GLS Bank)
+
+Cool, klappt.
+
+### Schritt 10: Zahlungseingang verarbeiten
+
+### Schritt 11: Zahlungsausgang verarbeiten
+
+### Schritte 12++: Analysieren und verstehen
+
+Hier endet mein kleines Bilderbuch, auch wenn andere wichtige Arbeiten nun anfangen, nämlich monatlich und jährlich die Zahlen auszuwerten.
+
+---
 
 So einfach ist das.
 Wenn du es besser weißt oder noch andere Ideen hast, BITTE BITTE kontaktiere mich, Danke.
