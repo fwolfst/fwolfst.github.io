@@ -115,7 +115,7 @@ Now, it would be nice if users can see whether they are logged in to the Captive
         <input name="auth_voucher" type="text"></input>
         <input name="redirurl"     type="hidden" value="#PORTAL_REDIRURL#">
         </input>
-        <input name="accept"       type="submit" value="Einlösen"></input>
+        <input name="accept"       type="submit" value="Submit"></input>
       </form>
     <?php
       // Not logged in
@@ -145,7 +145,6 @@ To make the code paths and changes read easy, in this example I will **query the
        // Get IP/MAC from request and arp.
        $client_ip  = $_SERVER['REMOTE_ADDR'];
        $client_mac = pfSense_ip_to_mac($client_ip)['macaddr'];
-       $redirurl   = "#PORTAL_REDIRURL#";
 
        function captiveportal_get_logged_in_username($ip, $mac) {
          $username = NULL;
@@ -195,12 +194,8 @@ To make the code paths and changes read easy, in this example I will **query the
          return $sessionid;
       }
 
-      $username = captiveportal_get_logged_in_username($client_ip, $client_mac);
+      $username  = captiveportal_get_logged_in_username($client_ip, $client_mac);
       $sessionid = captiveportal_get_sessionid($client_ip, $client_mac);
-    ?>
-    RU: 
-    <?php
-      echo $redirurl;
     ?>
     <?php
       if ($sessionid && $_SERVER['REQUEST_URI'] == '/logout') {
