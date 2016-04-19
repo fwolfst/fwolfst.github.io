@@ -5,7 +5,14 @@ date:   2015-04-27 17:01:25
 categories: docker dokku dokku-alt virtualization
 ---
 
+<span style="color: red;">
+**Outdated. Find more up-to-date version in [this newer article][dokku-complete-post] .**
+</span>
+
+
 > My notes in walking along the dokku path.
+
+<img src="/assets/diagram.png"/>
 
 (Not only) the rails community is going all excited about playing around with docker instead of with full-blown virtual machines.
 
@@ -144,3 +151,5 @@ Awesome!  Get in contact with me!
 [dokku]:       https://github.com/progrium/dokku
 [dokku-alt]:   https://github.com/dokku-alt/dokku-alt
 [dokku-pg-i71]: https://github.com/Kloadut/dokku-pg-plugin/issues/71
+[dokku-complete-post]: http://fwolfst.github.io/docker/dokku/dokku-alt/virtualization/2016/04/18/dokku-on-ubuntu-vm-complete-rails.html
+

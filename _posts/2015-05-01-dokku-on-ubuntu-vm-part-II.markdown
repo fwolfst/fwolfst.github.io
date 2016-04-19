@@ -5,6 +5,10 @@ date:   2015-05-01 17:01:25
 categories: docker dokku dokku-alt virtualization
 ---
 
+<span style="color: red;">
+**Outdated. Find more up-to-date version in [this newer article][dokku-complete-post] .**
+</span>
+
 > My notes in walking along the dokku path.
 
 <img src="/assets/diagram.png"/>
@@ -103,7 +107,7 @@ Edit `/etc/rinetd.conf` like following (replace the `192.168.122.77` by the IP o
 # ...snip..
 {% endhighlight %}
 
-Afterwards, to not forget to restart `rinetd`:
+Afterwards, do not forget to restart `rinetd`:
 
 `service rinetd restart`
 
@@ -117,3 +121,4 @@ After validating that your dokku serves you, visit ruby-sample.yourdomain.tld an
 
 Awesome!  Get in contact with me!
 
+[dokku-complete-post]: http://fwolfst.github.io/docker/dokku/dokku-alt/virtualization/2016/04/18/dokku-on-ubuntu-vm-complete-rails.html
