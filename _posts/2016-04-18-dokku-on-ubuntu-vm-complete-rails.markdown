@@ -23,13 +23,13 @@ These tools scratch itches of mine: deployment for me is less fun than doing oth
 * Run this dokku guest on a server in the wild.
 * Let this dokku guest serve our app to the outside world.
 
-###Requirements
+### Requirements
 
 * Ubuntu 14.04 system
 * A bit of *patience*
 * DNS set up to resolve your domain
 
-##Step one: create the VM
+## Step one: create the VM
 
 Instead of spoiling my main system with other package installations, configurations and tasks, I will create a virtual machine running ubuntu to be my docker/dokku host.  I will call that machine `vlaada` and it will be a minimal Ubuntu 14.04 (trusty) system.  To be on the safe side, I will not create the VM by hand and will not use any heavy machinery like puppet or chef, but use `vmbuilder` (`apt-get install python-vm-builder`).  Note that while I use kvm and libvirt here you can use other hypervisors.
 
