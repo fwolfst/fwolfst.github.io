@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "dokku on Ubuntu VM - complete with rails"
-date:   2016-04-19 17:01:25
+date:   2016-04-18 17:01:25
 categories: docker dokku dokku-alt virtualization
 ---
 
