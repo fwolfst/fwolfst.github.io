@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "dokku on Ubuntu VM - complete with rails"
+title:  "dokku on Ubuntu VM - complete with Rails"
 date:   2016-04-18 17:01:25
 categories: docker dokku dokku-alt virtualization
 ---
@@ -175,9 +175,17 @@ Now after digging the tunnel (`ssh vlaada-tunnel`) I am able to `ssh vlaada` int
 
 Given that I authorized my key to perform dokku stuff `ssh dokku-vlaada` will run dokku commands on vlaada.
 
-You can configure dokku by digging a tunnel to port 80 (`ssh -L 8099:192.168.122.177:80 myhos`) and visiting it (`http://localhost:8099 in that example`) with a webbrowser.  This will especially set the `/home/dokku/VHOST` file content if using vhosts (which I do).
+You can configure dokku by digging a tunnel to port 80 (`ssh -L 8099:192.168.122.177:80 myhost`) and visiting it (`http://localhost:8099` in that example) with a webbrowser.  This will especially set the `/home/dokku/VHOST` file content if using vhosts (which I do).
 
-## Configure http(s) forwarding/nat
+### Create an alias
+
+Now you can create an [alias (with nalias)][alias] to run dokku commands:
+
+`alias dokku-vlaada='ssh dokku@vlaada'`
+
+Alternatively in following examples you can run dokku as dokkulord from 192.168.122.177 yourself (`sudo dokku <command>`) or "spell it out" `ssh dokku@vlaada <command>`.  For the latter (and the alias) the tunnel has to be dug first.
+
+## Configure http(s) forwarding/NAT
 
 To expose port 80 and port 443 of your virtual machine to the internets you want to NAt these ports (e.g. using `iptables`).
 
@@ -201,22 +209,21 @@ Afterward just a few minutes, `ruby-sample.myhost` should be available (watch ST
 
 SQLite databases won't work out of the box, so pick an app which uses postgresql in production configuration and install the postgres plugin (you only have to do this once):
 
-  `ssh vlaada plugin:install https://github.com/dokku/dokku-postgres.git`
-(or `sudo dokku plugin:install https://github.com/dokku/dokku-postgres.git`).
+  `dokku-vlaada plugin:install https://github.com/dokku/dokku-postgres.git`
 
 # Create a postgresql database
 
 I use `db.<appname>` as a name for the database.
 
-  `(ssh vlaada|sudo dokku ...) postgres:create db.myapp`
+  `dokku-vlaada postgres:create db.myapp`
 
 Create the app
 
-  `(ssh vlaada|sudo dokku ...) apps:create myapp`
+  `dokku-vlaada apps:create myapp`
 
 And link it
 
-  `(ssh vlaada|sudo dokku ...) postgres:link db.myapp myapp`
+  `dokku-vlaada postgres:link db.myapp myapp`
 
 Now add the remote to your rails app, e.g.
 `git remote add dokku dokku@vlaada:myapp` .
@@ -225,6 +232,13 @@ And push it
 
 `git push dokku master`
 
+## Setup DB, run the migrations
+
+`dokku-vlaada run myapp rake db:setup`
+
+## Backup your database
+
+`dokku-vlaada postgres:export db.myapp > myapp.db.pgdump`
 
 ## Add some storage
 
@@ -236,14 +250,14 @@ With [letsencrypt][letsencrypt] we have serious automated ssl certificates at ha
 
 Enter the awesomeness by installing the plugin
 
-`(ssh vlaada|sudo dokku ...) plugin:install https://github.com/dokku/dokku-letsencrypt.git`
+`dokku-vlaada plugin:install https://github.com/dokku/dokku-letsencrypt.git`
 
 That was simple.
 
 Installing a certificate is much more complicated:
 
-`(...) config:set --no-restart myapp DOKKU_LETSENCRYPT_EMAIL=your.mail@your.host
-(...) dokku letsencrypt myapp`
+`dokku-vlaada config:set --no-restart myapp DOKKU_LETSENCRYPT_EMAIL=your.mail@your.host
+dokku-vlaada letsencrypt myapp`
 
 That was tough, but now you have deployed a valid, trusted certificate and configured your nginx to use it.  Please read the letsencrypt plugins README, as it also has some legal stuff on it.
 
@@ -264,3 +278,4 @@ Awesome!  Get in contact with me!
 [dokku-pg-i71]: https://github.com/Kloadut/dokku-pg-plugin/issues/71
 [scripts-github]: https://github.com/fwolfst/scripts/master/setup_dokku_vm
 [letsencrypt]: https://letsencrypt.org
+[nalias]: http://fwolfst.github.io/bash/2015/04/30/the-mother-of-all-aliases.html
