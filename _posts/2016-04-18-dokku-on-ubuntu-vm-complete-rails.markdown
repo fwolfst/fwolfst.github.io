@@ -15,13 +15,15 @@ categories: docker dokku dokku-alt virtualization
 
 With [dokku][dokku] a (and there are many others) project aims to build a thin but super-soft layer between the containers (if you don't know the difference yet: think of containers as if they were virtual machines for now) and your deployment-fu.
 
-These tools scratch itches of mine: deployment for me is less fun than doing other stuff with a computer.  But slim tools usually are quite fun.  And I heroku-style git-push-deployments can be really enjoyable.
+These tools scratch itches of mine: deployment for me is less fun than doing other stuff with a computer.  But slim tools usually are quite fun.  And heroku-style git-push-deployments can be really enjoyable.
 
 ## Aim
 
 * Set up a dokku guest that we can deploy a rails 4 app to.
 * Run this dokku guest on a server in the wild.
 * Let this dokku guest serve our app to the outside world.
+* Have it make use of letsencrypt.
+* Have a basic idea of how to backup your db and/or uploads.
 
 ### Requirements
 
@@ -256,8 +258,10 @@ That was simple.
 
 Installing a certificate is much more complicated:
 
-`dokku-vlaada config:set --no-restart myapp DOKKU_LETSENCRYPT_EMAIL=your.mail@your.host
-dokku-vlaada letsencrypt myapp`
+{% highlight bash %}
+dokku-vlaada config:set --no-restart myapp DOKKU_LETSENCRYPT_EMAIL=your.mail@your.host
+dokku-vlaada letsencrypt myapp
+{% endhighlight %}
 
 That was tough, but now you have deployed a valid, trusted certificate and configured your nginx to use it.  Please read the letsencrypt plugins README, as it also has some legal stuff on it.
 
