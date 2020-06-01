@@ -3,6 +3,7 @@ layout: post
 title:  "Using Microsoft Edge IE VMs with kvm/libvirt"
 date:   2015-05-18 15:47:25
 categories: docker dokku dokku-alt virtualization
+tags: virtualization
 ---
 
 > Or how to use virt-convert on a practical example.

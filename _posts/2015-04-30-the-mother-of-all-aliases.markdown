@@ -3,6 +3,7 @@ layout: post
 title: 'The Mother of All Aliases'
 date: '2015-04-30'
 categories: bash
+tags: bash
 ---
 
 Sometimes I feel old.  Like too old to use zsh or fish instead of bash.  <del>So, I stick to bash (well, sometimes).</del>  Anyways, following instructions <del>probably</del> work for zsh (oh-my-zsh) as well.
