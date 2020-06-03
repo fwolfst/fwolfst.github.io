@@ -6,12 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Felix Wolfsteller - Technical Blog</title>
-  <meta name="description" content="Technical Blog of Felix Wolfsteller (econya), serving you articles about ruby and linux.
-">
+  <title>Using Microsoft Edge IE VMs with kvm/libvirt</title>
+  <meta name="description" content="  Or how to use virt-convert on a practical example.">
 
   <link rel="stylesheet" href="/css/main.css">
-  <link rel="canonical" href="http://yourdomain.com/">
+  <link rel="canonical" href="http://yourdomain.com/docker/dokku/dokku-alt/virtualization/2015/05/18/microsoft-edge-vms-with-virsh.html">
   <link rel="alternate" type="application/rss+xml" title="Felix Wolfsteller - Technical Blog" href="http://yourdomain.com/feed.xml" />
 </head>
 
@@ -87,71 +86,71 @@
 
     <div class="page-content">
       <div class="wrapper">
-        <div class="home">
+        <div class="post">
 
-  <h1 class="page-heading">Posts</h1>
+  <header class="post-header">
+    <h1 class="post-title">Using Microsoft Edge IE VMs with kvm/libvirt</h1>
+    <p class="post-meta">
+    May 18, 2015
+    <span>[
+      
+        
+        <a href="/tag/virtualization"><code class="highligher-rouge"><nobr>virtualization</nobr></code>&nbsp;</a>
+      
+    ]</span>
+    </p>
+  </header>
 
-  <ul class="post-list">
-    
-      <li>
-        <span class="post-meta">Jun 3, 2020</span>
+  <article class="post-content">
+    <blockquote>
+  <p>Or how to use virt-convert on a practical example.</p>
+</blockquote>
 
-        <h2>
-          <a class="post-link" href="/solidus/2020/06/03/solidus-i.html">Solidus I</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Apr 18, 2016</span>
+<p>Ever wanted to check how Microsoft Internet Explorer renders stuff but no license at hand?</p>
 
-        <h2>
-          <a class="post-link" href="/docker/dokku/dokku-alt/virtualization/2016/04/18/dokku-on-ubuntu-vm-complete-rails.html">dokku on Ubuntu VM - complete with Rails</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Dec 3, 2015</span>
+<p>Welcome <a href="http://dev.modern.ie/tools/vms">http://dev.modern.ie</a>, where you can <em>download time-bombed VMs</em>.  Pretty cool service from Microsoft.</p>
 
-        <h2>
-          <a class="post-link" href="/portal,/pfsense,/intranet/2015/12/03/pfsense-intranet-portal.html">pfSense Captive Portal login/logout page</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">May 18, 2015</span>
+<p>Now, these machines come as <code class="highlighter-rouge">.ova</code> files, suitable to be used with Oracles VirtualBox.  Prefering kvm and virsh?  Thought so.  See how to get it done.</p>
 
-        <h2>
-          <a class="post-link" href="/docker/dokku/dokku-alt/virtualization/2015/05/18/microsoft-edge-vms-with-virsh.html">Using Microsoft Edge IE VMs with kvm/libvirt</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">May 1, 2015</span>
+<h3 id="aim">Aim</h3>
 
-        <h2>
-          <a class="post-link" href="/docker/dokku/dokku-alt/virtualization/2015/05/01/dokku-on-ubuntu-vm-part-II.html">dokku on Ubuntu VM - Part 2: Configure and use dokku</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Apr 30, 2015</span>
+<ul>
+  <li>Use Microsoft Edge VM with kvm/virsh/virt-manager,</li>
+</ul>
 
-        <h2>
-          <a class="post-link" href="/bash/2015/04/30/the-mother-of-all-aliases.html">The Mother of All Aliases</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Apr 27, 2015</span>
+<h4 id="requirements">Requirements</h4>
 
-        <h2>
-          <a class="post-link" href="/docker/dokku/dokku-alt/virtualization/2015/04/27/dokku-on-ubuntu-vm-part-I.html">dokku on Ubuntu VM - Part 1: Setting up the VM</a>
-        </h2>
-      </li>
-    
-  </ul>
+<ul>
+  <li>Ubuntu 14.04 system</li>
+  <li>several kvm, virsh, virt-manager, libvirtd etc. packages installed and respective permissions set up.</li>
+</ul>
 
-  <p class="rss-subscribe">subscribe <a href="/feed.xml">via RSS</a></p>
+<h4 id="download-vm">Download VM</h4>
+
+<p>Head over to <a href="http://dev.modern.ie/tools/vms">http://dev.modern.ie/tools/vms</a> , and download your image.</p>
+
+<h4 id="unzip-and-untar-the-thing">Unzip and untar the thing</h4>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># Your filenames may vary.</span>
+unzip IE10<span class="se">\ </span>-<span class="se">\ </span>Win7.zip
+<span class="nb">tar </span>xvf IE10<span class="se">\ </span>-<span class="se">\ </span>Win7.ova</code></pre></figure>
+
+<h4 id="convert-to-qcow2">Convert to qcow2</h4>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">virt-convert IE10<span class="se">\ </span>-<span class="se">\ </span>Win7.ovf  <span class="nt">--destination</span> <span class="nb">.</span> <span class="nt">--disk-format</span> qcow2</code></pre></figure>
+
+<p>This starts the viewer directly and you are ready to enjoy your IE experience (remember: you probably get paid to do so).</p>
+
+<p>Note that you can even install an Excel viewer, although I am not sure whether thats fine with the EULA (like powering Windows XP with more than two cpu cores).</p>
+
+<hr />
+
+<h4 id="having-a-better-idea">Having a better idea?</h4>
+
+<p>Awesome!  Get in contact with me!</p>
+
+
+  </article>
 
 </div>
 

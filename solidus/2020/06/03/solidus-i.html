@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Solidus I</title>
+  <meta name="description" content="Aim">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://yourdomain.com/solidus/2020/06/03/solidus-i.html">
+  <link rel="alternate" type="application/rss+xml" title="Felix Wolfsteller - Technical Blog" href="http://yourdomain.com/feed.xml" />
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">Felix Wolfsteller - Technical Blog</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/about/">About</a>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+          <a class="page-link" href="/tag/docker/">:: docker</a>
+          
+        
+          
+          <a class="page-link" href="/tag/dokku/">:: dokku</a>
+          
+        
+          
+          <a class="page-link" href="/tag/virtualization/">:: virtualization</a>
+          
+        
+          
+          <a class="page-link" href="/tag/bash/">:: bash</a>
+          
+        
+          
+          <a class="page-link" href="/tag/pfsense/">:: pfsense</a>
+          
+        
+          
+          <a class="page-link" href="/tag/intranet/">:: intranet</a>
+          
+        
+          
+          <a class="page-link" href="/tag/solidus/">:: solidus</a>
+          
+        
+          
+          <a class="page-link" href="/tag/online-shop/">:: online-shop</a>
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Solidus I</h1>
+    <p class="post-meta">
+    Jun 3, 2020
+    <span>[
+      
+        
+        <a href="/tag/solidus"><code class="highligher-rouge"><nobr>solidus</nobr></code>&nbsp;</a>
+      
+        
+        <a href="/tag/online-shop"><code class="highligher-rouge"><nobr>online-shop</nobr></code>&nbsp;</a>
+      
+    ]</span>
+    </p>
+  </header>
+
+  <article class="post-content">
+    <h2 id="aim">Aim</h2>
+
+<ul>
+  <li>Identify <a href="solidus.io">solidus</a> workflow (version 2.10!)</li>
+  <li>Identify some shop and customization needs from a German Shop perspective</li>
+  <li>Get used to write jekyll blog posts</li>
+</ul>
+
+<h3 id="requirements">Requirements</h3>
+
+<ul>
+  <li>Linux System able to run “modern” (as of 2020) Rails tech stack</li>
+  <li>tolerance: I write down as I learn</li>
+  <li>capacity to forget: solidus will further emancipate from spree and the
+installation process will change</li>
+</ul>
+
+<p>As this is my first contact with solidus, I can guarantee that next time I would
+do things different. Nonetheless, I want to keep some notes for me along the
+way.</p>
+
+<h2 id="pretext-what-i-understand-about-solidus-so-far">Pretext: What I understand about solidus so far</h2>
+
+<p>Solidus is an e-commerce (“online shop”) system that you can integrate with your
+Ruby on Rails web-application.</p>
+
+<p>It is a fork of Spree, which was acquired - I’d call it a “protective fork” but
+do not know the details.</p>
+
+<p>While it seems possible to “install solidus” as engines and gems into an empty
+Rails application and have a basic shop running, it is also possible to extend
+the solidus business logic, or just use some parts in the light of your bigger
+application. It looks like a pretty big thing.</p>
+
+<h2 id="step-one-bring-up-the-framework">Step one: Bring up the framework</h2>
+
+<p>For playing around we want a solidus shop with the whole shebang, thus instead
+of requiring only the frontend, backend or other parts, we grab the <code class="highlighter-rouge">solidus</code>
+dependency, which will pull in all the other stuff.</p>
+
+<p>We will basically follow the <a href="https://github.com/solidusio/solidus/">solidus README</a>.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># Create a new Rails app (time of writing: Rails6)</span>
+rails new soshop
+<span class="nb">cd </span>soshop
+
+<span class="c"># Add dependencies (will modify Gemfile and run bundler)</span>
+bundle add solidus
+bundle add solidus_auth_devise
+
+<span class="c"># Hook it all up - including migrations, sample data etc.</span>
+<span class="c"># This step is interactive (will ask for email and password)</span>
+rails g spree:install</code></pre></figure>
+
+<p>That’s it, we can now fire up the server.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">rails s</code></pre></figure>
+
+<p>and visit <a href="http://localhost:3000">localhost:3000</a> to see the frontend or
+<a href="http://localhost:3000/admin">localhost:3000/admin</a> to log into the backend with
+the credentials given in the install step (admin@example.com and test123 by
+default).</p>
+
+<h2 id="step-two-dont-pay">Step Two: Don’t pay</h2>
+
+<p>As the scenario is a German shop I want to change the Default currency from $ to
+€ (admin -&gt; Settings -&gt; Store -&gt; Default Currency). While we are there, we can
+also set the default tax country (“Tax Country for Empty Carts”).</p>
+
+<p>Just under that the frontend language can be changed, but we leave that for now.</p>
+
+<p>It is already time for a test-dive and put we can something in our shopping cart and
+see that the price is listed in €. However, when we continue to checkout the Billing
+Adress Form</p>
+<ul>
+  <li>requires users to enter a phone number,</li>
+  <li>doesnt require users to enter a last name and</li>
+  <li>the default address country is the US</li>
+</ul>
+
+<p>– we would like to change all of that.</p>
+
+<h3 id="billing-address-switch-off-your-phone">Billing-Address: Switch off your phone</h3>
+
+<p><em>We want to make the phone number field in addresses optional.</em></p>
+
+<p>The solidus documentation points us directly to the
+<a href="https://guides.solidus.io/developers/users/addresses.html">NoPhone monkey-patch</a> .</p>
+
+<p>However, I had to figure out how to apply this monkey patch. After some
+<a href="https://github.com/solidusio/solidus/issues/3651">professional help</a> I figured
+that the file needs to end on <code class="highlighter-rouge">_decorator.rb</code> (rtfm) to be auto-required.</p>
+
+<p>So, add a file:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># app/models/spree/address/optional_phone_decorator.rb
+module Spree::Address::OptionalPhoneDecorator                                    
+  def require_phone?                                                             
+    false                                                                        
+  end                                                                            
+                                                                                 
+  Spree::Address.prepend self                                                    
+end 
+</code></pre></div></div>
+
+<p>In this case the “required” markers in the frontend are already aware that the
+requiredness is optional (the red asterix next to the form input will disappear
+on server restart).</p>
+
+<h3 id="billing-address-hi-bill--">Billing-Address: Hi Bill … ?</h3>
+
+<p><em>We want to make the last name field in addresses mandatory.</em></p>
+
+<p>Apparently, in version 3.0, solidus will replace <code class="highlighter-rouge">firstname</code> and <code class="highlighter-rouge">lastname</code> of
+addresses by a single name field, but the current (2.10) backend and frontend
+still use both attributes.</p>
+
+<p>For whatever reason, only <code class="highlighter-rouge">firstname</code> is a required attribute - in order to
+identify users/addresses and make a valid “contract” (bill) with them we need
+both, though. At least I believe that it works like that in the EU.</p>
+
+<p>Therefore, we will add a validation in the Backend and adjust the
+frontend address form (in contrast to the phone number case above, this is not
+pre-arranged).</p>
+
+<h4 id="backend-address-validation-for-lastname">Backend: Address validation for lastname</h4>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># app/models/spree/address/mandatory_last_name_decorator.rb</span>
+<span class="k">module</span> <span class="nn">Spree::Address::MandatoryLastNameDecorator</span>
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">prepended</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>
+    <span class="n">base</span><span class="p">.</span><span class="nf">validates</span> <span class="ss">:lastname</span><span class="p">,</span> <span class="ss">presence: </span><span class="kp">true</span>
+  <span class="k">end</span>
+
+  <span class="no">Spree</span><span class="o">::</span><span class="no">Address</span><span class="p">.</span><span class="nf">prepend</span> <span class="nb">self</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<h4 id="frontend-address-validation-for-lastname">Frontend: Address validation for lastname</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Copy the address form</span>
+<span class="nb">mkdir</span> <span class="nt">-p</span> app/views/spree/address/
+<span class="nb">cp</span> <span class="si">$(</span>bundle show solidus_frontend<span class="si">)</span>/app/views/spree/address/_form.html.erb <span class="se">\</span>
+  app/views/spree/address
+
+<span class="c"># solidus also has a generator to copy views, something like this:</span>
+<span class="c"># bundle exec rails generate solidus:views:override --only \</span>
+<span class="c">#  address/something</span>
+
+<span class="c"># In that file, add `class: 'required' and `, required: true` to the lastname</span>
+<span class="c"># field (around line 10, as an example see the firstname field at line 5)</span>
+<span class="c"># Also, add the `field-required` class to the containing div (again, see above.)</span>
+</code></pre></div></div>
+
+<p>This basically reverts this Pull Request: https://github.com/solidusio/solidus/pull/2393</p>
+
+<h3 id="billing-address-adjust-default-customer-location">Billing-Address: Adjust default customer location</h3>
+
+<p>We want that the default customers billing and shipping address is within
+Germany. The form will default to <code class="highlighter-rouge">Spree::Country.default</code>, which we can
+influence by modifying <code class="highlighter-rouge">config/initializers/spree.rb</code></p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># config/initializers/spree.rb add</span>
+
+  <span class="c1"># ...</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">default_country_iso</span> <span class="o">=</span> <span class="s1">'DE'</span>
+  <span class="c1"># ...</span>
+</code></pre></div></div>
+
+<p>In case you need a different iso code, refer to the docs or look what is already
+seeded: <code class="highlighter-rouge">rails r 'p Spree::Country.all.to_a'</code>.</p>
+
+<h3 id="exclude-customers">Exclude customers</h3>
+
+<p>It’s sad and not fair and we love all our “neighbours” (that includes humans on
+other continents), but right now we cannot spend resources on intensive
+regulation, tax and shipping company research.</p>
+
+<p>Thus we will exclude countries from the list of countries to chose from as
+shipping and billing address.</p>
+
+<p>Therefore, in the backend navigate to Settings -&gt; Zones and delete
+“North America”. Reflect.</p>
+
+<p>Now, either create a new zone that includes just the countries that are fitting
+your business needs and possibilities, or modify the example one (“EU_VAT”).</p>
+
+<p>Afterwards, set the <code class="highlighter-rouge">checkout_zone</code> in <code class="highlighter-rouge">config/initializers/spree.rb</code>:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># config/initializers/spree.rb
+
+  #...
+  config.checkout_zone = 'EU_VAT' # referenced by zone name
+  #...
+</code></pre></div></div>
+
+<h3 id="taxes">Taxes</h3>
+
+<p>In Germany, you’ll probably need two tax items. Specify in Backend -&gt; Settings
+-&gt; Taxes .
+As this is vanilla solidus, I do not dive into details here.</p>
+
+<h2 id="wrapup">Wrapup</h2>
+
+<p>So far, most things went relatively smooth - few hours including writing this
+post. Of course to be compliant we
+would need a lot more customizations (base prices, gdpr and other legal stuff).
+Maybe I will look
+into that later.</p>
+
+<h4 id="having-a-better-idea">Having a better idea?</h4>
+
+<p>Awesome!  Get in contact with me!</p>
+
+
+  </article>
+
+</div>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Felix Wolfsteller - Technical Blog</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col  footer-col-1">
+        <ul class="contact-list">
+          <li>Felix Wolfsteller - Technical Blog</li>
+          <li><a href="mailto:felix.wolfsteller@gmail.com">felix.wolfsteller@gmail.com</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/fwolfst">
+              <span class="icon  icon--github">
+                <svg viewBox="0 0 16 16">
+                  <path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/>
+                </svg>
+              </span>
+
+              <span class="username">fwolfst</span>
+            </a>
+          </li>
+          
+
+          
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-3">
+        <p class="text">Technical Blog of Felix Wolfsteller (econya), serving you articles about ruby and linux.
+</p>
+        <p class="text">Available and happy to rock a gig for you.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>
