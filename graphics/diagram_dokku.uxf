@@ -1,0 +1,513 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.1.1">
+  <zoom_level>9</zoom_level>
+  <element>
+    <type>com.baselet.element.old.element.Node</type>
+    <coordinates>
+      <x>162</x>
+      <y>144</y>
+      <w>648</w>
+      <h>576</h>
+    </coordinates>
+    <panel_attributes>center:&lt;&lt;Hardware or virtual&gt;&gt;
+center:Server
+
+layer=-400
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Database</type>
+    <coordinates>
+      <x>693</x>
+      <y>432</y>
+      <w>99</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>Backups</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.SimpleComponent</type>
+    <coordinates>
+      <x>252</x>
+      <y>225</y>
+      <w>405</w>
+      <h>342</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;VM&gt;&gt;
+ "vlaada"
+bg=light_gray
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Class</type>
+    <coordinates>
+      <x>288</x>
+      <y>360</y>
+      <w>126</w>
+      <h>153</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Docker Instance&gt;&gt;
+application.com</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Class</type>
+    <coordinates>
+      <x>504</x>
+      <y>360</y>
+      <w>126</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Docker Instance&gt;&gt;
+PSQL
+db.application.com</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Class</type>
+    <coordinates>
+      <x>288</x>
+      <y>297</y>
+      <w>126</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Process&gt;&gt;
+nginx</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Class</type>
+    <coordinates>
+      <x>558</x>
+      <y>225</y>
+      <w>99</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Process&gt;&gt;
+sshd</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Class</type>
+    <coordinates>
+      <x>639</x>
+      <y>153</y>
+      <w>99</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Process&gt;&gt;
+sshd</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Actor</type>
+    <coordinates>
+      <x>0</x>
+      <y>234</y>
+      <w>90</w>
+      <h>108</h>
+    </coordinates>
+    <panel_attributes>Visitor</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Relation</type>
+    <coordinates>
+      <x>45</x>
+      <y>225</y>
+      <w>134</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-
+Port  80
+Port 443</panel_attributes>
+    <additional_attributes>117;45;27;45</additional_attributes>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Relation</type>
+    <coordinates>
+      <x>189</x>
+      <y>243</y>
+      <w>170</w>
+      <h>71</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>153;54;153;27;27;27</additional_attributes>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Relation</type>
+    <coordinates>
+      <x>387</x>
+      <y>405</y>
+      <w>134</w>
+      <h>44</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>117;27;27;27</additional_attributes>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Relation</type>
+    <coordinates>
+      <x>369</x>
+      <y>459</y>
+      <w>134</w>
+      <h>44</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>117;27;27;27</additional_attributes>
+  </element>
+  <element>
+    <id>UMLUseCase</id>
+    <coordinates>
+      <x>297</x>
+      <y>468</y>
+      <w>99</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>fontsize=10
+/app/public/uploads</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Relation</type>
+    <coordinates>
+      <x>315</x>
+      <y>306</y>
+      <w>44</w>
+      <h>125</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>27;108;27;81;27;27</additional_attributes>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Class</type>
+    <coordinates>
+      <x>288</x>
+      <y>414</y>
+      <w>126</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Process&gt;&gt;
+"rails"/unicorn</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Actor</type>
+    <coordinates>
+      <x>342</x>
+      <y>0</y>
+      <w>90</w>
+      <h>108</h>
+    </coordinates>
+    <panel_attributes>Developer</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Node</type>
+    <coordinates>
+      <x>432</x>
+      <y>0</y>
+      <w>225</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>center:&lt;&lt;Developer Hardware&gt;&gt;
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>486</x>
+      <y>45</y>
+      <w>162</w>
+      <h>27</h>
+    </coordinates>
+    <panel_attributes>halign=left
+ssh tunnel endpoint</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.FinalState</type>
+    <coordinates>
+      <x>630</x>
+      <y>54</y>
+      <w>18</w>
+      <h>18</h>
+    </coordinates>
+    <panel_attributes>i</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>495</x>
+      <y>261</y>
+      <w>162</w>
+      <h>27</h>
+    </coordinates>
+    <panel_attributes>halign=left
+ssh tunnel endpoint</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.InitialState</type>
+    <coordinates>
+      <x>630</x>
+      <y>261</y>
+      <w>18</w>
+      <h>18</h>
+    </coordinates>
+    <panel_attributes>i</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Relation</type>
+    <coordinates>
+      <x>612</x>
+      <y>45</y>
+      <w>44</w>
+      <h>233</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+lt=&gt;.
+</panel_attributes>
+    <additional_attributes>27;27;27;216</additional_attributes>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Class</type>
+    <coordinates>
+      <x>504</x>
+      <y>414</y>
+      <w>126</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Process&gt;&gt;
+postgresql</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Relation</type>
+    <coordinates>
+      <x>603</x>
+      <y>396</y>
+      <w>152</w>
+      <h>53</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+</panel_attributes>
+    <additional_attributes>27;27;135;27;135;36</additional_attributes>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Relation</type>
+    <coordinates>
+      <x>612</x>
+      <y>441</y>
+      <w>143</w>
+      <h>62</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+</panel_attributes>
+    <additional_attributes>27;45;126;45;126;27</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>162</x>
+      <y>261</y>
+      <w>54</w>
+      <h>18</h>
+    </coordinates>
+    <panel_attributes>iptables
+valign=center</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLUseCase</id>
+    <coordinates>
+      <x>486</x>
+      <y>459</y>
+      <w>153</w>
+      <h>54</h>
+    </coordinates>
+    <panel_attributes>Volume
+/app/public/system
+/var/lib/dokku/data/storage
+fontsize=10</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Relation</type>
+    <coordinates>
+      <x>387</x>
+      <y>351</y>
+      <w>134</w>
+      <h>44</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>117;27;27;27</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>495</x>
+      <y>243</y>
+      <w>63</w>
+      <h>18</h>
+    </coordinates>
+    <panel_attributes>key 1
+bg=gray
+type=sender</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Actor</type>
+    <coordinates>
+      <x>306</x>
+      <y>603</y>
+      <w>90</w>
+      <h>108</h>
+    </coordinates>
+    <panel_attributes>Developer</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>234</x>
+      <y>621</y>
+      <w>90</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>key 2
+bg=gray
+type=sender</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>369</x>
+      <y>558</y>
+      <w>270</w>
+      <h>99</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+creates VM with scripts
+</panel_attributes>
+    <additional_attributes>120.0;10.0;120.0;90.0;10.0;90.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>495</x>
+      <y>225</y>
+      <w>63</w>
+      <h>18</h>
+    </coordinates>
+    <panel_attributes>key 2
+bg=gray
+type=sender</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>261</x>
+      <y>0</y>
+      <w>90</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>key 1
+bg=gray
+type=sender</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLUseCase</id>
+    <coordinates>
+      <x>405</x>
+      <y>648</y>
+      <w>36</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>*I*
+bg=red</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLUseCase</id>
+    <coordinates>
+      <x>459</x>
+      <y>225</y>
+      <w>36</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>*III*
+bg=red</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLUseCase</id>
+    <coordinates>
+      <x>414</x>
+      <y>324</y>
+      <w>36</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>*IV*
+bg=red</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLUseCase</id>
+    <coordinates>
+      <x>621</x>
+      <y>324</y>
+      <w>36</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>*IV*
+bg=red</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLUseCase</id>
+    <coordinates>
+      <x>432</x>
+      <y>495</y>
+      <w>36</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>*V*
+bg=red</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLUseCase</id>
+    <coordinates>
+      <x>171</x>
+      <y>225</y>
+      <w>36</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>*VI*
+bg=red</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLUseCase</id>
+    <coordinates>
+      <x>657</x>
+      <y>36</y>
+      <w>36</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>*II*
+bg=red</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>

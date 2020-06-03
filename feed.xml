@@ -1,0 +1,1217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Felix Wolfsteller - Technical Blog</title>
+    <description>Technical Blog of Felix Wolfsteller (econya), serving you articles about ruby and linux.
+</description>
+    <link>http://yourdomain.com/</link>
+    <atom:link href="http://yourdomain.com/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Wed, 03 Jun 2020 19:22:49 +0200</pubDate>
+    <lastBuildDate>Wed, 03 Jun 2020 19:22:49 +0200</lastBuildDate>
+    <generator>Jekyll v3.8.7</generator>
+    
+      <item>
+        <title>Solidus I</title>
+        <description>&lt;h2 id=&quot;aim&quot;&gt;Aim&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Identify &lt;a href=&quot;solidus.io&quot;&gt;solidus&lt;/a&gt; workflow (version 2.10!)&lt;/li&gt;
+  &lt;li&gt;Identify some shop and customization needs from a German Shop perspective&lt;/li&gt;
+  &lt;li&gt;Get used to write jekyll blog posts&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;requirements&quot;&gt;Requirements&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Linux System able to run “modern” (as of 2020) Rails tech stack&lt;/li&gt;
+  &lt;li&gt;tolerance: I write down as I learn&lt;/li&gt;
+  &lt;li&gt;capacity to forget: solidus will further emancipate from spree and the
+installation process will change&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;As this is my first contact with solidus, I can guarantee that next time I would
+do things different. Nonetheless, I want to keep some notes for me along the
+way.&lt;/p&gt;
+
+&lt;h2 id=&quot;pretext-what-i-understand-about-solidus-so-far&quot;&gt;Pretext: What I understand about solidus so far&lt;/h2&gt;
+
+&lt;p&gt;Solidus is an e-commerce (“online shop”) system that you can integrate with your
+Ruby on Rails web-application.&lt;/p&gt;
+
+&lt;p&gt;It is a fork of Spree, which was acquired - I’d call it a “protective fork” but
+do not know the details.&lt;/p&gt;
+
+&lt;p&gt;While it seems possible to “install solidus” as engines and gems into an empty
+Rails application and have a basic shop running, it is also possible to extend
+the solidus business logic, or just use some parts in the light of your bigger
+application. It looks like a pretty big thing.&lt;/p&gt;
+
+&lt;h2 id=&quot;step-one-bring-up-the-framework&quot;&gt;Step one: Bring up the framework&lt;/h2&gt;
+
+&lt;p&gt;For playing around we want a solidus shop with the whole shebang, thus instead
+of requiring only the frontend, backend or other parts, we grab the &lt;code class=&quot;highlighter-rouge&quot;&gt;solidus&lt;/code&gt;
+dependency, which will pull in all the other stuff.&lt;/p&gt;
+
+&lt;p&gt;We will basically follow the &lt;a href=&quot;https://github.com/solidusio/solidus/&quot;&gt;solidus README&lt;/a&gt;.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;# Create a new Rails app (time of writing: Rails6)&lt;/span&gt;
+rails new soshop
+&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;soshop
+
+&lt;span class=&quot;c&quot;&gt;# Add dependencies (will modify Gemfile and run bundler)&lt;/span&gt;
+bundle add solidus
+bundle add solidus_auth_devise
+
+&lt;span class=&quot;c&quot;&gt;# Hook it all up - including migrations, sample data etc.&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# This step is interactive (will ask for email and password)&lt;/span&gt;
+rails g spree:install&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;That’s it, we can now fire up the server.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;rails s&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;and visit &lt;a href=&quot;http://localhost:3000&quot;&gt;localhost:3000&lt;/a&gt; to see the frontend or
+&lt;a href=&quot;http://localhost:3000/admin&quot;&gt;localhost:3000/admin&lt;/a&gt; to log into the backend with
+the credentials given in the install step (admin@example.com and test123 by
+default).&lt;/p&gt;
+
+&lt;h2 id=&quot;step-two-dont-pay&quot;&gt;Step Two: Don’t pay&lt;/h2&gt;
+
+&lt;p&gt;As the scenario is a German shop I want to change the Default currency from $ to
+€ (admin -&amp;gt; Settings -&amp;gt; Store -&amp;gt; Default Currency). While we are there, we can
+also set the default tax country (“Tax Country for Empty Carts”).&lt;/p&gt;
+
+&lt;p&gt;Just under that the frontend language can be changed, but we leave that for now.&lt;/p&gt;
+
+&lt;p&gt;It is already time for a test-dive and put we can something in our shopping cart and
+see that the price is listed in €. However, when we continue to checkout the Billing
+Adress Form&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;requires users to enter a phone number,&lt;/li&gt;
+  &lt;li&gt;doesnt require users to enter a last name and&lt;/li&gt;
+  &lt;li&gt;the default address country is the US&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;– we would like to change all of that.&lt;/p&gt;
+
+&lt;h3 id=&quot;billing-address-switch-off-your-phone&quot;&gt;Billing-Address: Switch off your phone&lt;/h3&gt;
+
+&lt;p&gt;&lt;em&gt;We want to make the phone number field in addresses optional.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;The solidus documentation points us directly to the
+&lt;a href=&quot;https://guides.solidus.io/developers/users/addresses.html&quot;&gt;NoPhone monkey-patch&lt;/a&gt; .&lt;/p&gt;
+
+&lt;p&gt;However, I had to figure out how to apply this monkey patch. After some
+&lt;a href=&quot;https://github.com/solidusio/solidus/issues/3651&quot;&gt;professional help&lt;/a&gt; I figured
+that the file needs to end on &lt;code class=&quot;highlighter-rouge&quot;&gt;_decorator.rb&lt;/code&gt; (rtfm) to be auto-required.&lt;/p&gt;
+
+&lt;p&gt;So, add a file:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# app/models/spree/address/optional_phone_decorator.rb
+module Spree::Address::OptionalPhoneDecorator                                    
+  def require_phone?                                                             
+    false                                                                        
+  end                                                                            
+                                                                                 
+  Spree::Address.prepend self                                                    
+end 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;In this case the “required” markers in the frontend are already aware that the
+requiredness is optional (the red asterix next to the form input will disappear
+on server restart).&lt;/p&gt;
+
+&lt;h3 id=&quot;billing-address-hi-bill--&quot;&gt;Billing-Address: Hi Bill … ?&lt;/h3&gt;
+
+&lt;p&gt;&lt;em&gt;We want to make the last name field in addresses mandatory.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Apparently, in version 3.0, solidus will replace &lt;code class=&quot;highlighter-rouge&quot;&gt;firstname&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;lastname&lt;/code&gt; of
+addresses by a single name field, but the current (2.10) backend and frontend
+still use both attributes.&lt;/p&gt;
+
+&lt;p&gt;For whatever reason, only &lt;code class=&quot;highlighter-rouge&quot;&gt;firstname&lt;/code&gt; is a required attribute - in order to
+identify users/addresses and make a valid “contract” (bill) with them we need
+both, though. At least I believe that it works like that in the EU.&lt;/p&gt;
+
+&lt;p&gt;Therefore, we will add a validation in the Backend and adjust the
+frontend address form (in contrast to the phone number case above, this is not
+pre-arranged).&lt;/p&gt;
+
+&lt;h4 id=&quot;backend-address-validation-for-lastname&quot;&gt;Backend: Address validation for lastname&lt;/h4&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# app/models/spree/address/mandatory_last_name_decorator.rb&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;module&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;Spree::Address::MandatoryLastNameDecorator&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;prepended&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;base&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;base&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;validates&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:lastname&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;presence: &lt;/span&gt;&lt;span class=&quot;kp&quot;&gt;true&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+
+  &lt;span class=&quot;no&quot;&gt;Spree&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Address&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;prepend&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;self&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;frontend-address-validation-for-lastname&quot;&gt;Frontend: Address validation for lastname&lt;/h4&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# Copy the address form&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;mkdir&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; app/views/spree/address/
+&lt;span class=&quot;nb&quot;&gt;cp&lt;/span&gt; &lt;span class=&quot;si&quot;&gt;$(&lt;/span&gt;bundle show solidus_frontend&lt;span class=&quot;si&quot;&gt;)&lt;/span&gt;/app/views/spree/address/_form.html.erb &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  app/views/spree/address
+
+&lt;span class=&quot;c&quot;&gt;# solidus also has a generator to copy views, something like this:&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# bundle exec rails generate solidus:views:override --only \&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;#  address/something&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# In that file, add `class: 'required' and `, required: true` to the lastname&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# field (around line 10, as an example see the firstname field at line 5)&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# Also, add the `field-required` class to the containing div (again, see above.)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This basically reverts this Pull Request: https://github.com/solidusio/solidus/pull/2393&lt;/p&gt;
+
+&lt;h3 id=&quot;billing-address-adjust-default-customer-location&quot;&gt;Billing-Address: Adjust default customer location&lt;/h3&gt;
+
+&lt;p&gt;We want that the default customers billing and shipping address is within
+Germany. The form will default to &lt;code class=&quot;highlighter-rouge&quot;&gt;Spree::Country.default&lt;/code&gt;, which we can
+influence by modifying &lt;code class=&quot;highlighter-rouge&quot;&gt;config/initializers/spree.rb&lt;/code&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# config/initializers/spree.rb add&lt;/span&gt;
+
+  &lt;span class=&quot;c1&quot;&gt;# ...&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;config&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;default_country_iso&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'DE'&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;# ...&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;In case you need a different iso code, refer to the docs or look what is already
+seeded: &lt;code class=&quot;highlighter-rouge&quot;&gt;rails r 'p Spree::Country.all.to_a'&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;exclude-customers&quot;&gt;Exclude customers&lt;/h3&gt;
+
+&lt;p&gt;It’s sad and not fair and we love all our “neighbours” (that includes humans on
+other continents), but right now we cannot spend resources on intensive
+regulation, tax and shipping company research.&lt;/p&gt;
+
+&lt;p&gt;Thus we will exclude countries from the list of countries to chose from as
+shipping and billing address.&lt;/p&gt;
+
+&lt;p&gt;Therefore, in the backend navigate to Settings -&amp;gt; Zones and delete
+“North America”. Reflect.&lt;/p&gt;
+
+&lt;p&gt;Now, either create a new zone that includes just the countries that are fitting
+your business needs and possibilities, or modify the example one (“EU_VAT”).&lt;/p&gt;
+
+&lt;p&gt;Afterwards, set the &lt;code class=&quot;highlighter-rouge&quot;&gt;checkout_zone&lt;/code&gt; in &lt;code class=&quot;highlighter-rouge&quot;&gt;config/initializers/spree.rb&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# config/initializers/spree.rb
+
+  #...
+  config.checkout_zone = 'EU_VAT' # referenced by zone name
+  #...
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;taxes&quot;&gt;Taxes&lt;/h3&gt;
+
+&lt;p&gt;In Germany, you’ll probably need two tax items. Specify in Backend -&amp;gt; Settings
+-&amp;gt; Taxes .
+As this is vanilla solidus, I do not dive into details here.&lt;/p&gt;
+
+&lt;h2 id=&quot;wrapup&quot;&gt;Wrapup&lt;/h2&gt;
+
+&lt;p&gt;So far, most things went relatively smooth - few hours including writing this
+post. Of course to be compliant we
+would need a lot more customizations (base prices, gdpr and other legal stuff).
+Maybe I will look
+into that later.&lt;/p&gt;
+
+&lt;h4 id=&quot;having-a-better-idea&quot;&gt;Having a better idea?&lt;/h4&gt;
+
+&lt;p&gt;Awesome!  Get in contact with me!&lt;/p&gt;
+
+</description>
+        <pubDate>Wed, 03 Jun 2020 08:03:20 +0200</pubDate>
+        <link>http://yourdomain.com/solidus/2020/06/03/solidus-i.html</link>
+        <guid isPermaLink="true">http://yourdomain.com/solidus/2020/06/03/solidus-i.html</guid>
+        
+        <category>solidus</category>
+        
+        <category>online-shop</category>
+        
+        
+        <category>solidus</category>
+        
+      </item>
+    
+      <item>
+        <title>dokku on Ubuntu VM - complete with Rails</title>
+        <description>&lt;blockquote&gt;
+  &lt;p&gt;Simple tools are beatiful&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;em&gt;This is a revised version of two earlier outdated posts of mine.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/diagram_dokku.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;(Not only) the rails community is going all excited about playing around with docker containers instead of with full-blown virtual machines.&lt;/p&gt;
+
+&lt;p&gt;With &lt;a href=&quot;https://github.com/progrium/dokku&quot;&gt;dokku&lt;/a&gt; a (and there are many others) project aims to build a thin but super-soft layer between the containers (if you don’t know the difference yet: think of containers as if they were virtual machines for now) and your deployment-fu.&lt;/p&gt;
+
+&lt;p&gt;These tools scratch itches of mine: deployment for me is less fun than doing other stuff with a computer.  But slim tools usually are quite fun.  And heroku-style git-push-deployments can be really enjoyable.&lt;/p&gt;
+
+&lt;h2 id=&quot;aim&quot;&gt;Aim&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Set up a dokku guest that we can deploy a rails 4 app to.&lt;/li&gt;
+  &lt;li&gt;Run this dokku guest on a server in the wild.&lt;/li&gt;
+  &lt;li&gt;Let this dokku guest serve our app to the outside world.&lt;/li&gt;
+  &lt;li&gt;Have it make use of letsencrypt.&lt;/li&gt;
+  &lt;li&gt;Have a basic idea of how to backup your db and/or uploads.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;requirements&quot;&gt;Requirements&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Ubuntu 14.04 system&lt;/li&gt;
+  &lt;li&gt;A bit of &lt;em&gt;patience&lt;/em&gt;&lt;/li&gt;
+  &lt;li&gt;DNS set up to resolve your domain&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;step-one-create-the-vm&quot;&gt;Step one: create the VM&lt;/h2&gt;
+
+&lt;p&gt;Instead of spoiling my main system with other package installations, configurations and tasks, I will create a virtual machine running ubuntu to be my docker/dokku host.  I will call that machine &lt;code class=&quot;highlighter-rouge&quot;&gt;vlaada&lt;/code&gt; and it will be a minimal Ubuntu 14.04 (trusty) system.  To be on the safe side, I will not create the VM by hand and will not use any heavy machinery like puppet or chef, but use &lt;code class=&quot;highlighter-rouge&quot;&gt;vmbuilder&lt;/code&gt; (&lt;code class=&quot;highlighter-rouge&quot;&gt;apt-get install python-vm-builder&lt;/code&gt;).  Note that while I use kvm and libvirt here you can use other hypervisors.&lt;/p&gt;
+
+&lt;p&gt;To ease creation of the VM, I put the somewhat long commands in &lt;a href=&quot;https://github.com/fwolfst/scripts/master/setup_dokku_vm&quot;&gt;(ba)sh scripts&lt;/a&gt;:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# setup_dokku_vm.sh &amp;lt;vmname&amp;gt;&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# Build base vm (kvm, libvirt) based on Ubuntu 14.04 minimal to use with dokku&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# Felix Wolfsteller, 2015, 2016 GPL3+&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-z&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$1&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;then
+    &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;No argument supplied, call like '&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$0&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt; &amp;lt;vm-name&amp;gt;'.&quot;&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;exit &lt;/span&gt;1
+&lt;span class=&quot;k&quot;&gt;fi
+
+&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;VMNAME&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$1&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;USERHOME&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$HOME&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;vmbuilder&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  kvm&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  ubuntu&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;--suite&lt;/span&gt; trusty&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;--flavour&lt;/span&gt; virtual&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;--arch&lt;/span&gt; amd64&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;--name&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$VMNAME&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;--hostname&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$VMNAME&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;--mem&lt;/span&gt; 1024&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;--cpus&lt;/span&gt; 1&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;--rootsize&lt;/span&gt; 20480&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;--swapsize&lt;/span&gt; 2048&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;--addpkg&lt;/span&gt; apparmor&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;--addpkg&lt;/span&gt; linux-image-generic&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;--addpkg&lt;/span&gt; openssh-server&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;--addpkg&lt;/span&gt; postgresql-client&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;--addpkg&lt;/span&gt; acpid&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; dokkulord&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;--ssh-user-key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$USERHOME&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;/.ssh/id_rsa.pub&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;--lock-user&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;--timezone&lt;/span&gt; Europe/Berlin&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;--libvirt&lt;/span&gt; qemu:///system&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;--verbose&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;--execscript&lt;/span&gt; &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;pwd&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;/post_setup&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Some options require special attention:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;addpkg linux-image-generic&lt;/code&gt;: vmbuilder (?) bug workaround (you might not need it)&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;addpkg acpid&lt;/code&gt;: allows us to shut the machine down cleanly without logging in&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;addpkg apparmor&lt;/code&gt;: another workaround, otherwise docker/dokku won’t play nice with us (again, ymmv)&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;addpkg postgresql-client&lt;/code&gt;: will need this later to make postgresql database dumps, the dokku postgresql plugin &lt;a href=&quot;https://github.com/Kloadut/dokku-pg-plugin/issues/71&quot;&gt;won’t install this package for us&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;user&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;ssh-user-key&lt;/code&gt;: locks the machine down (a bit), use the public key with which you want to log into the system later&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;--execscript ...&lt;/code&gt;: assemble path to the &lt;code class=&quot;highlighter-rouge&quot;&gt;post_setup&lt;/code&gt; script (see below); it is executed at the end of the build process&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The content of &lt;code class=&quot;highlighter-rouge&quot;&gt;post-setup&lt;/code&gt;-script:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# Prepare a bare ubuntu VM for simple dokku installation, not unscary&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# Felix Wolfsteller, 2015, 2016 GPL3+&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# called from vmbuilder, first argument is path to chroot us.&lt;/span&gt;
+
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Enable passwordless sudo for admins&quot;&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'# Allow members of group admin to not need a password'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$1&lt;/span&gt;/etc/sudoers
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'%admin ALL=NOPASSWD: ALL'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$1&lt;/span&gt;/etc/sudoers
+
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Enable (passwordless) sudo for dokku&quot;&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'# Allow members of group dokku to not need a password'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$1&lt;/span&gt;/etc/sudoers
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'%dokku ALL=(ALL:ALL) ALL'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$1&lt;/span&gt;/etc/sudoers
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'%dokku ALL=NOPASSWD: ALL'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$1&lt;/span&gt;/etc/sudoers
+
+wget https://raw.githubusercontent.com/dokku/dokku/v0.5.4/bootstrap.sh
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;DOKKU_TAG&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;v0.5.4 bash bootstrap.sh&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;If that last part looks scary to you, it is.  It basically allows the dokku and dokkulord users to sudo without password.&lt;/p&gt;
+
+&lt;p&gt;Now, calling &lt;code class=&quot;highlighter-rouge&quot;&gt;setup_dokku_vm vlaada&lt;/code&gt; will create and register a virtual machine.&lt;/p&gt;
+
+&lt;p&gt;On my favorite machine, this vm-creation-process takes around 20 minutes.&lt;/p&gt;
+
+&lt;p&gt;If you are impatient and want to see some white letters run over your black screen, the command above will tell you where to &lt;code class=&quot;highlighter-rouge&quot;&gt;sudo tail -f &lt;/code&gt; to to see what is happening (&lt;code class=&quot;highlighter-rouge&quot;&gt; .... logging to file: /tmp/tmpXXXXYYYZZZ&lt;/code&gt;).  On inspection you will see that no magic happens.&lt;/p&gt;
+
+&lt;p&gt;If you use &lt;code class=&quot;highlighter-rouge&quot;&gt;virt-manager&lt;/code&gt; you can now easily connect to the VM host and see that &lt;code class=&quot;highlighter-rouge&quot;&gt;vlaada&lt;/code&gt; has been created and registered.  It’s ready to start!
+Now might be a good time to clone this machine, e.g. using &lt;code class=&quot;highlighter-rouge&quot;&gt;virt-clone --auto-clone -o vlaada --prompt&lt;/code&gt; (&lt;code class=&quot;highlighter-rouge&quot;&gt;apt-get install virtinst&lt;/code&gt; to get &lt;code class=&quot;highlighter-rouge&quot;&gt;virt-clone&lt;/code&gt;, this only applies to the libvirt setting I use).&lt;/p&gt;
+
+&lt;h3 id=&quot;install-dokku&quot;&gt;Install dokku&lt;/h3&gt;
+
+&lt;p&gt;This already happened in the &lt;code class=&quot;highlighter-rouge&quot;&gt;post_setup&lt;/code&gt; script!&lt;/p&gt;
+
+&lt;h3 id=&quot;login-via-ssh&quot;&gt;Login via ssh&lt;/h3&gt;
+
+&lt;p&gt;As your key is already registered you can now login to the machine via ssh (you can also connect with &lt;code class=&quot;highlighter-rouge&quot;&gt;virt-manager&lt;/code&gt; if you want - even remotely!).&lt;/p&gt;
+
+&lt;p&gt;Make your ssh-keys known or passed around where necessary.&lt;/p&gt;
+
+&lt;p&gt;To find the IP of your virtual machine (if its dhcped like in my setup) you can look at the current dhcp-leases with &lt;code class=&quot;highlighter-rouge&quot;&gt;cat /var/lib/libvirt/dnsmasq/default.leases&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Assuming the IP is &lt;code class=&quot;highlighter-rouge&quot;&gt;192.168.122.177&lt;/code&gt; you &lt;code class=&quot;highlighter-rouge&quot;&gt;ssh dokkulord@192.168.122.177&lt;/code&gt; into the machine to administrative tasks and &lt;code class=&quot;highlighter-rouge&quot;&gt;ssh dokku@192.168.122.177&lt;/code&gt; to run dokku commands.&lt;/p&gt;
+
+&lt;p&gt;Everything works?  Great, lets make this fun possible at home!&lt;/p&gt;
+
+&lt;h2 id=&quot;step-2-configuring-access-to-the-dokku-vm&quot;&gt;Step 2: Configuring access to the dokku VM&lt;/h2&gt;
+
+&lt;p&gt;vlaada (the dokku VM) lives on a server in the wild and it shall not be accessible from outside (except for ports 80 and 443).  To access it, I will dig an ssh tunnel through the server.&lt;/p&gt;
+
+&lt;p&gt;In my &lt;code class=&quot;highlighter-rouge&quot;&gt;~/.ssh/config&lt;/code&gt; I put&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;# ~/.ssh/config&lt;/span&gt;
+vlaada-tunnel
+  User felix-on-server
+  Hostname myserver.com
+  LocalForward 7722 192.168.122.177:22
+vlaada
+  User dokkulord
+  Host localhost
+  Port 7722
+dokku-vlaada
+  User dokku
+  Host localhost
+  Port 7722&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Calling &lt;code class=&quot;highlighter-rouge&quot;&gt;ssh vlaada-tunnel&lt;/code&gt; makes connections to the localhosts port 7722 end up at port 22 on the VM that we have set up (here, referenced by its IP &lt;code class=&quot;highlighter-rouge&quot;&gt;192.168.122.177&lt;/code&gt;).&lt;/p&gt;
+
+&lt;p&gt;I also add an host entry&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;# /etc/hosts&lt;/span&gt;
+127.0.0.1 vlaada&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;test-that&quot;&gt;Test that&lt;/h3&gt;
+
+&lt;p&gt;Now after digging the tunnel (&lt;code class=&quot;highlighter-rouge&quot;&gt;ssh vlaada-tunnel&lt;/code&gt;) I am able to &lt;code class=&quot;highlighter-rouge&quot;&gt;ssh vlaada&lt;/code&gt; into the dokku machine, which is somewhere out there, hidden in the wild.  Cool.&lt;/p&gt;
+
+&lt;p&gt;Given that I authorized my key to perform dokku stuff &lt;code class=&quot;highlighter-rouge&quot;&gt;ssh dokku-vlaada&lt;/code&gt; will run dokku commands on vlaada.&lt;/p&gt;
+
+&lt;p&gt;You can configure dokku by digging a tunnel to port 80 (&lt;code class=&quot;highlighter-rouge&quot;&gt;ssh -L 8099:192.168.122.177:80 myhost&lt;/code&gt;) and visiting it (&lt;code class=&quot;highlighter-rouge&quot;&gt;http://localhost:8099&lt;/code&gt; in that example) with a webbrowser.  This will especially set the &lt;code class=&quot;highlighter-rouge&quot;&gt;/home/dokku/VHOST&lt;/code&gt; file content if using vhosts (which I do).&lt;/p&gt;
+
+&lt;h3 id=&quot;create-an-alias&quot;&gt;Create an alias&lt;/h3&gt;
+
+&lt;p&gt;Now you can create an [alias (with nalias)][alias] to run dokku commands:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;alias dokku-vlaada='ssh dokku@vlaada'&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Alternatively in following examples you can run dokku as dokkulord from 192.168.122.177 yourself (&lt;code class=&quot;highlighter-rouge&quot;&gt;sudo dokku &amp;lt;command&amp;gt;&lt;/code&gt;) or “spell it out” &lt;code class=&quot;highlighter-rouge&quot;&gt;ssh dokku@vlaada &amp;lt;command&amp;gt;&lt;/code&gt;.  For the latter (and the alias) the tunnel has to be dug first.&lt;/p&gt;
+
+&lt;h2 id=&quot;configure-https-forwardingnat&quot;&gt;Configure http(s) forwarding/NAT&lt;/h2&gt;
+
+&lt;p&gt;To expose port 80 and port 443 of your virtual machine to the internets you want to NAt these ports (e.g. using &lt;code class=&quot;highlighter-rouge&quot;&gt;iptables&lt;/code&gt;).&lt;/p&gt;
+
+&lt;h3 id=&quot;integration-test-this&quot;&gt;“Integration”-Test this&lt;/h3&gt;
+
+&lt;p&gt;Lets deploy a toy app&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git clone git@github.com:rchrd2/dokku-ruby-example.git
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;dokku-ruby-example
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;bundle
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git remote add dokku dokku@vlaada:ruby-sample
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git push dokku master&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Afterward just a few minutes, &lt;code class=&quot;highlighter-rouge&quot;&gt;ruby-sample.myhost&lt;/code&gt; should be available (watch STDOUT).  Brilliant!&lt;/p&gt;
+
+&lt;h2 id=&quot;install-postgres-plugin&quot;&gt;Install postgres plugin&lt;/h2&gt;
+
+&lt;p&gt;SQLite databases won’t work out of the box, so pick an app which uses postgresql in production configuration and install the postgres plugin (you only have to do this once):&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dokku-vlaada plugin:install https://github.com/dokku/dokku-postgres.git&lt;/code&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;create-a-postgresql-database&quot;&gt;Create a postgresql database&lt;/h1&gt;
+
+&lt;p&gt;I use &lt;code class=&quot;highlighter-rouge&quot;&gt;db.&amp;lt;appname&amp;gt;&lt;/code&gt; as a name for the database.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dokku-vlaada postgres:create db.myapp&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Create the app&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dokku-vlaada apps:create myapp&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;And link it&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dokku-vlaada postgres:link db.myapp myapp&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Now add the remote to your rails app, e.g.
+&lt;code class=&quot;highlighter-rouge&quot;&gt;git remote add dokku dokku@vlaada:myapp&lt;/code&gt; .&lt;/p&gt;
+
+&lt;p&gt;And push it&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;git push dokku master&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;setup-db-run-the-migrations&quot;&gt;Setup DB, run the migrations&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dokku-vlaada run myapp rake db:setup&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;backup-your-database&quot;&gt;Backup your database&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dokku-vlaada postgres:export db.myapp &amp;gt; myapp.db.pgdump&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;add-some-storage&quot;&gt;Add some storage&lt;/h2&gt;
+
+&lt;p&gt;If your app handles file uploads or &lt;em&gt;any other data that should be persisted&lt;/em&gt; you will be happy to use the &lt;code class=&quot;highlighter-rouge&quot;&gt;storage plugin&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;let-us-encrypt&quot;&gt;Let us encrypt&lt;/h2&gt;
+
+&lt;p&gt;With &lt;a href=&quot;https://letsencrypt.org&quot;&gt;letsencrypt&lt;/a&gt; we have serious automated ssl certificates at hand for free and dokku has a plugin (in beta stage) for you.&lt;/p&gt;
+
+&lt;p&gt;Enter the awesomeness by installing the plugin&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dokku-vlaada plugin:install https://github.com/dokku/dokku-letsencrypt.git&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;That was simple.&lt;/p&gt;
+
+&lt;p&gt;Installing a certificate is much more complicated:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;dokku-vlaada config:set &lt;span class=&quot;nt&quot;&gt;--no-restart&lt;/span&gt; myapp &lt;span class=&quot;nv&quot;&gt;DOKKU_LETSENCRYPT_EMAIL&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;your.mail@your.host
+dokku-vlaada letsencrypt myapp&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;That was tough, but now you have deployed a valid, trusted certificate and configured your nginx to use it.  Please read the letsencrypt plugins README, as it also has some legal stuff on it.&lt;/p&gt;
+
+&lt;h3 id=&quot;notes&quot;&gt;Notes&lt;/h3&gt;
+&lt;p&gt;In the &lt;code class=&quot;highlighter-rouge&quot;&gt;vmbuilder&lt;/code&gt; step you might find following options helpful:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;--mirror http://your-apt-mirror-cache-or-proxy&lt;/code&gt;
+This might save you some time and network traffic.&lt;/li&gt;
+  &lt;li&gt;You can checkout the scripts at http://github.com/fwolfst/scripts/setup_dokku_vm .&lt;/li&gt;
+  &lt;li&gt;To have the app logging to stdout and seeing the logs via &lt;code class=&quot;highlighter-rouge&quot;&gt;dokku logs myapp&lt;/code&gt; the easiest way is to include the &lt;code class=&quot;highlighter-rouge&quot;&gt;rails_12factor&lt;/code&gt; gem in your Gemfile.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;having-a-better-idea&quot;&gt;Having a better idea?&lt;/h4&gt;
+
+&lt;p&gt;Awesome!  Get in contact with me!&lt;/p&gt;
+
+</description>
+        <pubDate>Mon, 18 Apr 2016 19:01:25 +0200</pubDate>
+        <link>http://yourdomain.com/docker/dokku/dokku-alt/virtualization/2016/04/18/dokku-on-ubuntu-vm-complete-rails.html</link>
+        <guid isPermaLink="true">http://yourdomain.com/docker/dokku/dokku-alt/virtualization/2016/04/18/dokku-on-ubuntu-vm-complete-rails.html</guid>
+        
+        <category>docker</category>
+        
+        <category>dokku</category>
+        
+        
+        <category>docker</category>
+        
+        <category>dokku</category>
+        
+        <category>dokku-alt</category>
+        
+        <category>virtualization</category>
+        
+      </item>
+    
+      <item>
+        <title>pfSense Captive Portal login/logout page</title>
+        <description>&lt;blockquote&gt;
+  &lt;p&gt;Bringing Part of the Portal into Captive Portal.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;or:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Where I do post php code.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;prerequisistes&quot;&gt;Prerequisistes&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;pfsense installed (version 2.2.5, looks like the story will change for 2.3)&lt;/li&gt;
+  &lt;li&gt;(separate) ‘intranet’ server&lt;/li&gt;
+  &lt;li&gt;at least one user without technical background&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;aims&quot;&gt;Aims&lt;/h3&gt;
+
+&lt;p&gt;Play around and make a dedicated pfSense Captive Portal login/logout page.&lt;/p&gt;
+
+&lt;h3 id=&quot;overview&quot;&gt;Overview&lt;/h3&gt;
+
+&lt;p&gt;In the &lt;a href=&quot;http://siebenlinden.de&quot; title=&quot;Homepage of ecovillage Sieben Linden&quot;&gt;community&lt;/a&gt; I live in we run a couple of internal services and guard Internet-Access by &lt;a href=&quot;https://pfsense.org&quot; title=&quot;Homepage of pfSense&quot;&gt;pfSenses&lt;/a&gt; Captive Portal (“CP”).&lt;/p&gt;
+
+&lt;p&gt;The Captive Portal intercepts any traffic for a not yet registered IP/MAC-Adress pair (clients come from the local network, so IP-Adresses can resolved to MAC-Adresses, although this can be tricked) and responds with a login page.&lt;/p&gt;
+
+&lt;p&gt;Users can either be defined with a local user manager, a RADIUS server &lt;del&gt;or an &lt;a href=&quot;https://redmine.pfsense.org/issues/5112&quot; title=&quot;Link to LDAP Authentication Captive Portal redmine issue for pfSense&quot;&gt;LDAP server&lt;/a&gt;&lt;/del&gt; (this is another story and worth another blog post).  Upon successfull login, the MAC/IP/username-triple will be saved in a SQLite-database, the user is redirected to the requested URL (&lt;code class=&quot;highlighter-rouge&quot;&gt;redirurl&lt;/code&gt;) and forthcoming traffic will be allowed.&lt;/p&gt;
+
+&lt;p&gt;The Captive Portal (with default settings) has a serious drawback: Only standard HTTP traffic can be intercepted, or more precisely: a redirect to the login page only works for HTTP-connections (for good reason).  In principle it is possible to use a certificate and intercept/redirect https-traffic, but you need a proper certificate if the users should not be scared away by a certificate warning.  &lt;em&gt;Note:&lt;/em&gt; Yes, allowing http logins is as good as no logins if you are talking real security.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/Diagram_pfsense_net.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;As a result, the login page of the Captive portal will &lt;strong&gt;only be shown if users attempt to access a http (vs https) page&lt;/strong&gt;.  Many users browsers are however configured to initially load (“homepage”) a https page (which is good).  These users are confronted with a connection timeout and will be scared that no internet connection is available, our intranet or their computer is broken.&lt;/p&gt;
+
+&lt;h3 id=&quot;the-resulting-need-for-a-dedicated-login-page&quot;&gt;The resulting need for a dedicated login page&lt;/h3&gt;
+
+&lt;p&gt;One solution (besides many others) is to communicate a dedicated login page (e.g. https://intranet.intern), where after successfull login the Captive Portal redirects to a given page - the &lt;code class=&quot;highlighter-rouge&quot;&gt;redirurl&lt;/code&gt; is just a parameter to the login-page (&lt;code class=&quot;highlighter-rouge&quot;&gt;http://192.168.0.1:8002/?redirurl=http://github.com&lt;/code&gt; for example).&lt;/p&gt;
+
+&lt;p&gt;But this would force users to generate traffic to an external page, so the better idea is to redirect the user to a dedicated internal portal-kind-of-page.&lt;/p&gt;
+
+&lt;p&gt;The “Captive” Part of the Captive Portal will still work - a not yet registered MAC/IP-pair will get the login page presented.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/Diagram_pfsense_intranet.png&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;am-i-logged-in&quot;&gt;Am I logged in?&lt;/h3&gt;
+
+&lt;p&gt;Now, it would be nice if users can see whether they are logged in to the Captive Portal and get a logout-page instead of the login-page if they are.  To figure out whether a client is logged in, we resolve its IP and MAC-address and look up the IP/MAC-address in the SQLite3 database.  We present the username if the client indeed is logged in (minimal example):&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-php&quot; data-lang=&quot;php&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;html&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;body&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;h1&amp;gt;&lt;/span&gt;Captive Portal&lt;span class=&quot;nt&quot;&gt;&amp;lt;/h1&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;cp&quot;&gt;&amp;lt;?php&lt;/span&gt;
+       &lt;span class=&quot;k&quot;&gt;require_once&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;captiveportal.inc&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  
+       &lt;span class=&quot;c1&quot;&gt;// Get IP/MAC from request and arp.&lt;/span&gt;
+       &lt;span class=&quot;nv&quot;&gt;$client_ip&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$_SERVER&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'REMOTE_ADDR'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+       &lt;span class=&quot;nv&quot;&gt;$client_mac&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;pfSense_ip_to_mac&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$client_ip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'macaddr'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+  
+       &lt;span class=&quot;c1&quot;&gt;// Get username from CP db.&lt;/span&gt;
+       &lt;span class=&quot;nv&quot;&gt;$db&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;captiveportal_opendb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+       &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$db&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$client_ip&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$client_mac&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+         &lt;span class=&quot;nv&quot;&gt;$username_query&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;SELECT username FROM captiveportal &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;
+                           &lt;span class=&quot;s2&quot;&gt;&quot; WHERE mac='&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$client_mac&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;' AND ip='&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$client_ip&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;';&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+         &lt;span class=&quot;nv&quot;&gt;$response&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$db&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;query&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$username_query&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+         &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$response&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;FALSE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+           &lt;span class=&quot;nv&quot;&gt;$username&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$response&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;fetchArray&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+         &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+         &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+           &lt;span class=&quot;c1&quot;&gt;// Not logged in&lt;/span&gt;
+         &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+         &lt;span class=&quot;nv&quot;&gt;$db&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;close&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+       &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+       &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+         &lt;span class=&quot;k&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;No Database connection or invalid request!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+         &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$db&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+           &lt;span class=&quot;nv&quot;&gt;$db&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;close&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+         &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+         &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+       &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;cp&quot;&gt;?&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;cp&quot;&gt;&amp;lt;?php&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$username&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;cp&quot;&gt;?&amp;gt;&lt;/span&gt;
+      You should be able to access the internet and are logged in as
+    &lt;span class=&quot;cp&quot;&gt;&amp;lt;?php&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$username&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;// Not logged in&lt;/span&gt;
+    &lt;span class=&quot;cp&quot;&gt;?&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;nt&quot;&gt;&amp;lt;h2&amp;gt;&lt;/span&gt;By Username/Pass&lt;span class=&quot;nt&quot;&gt;&amp;lt;/h2&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;nt&quot;&gt;&amp;lt;form&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;method=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;post&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;action=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;#PORTAL_ACTION#&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;input&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;auth_user&quot;&lt;/span&gt;  &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/input&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;input&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;auth_pass&quot;&lt;/span&gt;  &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;password&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/input&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;input&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;redirurl&quot;&lt;/span&gt;   &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;hidden&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;#PORTAL_REDIRURL#&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/input&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;input&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;accept&quot;&lt;/span&gt;     &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;submit&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Login&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/input&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;nt&quot;&gt;&amp;lt;/form&amp;gt;&lt;/span&gt;
+  
+      &lt;span class=&quot;nt&quot;&gt;&amp;lt;h2&amp;gt;&lt;/span&gt;By Voucher&lt;span class=&quot;nt&quot;&gt;&amp;lt;/h2&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;nt&quot;&gt;&amp;lt;form&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;method=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;post&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;action=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;#PORTAL_ACTION#&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;input&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;auth_voucher&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/input&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;input&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;redirurl&quot;&lt;/span&gt;     &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;hidden&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;#PORTAL_REDIRURL#&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/input&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;input&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;accept&quot;&lt;/span&gt;       &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;submit&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Submit&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/input&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;nt&quot;&gt;&amp;lt;/form&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;cp&quot;&gt;&amp;lt;?php&lt;/span&gt;
+      &lt;span class=&quot;c1&quot;&gt;// Not logged in&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;cp&quot;&gt;?&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;logout&quot;&gt;Logout?&lt;/h3&gt;
+
+&lt;p&gt;The default “solution” of pfSenses Captive Portal is to javascript-wise open a popup-window with a button to log out.  What I did not yet mention is that actually, not only username, IP- and MAC addresses of clients are stored, besides other things that happen, a session(id) is created on successfull authentication against the CP.  For security reasons the client can only log out by giving a session-id.  As in our http-case all traffic can possibly be listened to anyway, the sessionid does not provide much additional security (against ip/mac faking), so we can as well use the information gathered above to log the user out.&lt;/p&gt;
+
+&lt;p&gt;Therefore, we make the “login” page (&lt;code class=&quot;highlighter-rouge&quot;&gt;192.168.0.1:8002&lt;/code&gt;) behave differently if requested as &lt;code class=&quot;highlighter-rouge&quot;&gt;192.168.0.1:8002/logout&lt;/code&gt;.  In that case, the IP/MAC and username info is gathered (see above) and the respective session deleted from the database.  All that is missing now is a ‘page’ or ‘path’ to request that /logout-URL.&lt;/p&gt;
+
+&lt;p&gt;As the default captive portal logout action requires the session id (and passes it to the function &lt;code class=&quot;highlighter-rouge&quot;&gt;captiveportal_disconnect_client&lt;/code&gt; in &lt;code class=&quot;highlighter-rouge&quot;&gt;/etc/inc/captiveportal.inc&lt;/code&gt;), we will also use that function instead of taking care of RADIUS-server notification, firewall-rule-modification etc. ourselves.&lt;/p&gt;
+
+&lt;p&gt;To make the code paths and changes read easy, in this example I will &lt;strong&gt;query the database again&lt;/strong&gt; to access the sessionId and call the internal &lt;code class=&quot;highlighter-rouge&quot;&gt;captiveportal_disconnect_client&lt;/code&gt; function. I extracted some code into functions to further improve readability.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-php&quot; data-lang=&quot;php&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;html&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;body&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;h1&amp;gt;&lt;/span&gt;Captive Portal&lt;span class=&quot;nt&quot;&gt;&amp;lt;/h1&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;cp&quot;&gt;&amp;lt;?php&lt;/span&gt;
+       &lt;span class=&quot;k&quot;&gt;require_once&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;captiveportal.inc&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+       &lt;span class=&quot;c1&quot;&gt;// Get IP/MAC from request and arp.&lt;/span&gt;
+       &lt;span class=&quot;nv&quot;&gt;$client_ip&lt;/span&gt;  &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$_SERVER&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'REMOTE_ADDR'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+       &lt;span class=&quot;nv&quot;&gt;$client_mac&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;pfSense_ip_to_mac&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$client_ip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'macaddr'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+
+       &lt;span class=&quot;k&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;captiveportal_get_logged_in_username&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$ip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$mac&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+         &lt;span class=&quot;nv&quot;&gt;$username&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+         &lt;span class=&quot;c1&quot;&gt;// Get username from CP db.&lt;/span&gt;
+         &lt;span class=&quot;nv&quot;&gt;$db&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;captiveportal_opendb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+         &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$db&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+           &lt;span class=&quot;nv&quot;&gt;$ip&lt;/span&gt;  &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;SQLite3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;escapeString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$ip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+           &lt;span class=&quot;nv&quot;&gt;$mac&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;SQLite3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;escapeString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$mac&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+           &lt;span class=&quot;nv&quot;&gt;$username_query&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;SELECT username FROM captiveportal &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;
+                             &lt;span class=&quot;s2&quot;&gt;&quot; WHERE ip='&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$ip&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;' AND mac='&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$mac&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;';&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+           &lt;span class=&quot;nv&quot;&gt;$response&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$db&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;query&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$username_query&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+           &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$response&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;FALSE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+             &lt;span class=&quot;nv&quot;&gt;$username&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$response&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;fetchArray&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+           &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+           &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+             &lt;span class=&quot;c1&quot;&gt;// Not logged in&lt;/span&gt;
+           &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+           &lt;span class=&quot;nv&quot;&gt;$db&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;close&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+         &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+         &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+           &lt;span class=&quot;k&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;No Database connection!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+         &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+         &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$username&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+      &lt;span class=&quot;k&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;captiveportal_get_sessionid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$ip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$mac&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+         &lt;span class=&quot;nv&quot;&gt;$sessionid&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+         &lt;span class=&quot;c1&quot;&gt;// Get sessionid from CP db.&lt;/span&gt;
+         &lt;span class=&quot;nv&quot;&gt;$db&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;captiveportal_opendb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+         &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$db&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+           &lt;span class=&quot;nv&quot;&gt;$ip&lt;/span&gt;  &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;SQLite3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;escapeString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$ip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+           &lt;span class=&quot;nv&quot;&gt;$mac&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;SQLite3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;escapeString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$mac&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+           &lt;span class=&quot;nv&quot;&gt;$sessionid_query&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;SELECT sessionid FROM captiveportal &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;
+                              &lt;span class=&quot;s2&quot;&gt;&quot; WHERE ip='&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$ip&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;' AND mac='&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$mac&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;';&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+           &lt;span class=&quot;nv&quot;&gt;$response&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$db&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;query&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$sessionid_query&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+           &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$response&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;FALSE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+             &lt;span class=&quot;nv&quot;&gt;$sessionid&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$response&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;fetchArray&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+           &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+           &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+             &lt;span class=&quot;c1&quot;&gt;// Not logged in&lt;/span&gt;
+           &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+           &lt;span class=&quot;nv&quot;&gt;$db&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;close&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+         &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+         &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+           &lt;span class=&quot;k&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;No Database connection!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+         &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+         &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$sessionid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+      &lt;span class=&quot;nv&quot;&gt;$username&lt;/span&gt;  &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;captiveportal_get_logged_in_username&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$client_ip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$client_mac&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+      &lt;span class=&quot;nv&quot;&gt;$sessionid&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;captiveportal_get_sessionid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$client_ip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$client_mac&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;cp&quot;&gt;?&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;cp&quot;&gt;&amp;lt;?php&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$sessionid&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$_SERVER&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'REQUEST_URI'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'/logout'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nx&quot;&gt;captiveportal_disconnect_client&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$sessionid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;cp&quot;&gt;?&amp;gt;&lt;/span&gt;
+      Logged out.
+    &lt;span class=&quot;cp&quot;&gt;&amp;lt;?php&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;elseif&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$username&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;cp&quot;&gt;?&amp;gt;&lt;/span&gt;
+      You should be able to access the internet and are logged in as
+    &lt;span class=&quot;cp&quot;&gt;&amp;lt;?php&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$username&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;cp&quot;&gt;?&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;nt&quot;&gt;&amp;lt;br/&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;nt&quot;&gt;&amp;lt;a&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;href=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;/logout&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;Log me out.&lt;span class=&quot;nt&quot;&gt;&amp;lt;/a&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;cp&quot;&gt;&amp;lt;?php&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;// Not logged in&lt;/span&gt;
+    &lt;span class=&quot;cp&quot;&gt;?&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;nt&quot;&gt;&amp;lt;h2&amp;gt;&lt;/span&gt;By Username/Pass&lt;span class=&quot;nt&quot;&gt;&amp;lt;/h2&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;nt&quot;&gt;&amp;lt;form&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;method=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;post&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;action=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;#PORTAL_ACTION#&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;input&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;auth_user&quot;&lt;/span&gt;  &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/input&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;input&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;auth_pass&quot;&lt;/span&gt;  &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;password&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/input&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;input&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;redirurl&quot;&lt;/span&gt;   &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;hidden&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;#PORTAL_REDIRURL#&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/input&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;input&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;accept&quot;&lt;/span&gt;     &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;submit&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Login&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/input&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;nt&quot;&gt;&amp;lt;/form&amp;gt;&lt;/span&gt;
+  
+      &lt;span class=&quot;nt&quot;&gt;&amp;lt;h2&amp;gt;&lt;/span&gt;By Voucher&lt;span class=&quot;nt&quot;&gt;&amp;lt;/h2&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;nt&quot;&gt;&amp;lt;form&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;method=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;post&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;action=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;#PORTAL_ACTION#&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;input&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;auth_voucher&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/input&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;input&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;redirurl&quot;&lt;/span&gt;     &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;hidden&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;#PORTAL_REDIRURL#&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/input&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;input&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;accept&quot;&lt;/span&gt;       &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;submit&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Einlösen&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/input&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;nt&quot;&gt;&amp;lt;/form&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;cp&quot;&gt;&amp;lt;?php&lt;/span&gt;
+      &lt;span class=&quot;c1&quot;&gt;// Not logged in&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;cp&quot;&gt;?&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;more-things-to-do&quot;&gt;More things to do&lt;/h3&gt;
+
+&lt;p&gt;If you use these templates, make sure to also include them for the error-page (and/or success-page if you use one).&lt;/p&gt;
+
+&lt;p&gt;Refine all those ideas.&lt;/p&gt;
+
+&lt;h3 id=&quot;use-at-own-risk&quot;&gt;Use at own risk&lt;/h3&gt;
+&lt;p&gt;The approach outlined here has at least following security issues:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;login via http is easily spoofable&lt;/li&gt;
+  &lt;li&gt;giving the logout ability makes it possible for attackers to logout any given client&lt;/li&gt;
+  &lt;li&gt;the resolution of ip to mac is valid only in local networks and everything about it can be faked&lt;/li&gt;
+  &lt;li&gt;you might run into issues if concurrent logins are enabled on your captive portal&lt;/li&gt;
+  &lt;li&gt;no SQL sanitization happens in the first code example. I am not sure whether you could fake your MAC or IP adress in a way to cause harm (probably you can).&lt;/li&gt;
+  &lt;li&gt;The code ignores malconditions and possible return values here and there.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;em&gt;Think twice before throwing this in production!&lt;/em&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;other-approaches&quot;&gt;Other approaches&lt;/h2&gt;
+
+&lt;p&gt;Use the logout page, it is shown after successfull login, trunk seems to prepare this when the default page is visited (probably in pfSense 2.3).&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;having-a-better-idea&quot;&gt;Having a better idea?&lt;/h4&gt;
+
+&lt;p&gt;Awesome!  Get in contact with me!&lt;/p&gt;
+</description>
+        <pubDate>Thu, 03 Dec 2015 10:09:09 +0100</pubDate>
+        <link>http://yourdomain.com/portal,/pfsense,/intranet/2015/12/03/pfsense-intranet-portal.html</link>
+        <guid isPermaLink="true">http://yourdomain.com/portal,/pfsense,/intranet/2015/12/03/pfsense-intranet-portal.html</guid>
+        
+        <category>pfsense</category>
+        
+        <category>intranet</category>
+        
+        
+        <category>portal,</category>
+        
+        <category>pfsense,</category>
+        
+        <category>intranet</category>
+        
+      </item>
+    
+      <item>
+        <title>Using Microsoft Edge IE VMs with kvm/libvirt</title>
+        <description>&lt;blockquote&gt;
+  &lt;p&gt;Or how to use virt-convert on a practical example.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Ever wanted to check how Microsoft Internet Explorer renders stuff but no license at hand?&lt;/p&gt;
+
+&lt;p&gt;Welcome &lt;a href=&quot;http://dev.modern.ie/tools/vms&quot;&gt;http://dev.modern.ie&lt;/a&gt;, where you can &lt;em&gt;download time-bombed VMs&lt;/em&gt;.  Pretty cool service from Microsoft.&lt;/p&gt;
+
+&lt;p&gt;Now, these machines come as &lt;code class=&quot;highlighter-rouge&quot;&gt;.ova&lt;/code&gt; files, suitable to be used with Oracles VirtualBox.  Prefering kvm and virsh?  Thought so.  See how to get it done.&lt;/p&gt;
+
+&lt;h3 id=&quot;aim&quot;&gt;Aim&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Use Microsoft Edge VM with kvm/virsh/virt-manager,&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;requirements&quot;&gt;Requirements&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Ubuntu 14.04 system&lt;/li&gt;
+  &lt;li&gt;several kvm, virsh, virt-manager, libvirtd etc. packages installed and respective permissions set up.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;download-vm&quot;&gt;Download VM&lt;/h4&gt;
+
+&lt;p&gt;Head over to &lt;a href=&quot;http://dev.modern.ie/tools/vms&quot;&gt;http://dev.modern.ie/tools/vms&lt;/a&gt; , and download your image.&lt;/p&gt;
+
+&lt;h4 id=&quot;unzip-and-untar-the-thing&quot;&gt;Unzip and untar the thing&lt;/h4&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;# Your filenames may vary.&lt;/span&gt;
+unzip IE10&lt;span class=&quot;se&quot;&gt;\ &lt;/span&gt;-&lt;span class=&quot;se&quot;&gt;\ &lt;/span&gt;Win7.zip
+&lt;span class=&quot;nb&quot;&gt;tar &lt;/span&gt;xvf IE10&lt;span class=&quot;se&quot;&gt;\ &lt;/span&gt;-&lt;span class=&quot;se&quot;&gt;\ &lt;/span&gt;Win7.ova&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h4 id=&quot;convert-to-qcow2&quot;&gt;Convert to qcow2&lt;/h4&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;virt-convert IE10&lt;span class=&quot;se&quot;&gt;\ &lt;/span&gt;-&lt;span class=&quot;se&quot;&gt;\ &lt;/span&gt;Win7.ovf  &lt;span class=&quot;nt&quot;&gt;--destination&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--disk-format&lt;/span&gt; qcow2&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;This starts the viewer directly and you are ready to enjoy your IE experience (remember: you probably get paid to do so).&lt;/p&gt;
+
+&lt;p&gt;Note that you can even install an Excel viewer, although I am not sure whether thats fine with the EULA (like powering Windows XP with more than two cpu cores).&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;having-a-better-idea&quot;&gt;Having a better idea?&lt;/h4&gt;
+
+&lt;p&gt;Awesome!  Get in contact with me!&lt;/p&gt;
+
+</description>
+        <pubDate>Mon, 18 May 2015 17:47:25 +0200</pubDate>
+        <link>http://yourdomain.com/docker/dokku/dokku-alt/virtualization/2015/05/18/microsoft-edge-vms-with-virsh.html</link>
+        <guid isPermaLink="true">http://yourdomain.com/docker/dokku/dokku-alt/virtualization/2015/05/18/microsoft-edge-vms-with-virsh.html</guid>
+        
+        <category>virtualization</category>
+        
+        
+        <category>docker</category>
+        
+        <category>dokku</category>
+        
+        <category>dokku-alt</category>
+        
+        <category>virtualization</category>
+        
+      </item>
+    
+      <item>
+        <title>dokku on Ubuntu VM - Part 2: Configure and use dokku</title>
+        <description>&lt;p&gt;&lt;span style=&quot;color: red;&quot;&gt;
+&lt;strong&gt;Outdated. Find more up-to-date version in &lt;a href=&quot;http://fwolfst.github.io/docker/dokku/dokku-alt/virtualization/2016/04/18/dokku-on-ubuntu-vm-complete-rails.html&quot;&gt;this newer article&lt;/a&gt; .&lt;/strong&gt;
+&lt;/span&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;My notes in walking along the dokku path.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/diagram.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;With the VM setup from part I we go on and install dokku, to end up with something like in the diagram above, one day.&lt;/p&gt;
+
+&lt;h2 id=&quot;dokku-installation&quot;&gt;Dokku installation&lt;/h2&gt;
+
+&lt;p&gt;Whether through the tunnel or other means (e.g. VNC)
+Start the guest and ssh into it (you provided a key, so it should work passwordless).  Then, fire up the dokku installation:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;dookulord@vlaada:~$ wget -qO- https://raw.github.com/progrium/dokku/v0.3.17/bootstrap.sh | sudo DOKKU_TAG=v0.3.17 bash
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This process will take another 5 minutes.&lt;/p&gt;
+
+&lt;p&gt;Next, install your public key and make it gain you superpowers when logging in as dokku (or git pushing):&lt;/p&gt;
+
+&lt;p&gt;(run this from your development machine or server, depending on your setup)&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; ~/.ssh/id_rsa.pub | ssh vlaada &lt;span class=&quot;s2&quot;&gt;&quot;sudo sshcommand acl-add dokku &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$USER&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;If this fails, you missed the sudo-stuff from earlier on (it would fail with “sudo: no tty present and no askpass…”).&lt;/p&gt;
+
+&lt;h2 id=&quot;test&quot;&gt;Test&lt;/h2&gt;
+
+&lt;p&gt;In principle with that, you are ready to go.&lt;/p&gt;
+
+&lt;p&gt;To test, we will not yet deploy a rails app, but the modified heroku sinatra example (on your dev machine):&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git clone git@github.com:rchrd2/dokku-ruby-example.git
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;dokku-ruby-sample
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;bundle
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git remote add dokku dokku@vlaada:ruby-sample
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git push dokku master&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;This might take a minute or two and you should see these final lines:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;o&quot;&gt;=====&amp;gt;&lt;/span&gt; Application deployed:
+       http://ruby-sample.vlaada
+
+To dokku@vlaada:ruby-sample
+ &lt;span class=&quot;k&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;new branch]      master -&amp;gt; master&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Awesome.&lt;/p&gt;
+
+&lt;h2 id=&quot;enter-the-dokku-client&quot;&gt;Enter the dokku ‘client’&lt;/h2&gt;
+
+&lt;p&gt;To control vlaadas working as dokku-master, we have to log in as user dokku.  Therefore, another entry in &lt;code class=&quot;highlighter-rouge&quot;&gt;~/.ssh/config&lt;/code&gt; comes handy:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;# ~/.ssh/config&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# ... snip ...&lt;/span&gt;
+Host dokku-vlaada
+  User dokku
+  Hostname vlaada
+  Port 7722&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;This makes it possible to &lt;code class=&quot;highlighter-rouge&quot;&gt;ssh dokku-vlaada&lt;/code&gt; - it will list all the possible dokku commands (assuming the tunnel is digged).&lt;/p&gt;
+
+&lt;p&gt;You can further shorten this by placing an alias in your &lt;code class=&quot;highlighter-rouge&quot;&gt;~/.bash_aliases&lt;/code&gt; (although you use zsh): &lt;code class=&quot;highlighter-rouge&quot;&gt;alias dokku-vlaada='ssh dokku-vlaada'&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Call &lt;code class=&quot;highlighter-rouge&quot;&gt;dokku-vlaada apps&lt;/code&gt; to see the apps you installed (it should list ruby-sample).&lt;/p&gt;
+
+&lt;h2 id=&quot;exposing-dokkus-nginx&quot;&gt;Exposing dokkus nginx&lt;/h2&gt;
+
+&lt;p&gt;Now that the dokku guest is running, you want to expose ports 80 (&lt;code class=&quot;highlighter-rouge&quot;&gt;http&lt;/code&gt;) and 443 (&lt;code class=&quot;highlighter-rouge&quot;&gt;https&lt;/code&gt;).&lt;/p&gt;
+
+&lt;p&gt;A low-level tool to achieve that is &lt;code class=&quot;highlighter-rouge&quot;&gt;rinetd&lt;/code&gt; (&lt;code class=&quot;highlighter-rouge&quot;&gt;apt-get install rinetd&lt;/code&gt;).&lt;/p&gt;
+
+&lt;p&gt;Edit &lt;code class=&quot;highlighter-rouge&quot;&gt;/etc/rinetd.conf&lt;/code&gt; like following (replace the &lt;code class=&quot;highlighter-rouge&quot;&gt;192.168.122.77&lt;/code&gt; by the IP of your dokku guest).&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;# /etc/rinetd.conf&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# ...snip..&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;#&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# forwarding rules come here&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;#&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# you may specify allow and deny rules after a specific forwarding rule&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# to apply to only that forwarding rule&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;#&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# bindadress    bindport  connectaddress  connectport&lt;/span&gt;
+0.0.0.0 80 192.168.122.77 80
+0.0.0.0 443 192.168.122.77 443
+&lt;span class=&quot;c&quot;&gt;# Good idea: document what you have done, redudantly&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# Felix added 80 and 443 redirects 2015-05-01&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# ...snip..&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Afterwards, do not forget to restart &lt;code class=&quot;highlighter-rouge&quot;&gt;rinetd&lt;/code&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;service rinetd restart&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;next-steps&quot;&gt;Next steps&lt;/h2&gt;
+
+&lt;p&gt;After validating that your dokku serves you, visit ruby-sample.yourdomain.tld and relax.  Afterwards, you probably want to install some dokku-plugins and ride a real rails app, setup ssl, backups and stuff.  Lets see when I can get this covered in a blog post.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;having-a-better-idea&quot;&gt;Having a better idea?&lt;/h4&gt;
+
+&lt;p&gt;Awesome!  Get in contact with me!&lt;/p&gt;
+
+</description>
+        <pubDate>Fri, 01 May 2015 19:01:25 +0200</pubDate>
+        <link>http://yourdomain.com/docker/dokku/dokku-alt/virtualization/2015/05/01/dokku-on-ubuntu-vm-part-II.html</link>
+        <guid isPermaLink="true">http://yourdomain.com/docker/dokku/dokku-alt/virtualization/2015/05/01/dokku-on-ubuntu-vm-part-II.html</guid>
+        
+        <category>dokku</category>
+        
+        <category>virtualization</category>
+        
+        <category>docker</category>
+        
+        
+        <category>docker</category>
+        
+        <category>dokku</category>
+        
+        <category>dokku-alt</category>
+        
+        <category>virtualization</category>
+        
+      </item>
+    
+      <item>
+        <title>The Mother of All Aliases</title>
+        <description>&lt;p&gt;Sometimes I feel old.  Like too old to use zsh or fish instead of bash.  &lt;del&gt;So, I stick to bash (well, sometimes).&lt;/del&gt;  Anyways, following instructions &lt;del&gt;probably&lt;/del&gt; work for zsh (oh-my-zsh) as well.&lt;/p&gt;
+
+&lt;p&gt;I do not use aliases extensively.  But when I do, I want them to be ‘just there’.  I do not remember where I got the following trick from, but its one of the adjustments to new systems I find myself to do rather sooner than later.&lt;/p&gt;
+
+&lt;p&gt;##Create an alias with a quick command
+My aliases go to their own file, &lt;code class=&quot;highlighter-rouge&quot;&gt;~/.bash_aliases&lt;/code&gt; .&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# ~/.bash_aliases
+# The Mother of Alias
+alias nalias='echo &quot;&quot; &amp;gt;&amp;gt; ~/.bash_aliases;\
+  vim -c &quot;startinsert&quot; + ~/.bash_aliases;\
+  source ~/.bash_aliases'
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;After linking this up, e.g. with a
+&lt;code class=&quot;highlighter-rouge&quot;&gt;source ~/.bash_aliases&lt;/code&gt;
+in your &lt;code class=&quot;highlighter-rouge&quot;&gt;~/.bashrc&lt;/code&gt;, you can now type
+&lt;code class=&quot;highlighter-rouge&quot;&gt;nalias&lt;/code&gt; (“new alias”) and will be put in vim in your &lt;code class=&quot;highlighter-rouge&quot;&gt;~/.bash_aliases&lt;/code&gt; ready to enter a new alias.  Once done and &lt;code class=&quot;highlighter-rouge&quot;&gt;:x&lt;/code&gt;ed, your new alias is ready to be used.&lt;/p&gt;
+
+&lt;p&gt;If you happen to work in multiple terminals, add a
+&lt;code class=&quot;highlighter-rouge&quot;&gt;alias ralias='source ~/.bash_aliases'&lt;/code&gt; (reload alias)
+to allow you to quickly resource the &lt;code class=&quot;highlighter-rouge&quot;&gt;~/.bash_aliases&lt;/code&gt;.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;having-a-better-idea&quot;&gt;Having a better idea?&lt;/h4&gt;
+
+&lt;p&gt;Awesome!  Get in contact with me!&lt;/p&gt;
+
+</description>
+        <pubDate>Thu, 30 Apr 2015 00:00:00 +0200</pubDate>
+        <link>http://yourdomain.com/bash/2015/04/30/the-mother-of-all-aliases.html</link>
+        <guid isPermaLink="true">http://yourdomain.com/bash/2015/04/30/the-mother-of-all-aliases.html</guid>
+        
+        <category>bash</category>
+        
+        
+        <category>bash</category>
+        
+      </item>
+    
+      <item>
+        <title>dokku on Ubuntu VM - Part 1: Setting up the VM</title>
+        <description>&lt;p&gt;&lt;span style=&quot;color: red;&quot;&gt;
+&lt;strong&gt;Outdated. Find more up-to-date version in &lt;a href=&quot;http://fwolfst.github.io/docker/dokku/dokku-alt/virtualization/2016/04/18/dokku-on-ubuntu-vm-complete-rails.html&quot;&gt;this newer article&lt;/a&gt; .&lt;/strong&gt;
+&lt;/span&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;My notes in walking along the dokku path.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/diagram.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;(Not only) the rails community is going all excited about playing around with docker instead of with full-blown virtual machines.&lt;/p&gt;
+
+&lt;p&gt;With &lt;a href=&quot;https://github.com/progrium/dokku&quot;&gt;dokku&lt;/a&gt; and its fork &lt;a href=&quot;https://github.com/dokku-alt/dokku-alt&quot;&gt;dokku-alt&lt;/a&gt; a (or count two and of course there are many others) project aims to build a thin but super-soft layer between the containers (if you don’t know them yet: think of them as virtual machines) and your deployment-fu.&lt;/p&gt;
+
+&lt;p&gt;These tools scratch itches of mine: deployment for me is less fun than doing other stuff with a computer.  But slim tools usually are quite fun.  And I like heroku-style git-push-deploys.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;So, lets get a dokku-thing up and running.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;aim&quot;&gt;Aim&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Set up a dokku guest that we can deploy a rails 4 app to.&lt;/li&gt;
+  &lt;li&gt;Run this dokku guest on a server in the wild.&lt;/li&gt;
+  &lt;li&gt;Let this dokku guest serve our app to the outside world.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;###Requirements&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Ubuntu 14.04 system&lt;/li&gt;
+  &lt;li&gt;A bit of &lt;em&gt;patience&lt;/em&gt;, as initial setup requires some data to be downloaded (you can speed this up by using local repositories)&lt;/li&gt;
+  &lt;li&gt;DNS set up to resolve your domain&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Instead of spoiling my main system with other package installations, configurations and tasks, I will create a virtual machine running ubuntu to be my docker/dokku host.  I will call that machine &lt;code class=&quot;highlighter-rouge&quot;&gt;vlaada&lt;/code&gt; and it will be a minimal Ubuntu 14.04 (trusty) system.  To be on the safe side, I will not create the VM by hand or with any mind-blowing creatures like puppet or chef, but use &lt;code class=&quot;highlighter-rouge&quot;&gt;vmbuilder&lt;/code&gt; (&lt;code class=&quot;highlighter-rouge&quot;&gt;apt-get install python-vm-builder&lt;/code&gt;).  Note that while I use kvm and libvirt here you can use other hypervisors.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# Build base vm (kvm, libvirt) to use with dokku&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# Felix Wolfsteller, 2015, GPL3+&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;vmbuilder&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  kvm&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  ubuntu&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;--suite&lt;/span&gt; trusty&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;--flavour&lt;/span&gt; virtual&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;--arch&lt;/span&gt; amd64&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;--name&lt;/span&gt; vlaada&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;--hostname&lt;/span&gt; vlaada&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;--mem&lt;/span&gt; 1024&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;--cpus&lt;/span&gt; 1&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;--rootsize&lt;/span&gt; 20480&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;--swapsize&lt;/span&gt; 2048&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;--addpkg&lt;/span&gt; apparmor&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;--addpkg&lt;/span&gt; linux-image-generic&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;--addpkg&lt;/span&gt; openssh-server&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;--addpkg&lt;/span&gt; postgresql-client&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;--addpkg&lt;/span&gt; acpid&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; dokkulord&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;--ssh-user-key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/home/you/.ssh/id_rsa.pub&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;--lock-user&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;--timezone&lt;/span&gt; Europe/Berlin&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;--libvirt&lt;/span&gt; qemu://system&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;--verbose&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;--execscript&lt;/span&gt; &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;pwd&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;/setup-vlaada&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Some options require special attention:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;addpkg linux-image-generic&lt;/code&gt;: vmbuilder (?) bug workaround (you might not need it)&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;addpkg acpid&lt;/code&gt;: allows us to shut the machine down cleanly without logging in&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;addpkg apparmor&lt;/code&gt;: another workaround, otherwise docker/dokku won’t play nice with us (again, ymmv)&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;addpkg postgresql-client&lt;/code&gt;: will need this later to make postgresql database dumps, the dokku postgresql plugin &lt;a href=&quot;https://github.com/Kloadut/dokku-pg-plugin/issues/71&quot;&gt;won’t install this package for us&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;user&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;ssh-user-key&lt;/code&gt;: locks the machine down (a bit), use the public key with which you want to log into the system later&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;--execscript ...&lt;/code&gt;: assemble path to the setup-vlaada- script (see below); it is executed at the end of the build process&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The content of &lt;code class=&quot;highlighter-rouge&quot;&gt;setup-vlaada&lt;/code&gt;-script:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# Prepare a bare ubuntu VM for simple dokku installation&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# Felix Wolfsteller, 2015, GPL3+&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# called from vmbuilder, first argument is path to chroot us.&lt;/span&gt;
+
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Enable passwordless sudo for admins&quot;&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'# Allow members of group admin to not need a password'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$1&lt;/span&gt;/etc/sudoers
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'%admin ALL=NOPASSWD: ALL'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$1&lt;/span&gt;/etc/sudoers
+
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Enable (passwordless) sudo for dokku&quot;&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'# Allow members of group dokku to not need a password'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$1&lt;/span&gt;/etc/sudoers
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'%dokku ALL=(ALL:ALL) ALL'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$1&lt;/span&gt;/etc/sudoers
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'%dokku ALL=NOPASSWD: ALL'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$1&lt;/span&gt;/etc/sudoers&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;If that looks scary to you, it is.  It basically allows the dokku and dokkulord users to sudo without password.&lt;/p&gt;
+
+&lt;p&gt;On my favorite machine, this vm-creation-process takes around 20 minutes.  On my development machine with ecovillage-internet multiply this by 3.&lt;/p&gt;
+
+&lt;p&gt;If you are impatient when no white letters run over your black screen, the command above will tell you where to &lt;code class=&quot;highlighter-rouge&quot;&gt;sudo tail -f &lt;/code&gt; to to see what is happening (&lt;code class=&quot;highlighter-rouge&quot;&gt; .... logging to file: /tmp/tmpXXXXYYYZZZ&lt;/code&gt;).&lt;/p&gt;
+
+&lt;p&gt;vmbuilder will then provide us with a qcow image in the subfolder &lt;code class=&quot;highlighter-rouge&quot;&gt;ubuntu-kvm&lt;/code&gt;.  Now might be a good time to clone this machine, e.g. using
+&lt;code class=&quot;highlighter-rouge&quot;&gt;virt-clone --auto-clone -o vlaada --prompt&lt;/code&gt; (&lt;code class=&quot;highlighter-rouge&quot;&gt;apt-get install virtinst&lt;/code&gt; to get &lt;code class=&quot;highlighter-rouge&quot;&gt;virt-clone&lt;/code&gt;, this only applies to the libvirt setting I use).&lt;/p&gt;
+
+&lt;h2 id=&quot;configuring-access-to-the-dokku-vm&quot;&gt;Configuring access to the dokku VM&lt;/h2&gt;
+
+&lt;p&gt;vlaada (the dokku VM) lives on a server in the wild and it shall not be accessible from outside (except for ports 80 and 443).  To access it, I will dig an ssh tunnel through the server.&lt;/p&gt;
+
+&lt;p&gt;In my &lt;code class=&quot;highlighter-rouge&quot;&gt;~/.ssh/config&lt;/code&gt; I put&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;# ~/.ssh/config&lt;/span&gt;
+vlaada-tunnel
+  User felix-on-server
+  Hostname myserver.com
+  LocalForward 7722 192.168.122.77:22
+vlaada
+  User dokkulord
+  Port 7722&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Calling &lt;code class=&quot;highlighter-rouge&quot;&gt;ssh vlaada-tunnel&lt;/code&gt; makes connections to the localhosts port 7722 end up at port 22 on the vm that we have set up (here, referenced by its IP &lt;code class=&quot;highlighter-rouge&quot;&gt;192.168.122.77&lt;/code&gt;).&lt;/p&gt;
+
+&lt;p&gt;I also add an host entry&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;# /etc/hosts&lt;/span&gt;
+127.0.0.1 vlaada&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;test-that&quot;&gt;Test that&lt;/h3&gt;
+
+&lt;p&gt;Now after digging the tunnel (&lt;code class=&quot;highlighter-rouge&quot;&gt;ssh vlaada-tunnel&lt;/code&gt;) I am able to &lt;code class=&quot;highlighter-rouge&quot;&gt;ssh vlaada&lt;/code&gt; into the dokku machine, which is somewhere out there, hidden in the wild.  Cool.&lt;/p&gt;
+
+&lt;h2 id=&quot;next-steps&quot;&gt;Next steps&lt;/h2&gt;
+
+&lt;p&gt;That’s how happy we will get today.  I hope to upgrade this post with some better prose and deliver part II, where we add dokku-juice to the mix.  Have fun.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&quot;notes&quot;&gt;Notes&lt;/h3&gt;
+&lt;p&gt;In the &lt;code class=&quot;highlighter-rouge&quot;&gt;vmbuilder&lt;/code&gt; step you might find following options helpful:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;--mirror http://your-apt-mirror-cache-or-proxy&lt;/code&gt;
+This might save you some time and network traffic.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;having-a-better-idea&quot;&gt;Having a better idea?&lt;/h4&gt;
+
+&lt;p&gt;Awesome!  Get in contact with me!&lt;/p&gt;
+
+</description>
+        <pubDate>Mon, 27 Apr 2015 19:01:25 +0200</pubDate>
+        <link>http://yourdomain.com/docker/dokku/dokku-alt/virtualization/2015/04/27/dokku-on-ubuntu-vm-part-I.html</link>
+        <guid isPermaLink="true">http://yourdomain.com/docker/dokku/dokku-alt/virtualization/2015/04/27/dokku-on-ubuntu-vm-part-I.html</guid>
+        
+        <category>docker</category>
+        
+        <category>dokku</category>
+        
+        <category>virtualization</category>
+        
+        
+        <category>docker</category>
+        
+        <category>dokku</category>
+        
+        <category>dokku-alt</category>
+        
+        <category>virtualization</category>
+        
+      </item>
+    
+  </channel>
+</rss>
