@@ -71,6 +71,9 @@ default).
 
 ## Step Two: Don't pay
 
+*We want to make the default currency Euros and look at a checkout process.*
+
+
 As the scenario is a German shop I want to change the Default currency from $ to
 € (admin -> Settings -> Store -> Default Currency). While we are there, we can
 also set the default tax country ("Tax Country for Empty Carts").
@@ -164,8 +167,10 @@ This basically reverts this Pull Request: https://github.com/solidusio/solidus/p
 
 ### Billing-Address: Adjust default customer location
 
-We want that the default customers billing and shipping address is within
-Germany. The form will default to `Spree::Country.default`, which we can
+*We want that the default customers billing and shipping address is within
+Germany.*
+
+The form will default to `Spree::Country.default`, which we can
 influence by modifying `config/initializers/spree.rb`
 
 ```ruby
@@ -184,6 +189,9 @@ seeded: `rails r 'p Spree::Country.all.to_a'`.
 It's sad and not fair and we love all our "neighbours" (that includes humans on
 other continents), but right now we cannot spend resources on intensive
 regulation, tax and shipping company research.
+
+*We <del>want</del> have to restrict billing and shipping addresses to a predefined list of
+countries.*
 
 Thus we will exclude countries from the list of countries to chose from as
 shipping and billing address.
@@ -205,6 +213,8 @@ Afterwards, set the `checkout_zone` in `config/initializers/spree.rb`:
 ```
 
 ### Taxes
+
+*We need to define the German default tax rates.*
 
 In Germany, you'll probably need two tax items. Specify in Backend -> Settings
 -> Taxes .
