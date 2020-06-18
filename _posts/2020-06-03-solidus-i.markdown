@@ -228,6 +228,10 @@ would need a lot more customizations (base prices, gdpr and other legal stuff).
 Maybe I will look
 into that later.
 
+If you want to cherry-pick commits or see how the whole codebase looks, I set up
+[a github-repository with relatively clean commits](https://github.com/fwolfst/solidus_playground/commits/master)
+for that.
+
 #### Having a better idea?
 
 Awesome!  Get in contact with me!
