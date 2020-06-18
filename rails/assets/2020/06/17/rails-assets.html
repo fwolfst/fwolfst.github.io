@@ -6,11 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>The Mother of All Aliases</title>
-  <meta name="description" content="Sometimes I feel old.  Like too old to use zsh or fish instead of bash.  So, I stick to bash (well, sometimes).  Anyways, following instructions probably wor...">
+  <title>Rails 6 and vendor sass assets</title>
+  <meta name="description" content="Aim">
 
   <link rel="stylesheet" href="/css/main.css">
-  <link rel="canonical" href="http://yourdomain.com/bash/2015/04/30/the-mother-of-all-aliases.html">
+  <link rel="canonical" href="http://yourdomain.com/rails/assets/2020/06/17/rails-assets.html">
   <link rel="alternate" type="application/rss+xml" title="Felix Wolfsteller - Technical Blog" href="http://yourdomain.com/feed.xml" />
 </head>
 
@@ -97,43 +97,100 @@
         <div class="post">
 
   <header class="post-header">
-    <h1 class="post-title">The Mother of All Aliases</h1>
+    <h1 class="post-title">Rails 6 and vendor sass assets</h1>
     <p class="post-meta">
-    Apr 30, 2015
+    Jun 17, 2020
     <span>[
       
         
-        <a href="/tag/bash"><code class="highligher-rouge"><nobr>bash</nobr></code>&nbsp;</a>
+        <a href="/tag/rails"><code class="highligher-rouge"><nobr>rails</nobr></code>&nbsp;</a>
+      
+        
+        <a href="/tag/css"><code class="highligher-rouge"><nobr>css</nobr></code>&nbsp;</a>
       
     ]</span>
     </p>
   </header>
 
   <article class="post-content">
-    <p>Sometimes I feel old.  Like too old to use zsh or fish instead of bash.  <del>So, I stick to bash (well, sometimes).</del>  Anyways, following instructions <del>probably</del> work for zsh (oh-my-zsh) as well.</p>
+    <h2 id="aim">Aim</h2>
 
-<p>I do not use aliases extensively.  But when I do, I want them to be ‘just there’.  I do not remember where I got the following trick from, but its one of the adjustments to new systems I find myself to do rather sooner than later.</p>
+<ul>
+  <li>make <a href="bulma.io">bulma</a> available to and customizable via the Rails assets pipeline</li>
+</ul>
 
-<p>##Create an alias with a quick command
-My aliases go to their own file, <code class="highlighter-rouge">~/.bash_aliases</code> .</p>
+<h3 id="requirements">Requirements</h3>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># ~/.bash_aliases
-# The Mother of Alias
-alias nalias='echo "" &gt;&gt; ~/.bash_aliases;\
-  vim -c "startinsert" + ~/.bash_aliases;\
-  source ~/.bash_aliases'
+<ul>
+  <li>Rails6 setup</li>
+  <li>tolerance: probably we will place files where they do not belong</li>
+</ul>
+
+<h2 id="why">Why</h2>
+
+<p>In Bulma 0.9 there is a new “spacing feature” that I happen to need right
+now. Or a least, it would feel stupid not to use bulma for that. The
+bulma-rails gem still carries the version 0.8 of bulma.</p>
+
+<h2 id="aside-why-not-using-a-gem">Aside: Why not using a gem?</h2>
+
+<p>I read quite some comments and articles argueing that gems that bundle assets
+like javascript or css-libraries should be abandoned in favor of webpack / yarn
+/ npm.</p>
+
+<p>Letting a third party control your assets (let it be CDNs, npm or rubygems) has
+benefits and downsides.  I prefer others to iron out smaller bugs and keep the
+libraries up to date.  But I dislike dependance on additional “packaging
+software” and infrastructure as well as potentially more involved deployment
+processes.</p>
+
+<p>For the <a href="bulma.io">bulma css framework</a>, I usually reach out to
+<a href="https://github.com/joshuajansen/bulma-rails">bulma-rails</a>. Having gemified
+assets also has the benefit of a single point where to raise issues or provide
+examples that might originate from the combination of the technology (e.g. how
+to integrate to sprockets, or use <code class="highlighter-rouge">dom_id</code>, …).  Also, installation is often
+trivial (one line in <code class="highlighter-rouge">Gemfile</code> and one somewhere for asset integration).</p>
+
+<p>Bottom line: I am pro assets-as-a-gem. Which does not mean that
+<code class="highlighter-rouge">this is the way</code>.</p>
+
+<h2 id="installing-assets">Installing assets</h2>
+
+<p>So, I want to get rid of the gem for the time being (will re-enable it once 0.9
+is out) and put the original SASS assets from bulma in my asset pipeline.</p>
+
+<h3 id="download-the-sass">Download the sass</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Let us grab the tarball from the release page:</span>
+<span class="c"># https://github.com/jgthms/bulma/releases</span>
+<span class="nb">cd</span> /tmp
+wget https://github.com/jgthms/bulma/archive/0.9.0.tar.gz
+<span class="nb">tar </span>xzf 0.9.0.tar.gz
 </code></pre></div></div>
 
-<p>After linking this up, e.g. with a
-<code class="highlighter-rouge">source ~/.bash_aliases</code>
-in your <code class="highlighter-rouge">~/.bashrc</code>, you can now type
-<code class="highlighter-rouge">nalias</code> (“new alias”) and will be put in vim in your <code class="highlighter-rouge">~/.bash_aliases</code> ready to enter a new alias.  Once done and <code class="highlighter-rouge">:x</code>ed, your new alias is ready to be used.</p>
+<h3 id="move-the-sass-to-appassetsvendorbulma-090">Move the sass to <code class="highlighter-rouge">app/assets/vendor/bulma-0.9.0</code></h3>
 
-<p>If you happen to work in multiple terminals, add a
-<code class="highlighter-rouge">alias ralias='source ~/.bash_aliases'</code> (reload alias)
-to allow you to quickly resource the <code class="highlighter-rouge">~/.bash_aliases</code>.</p>
+<p>Assuming your project lives in <code class="highlighter-rouge">/home/projects/project</code>.</p>
 
-<hr />
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">BULMA_VENDOR_ASSET_DIR</span><span class="o">=</span>/home/projects/project/app/assets/vendor/bulma-0.9.0
+<span class="nb">mkdir</span> <span class="nt">-p</span> <span class="s2">"</span><span class="nv">$BULMA_VENDOR_ASSET_DIR</span><span class="s2">"</span>
+<span class="nb">cp</span> <span class="nt">-ar</span> /tmp/bulma-0.9.0/bulma.sass <span class="s2">"</span><span class="nv">$BULMA_VENDOR_ASSET_DIR</span><span class="s2">"</span>
+<span class="nb">cp</span> <span class="nt">-ar</span> /tmp/bulma-0.9.0/sass <span class="s2">"</span><span class="nv">$BULMA_VENDOR_ASSET_DIR</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<h3 id="include-the-sass-assets">Include the SASS assets</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git <span class="nb">mv </span>app/assets/stylesheets/application.<span class="o">{</span>,s<span class="o">}</span>css
+</code></pre></div></div>
+
+<p>And in that file</p>
+
+<div class="language-scss highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">@import</span> <span class="s2">"bulma-0.9.0/bulma"</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h3 id="thats-it">That’s it</h3>
+
+<p>I can’t really believe it, but more is not to be done.</p>
 
 <h4 id="having-a-better-idea">Having a better idea?</h4>
 

@@ -6,9 +6,110 @@
 </description>
     <link>http://yourdomain.com/</link>
     <atom:link href="http://yourdomain.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 18 Jun 2020 11:36:35 +0200</pubDate>
-    <lastBuildDate>Thu, 18 Jun 2020 11:36:35 +0200</lastBuildDate>
+    <pubDate>Thu, 18 Jun 2020 11:46:19 +0200</pubDate>
+    <lastBuildDate>Thu, 18 Jun 2020 11:46:19 +0200</lastBuildDate>
     <generator>Jekyll v3.8.7</generator>
+    
+      <item>
+        <title>Rails 6 and vendor sass assets</title>
+        <description>&lt;h2 id=&quot;aim&quot;&gt;Aim&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;make &lt;a href=&quot;bulma.io&quot;&gt;bulma&lt;/a&gt; available to and customizable via the Rails assets pipeline&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;requirements&quot;&gt;Requirements&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Rails6 setup&lt;/li&gt;
+  &lt;li&gt;tolerance: probably we will place files where they do not belong&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;why&quot;&gt;Why&lt;/h2&gt;
+
+&lt;p&gt;In Bulma 0.9 there is a new “spacing feature” that I happen to need right
+now. Or a least, it would feel stupid not to use bulma for that. The
+bulma-rails gem still carries the version 0.8 of bulma.&lt;/p&gt;
+
+&lt;h2 id=&quot;aside-why-not-using-a-gem&quot;&gt;Aside: Why not using a gem?&lt;/h2&gt;
+
+&lt;p&gt;I read quite some comments and articles argueing that gems that bundle assets
+like javascript or css-libraries should be abandoned in favor of webpack / yarn
+/ npm.&lt;/p&gt;
+
+&lt;p&gt;Letting a third party control your assets (let it be CDNs, npm or rubygems) has
+benefits and downsides.  I prefer others to iron out smaller bugs and keep the
+libraries up to date.  But I dislike dependance on additional “packaging
+software” and infrastructure as well as potentially more involved deployment
+processes.&lt;/p&gt;
+
+&lt;p&gt;For the &lt;a href=&quot;bulma.io&quot;&gt;bulma css framework&lt;/a&gt;, I usually reach out to
+&lt;a href=&quot;https://github.com/joshuajansen/bulma-rails&quot;&gt;bulma-rails&lt;/a&gt;. Having gemified
+assets also has the benefit of a single point where to raise issues or provide
+examples that might originate from the combination of the technology (e.g. how
+to integrate to sprockets, or use &lt;code class=&quot;highlighter-rouge&quot;&gt;dom_id&lt;/code&gt;, …).  Also, installation is often
+trivial (one line in &lt;code class=&quot;highlighter-rouge&quot;&gt;Gemfile&lt;/code&gt; and one somewhere for asset integration).&lt;/p&gt;
+
+&lt;p&gt;Bottom line: I am pro assets-as-a-gem. Which does not mean that
+&lt;code class=&quot;highlighter-rouge&quot;&gt;this is the way&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;installing-assets&quot;&gt;Installing assets&lt;/h2&gt;
+
+&lt;p&gt;So, I want to get rid of the gem for the time being (will re-enable it once 0.9
+is out) and put the original SASS assets from bulma in my asset pipeline.&lt;/p&gt;
+
+&lt;h3 id=&quot;download-the-sass&quot;&gt;Download the sass&lt;/h3&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# Let us grab the tarball from the release page:&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# https://github.com/jgthms/bulma/releases&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; /tmp
+wget https://github.com/jgthms/bulma/archive/0.9.0.tar.gz
+&lt;span class=&quot;nb&quot;&gt;tar &lt;/span&gt;xzf 0.9.0.tar.gz
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;move-the-sass-to-appassetsvendorbulma-090&quot;&gt;Move the sass to &lt;code class=&quot;highlighter-rouge&quot;&gt;app/assets/vendor/bulma-0.9.0&lt;/code&gt;&lt;/h3&gt;
+
+&lt;p&gt;Assuming your project lives in &lt;code class=&quot;highlighter-rouge&quot;&gt;/home/projects/project&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;BULMA_VENDOR_ASSET_DIR&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/home/projects/project/app/assets/vendor/bulma-0.9.0
+&lt;span class=&quot;nb&quot;&gt;mkdir&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$BULMA_VENDOR_ASSET_DIR&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;cp&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-ar&lt;/span&gt; /tmp/bulma-0.9.0/bulma.sass &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$BULMA_VENDOR_ASSET_DIR&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;cp&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-ar&lt;/span&gt; /tmp/bulma-0.9.0/sass &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$BULMA_VENDOR_ASSET_DIR&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;include-the-sass-assets&quot;&gt;Include the SASS assets&lt;/h3&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git &lt;span class=&quot;nb&quot;&gt;mv &lt;/span&gt;app/assets/stylesheets/application.&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;,s&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;css
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;And in that file&lt;/p&gt;
+
+&lt;div class=&quot;language-scss highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;@import&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;bulma-0.9.0/bulma&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;thats-it&quot;&gt;That’s it&lt;/h3&gt;
+
+&lt;p&gt;I can’t really believe it, but more is not to be done.&lt;/p&gt;
+
+&lt;h4 id=&quot;having-a-better-idea&quot;&gt;Having a better idea?&lt;/h4&gt;
+
+&lt;p&gt;Awesome!  Get in contact with me!&lt;/p&gt;
+
+</description>
+        <pubDate>Wed, 17 Jun 2020 13:01:25 +0200</pubDate>
+        <link>http://yourdomain.com/rails/assets/2020/06/17/rails-assets.html</link>
+        <guid isPermaLink="true">http://yourdomain.com/rails/assets/2020/06/17/rails-assets.html</guid>
+        
+        <category>rails</category>
+        
+        <category>css</category>
+        
+        
+        <category>rails</category>
+        
+        <category>assets</category>
+        
+      </item>
     
       <item>
         <title>Solidus I</title>
@@ -229,6 +330,10 @@ post. Of course to be compliant we
 would need a lot more customizations (base prices, gdpr and other legal stuff).
 Maybe I will look
 into that later.&lt;/p&gt;
+
+&lt;p&gt;If you want to cherry-pick commits or see how the whole codebase looks, I set up
+&lt;a href=&quot;https://github.com/fwolfst/solidus_playground/commits/master&quot;&gt;a github-repository with relatively clean commits&lt;/a&gt;
+for that.&lt;/p&gt;
 
 &lt;h4 id=&quot;having-a-better-idea&quot;&gt;Having a better idea?&lt;/h4&gt;
 
