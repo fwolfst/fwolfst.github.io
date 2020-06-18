@@ -170,6 +170,8 @@ default).</p>
 
 <h2 id="step-two-dont-pay">Step Two: Don’t pay</h2>
 
+<p><em>We want to make the default currency Euros and look at a checkout process.</em></p>
+
 <p>As the scenario is a German shop I want to change the Default currency from $ to
 € (admin -&gt; Settings -&gt; Store -&gt; Default Currency). While we are there, we can
 also set the default tax country (“Tax Country for Empty Carts”).</p>
@@ -262,8 +264,10 @@ pre-arranged).</p>
 
 <h3 id="billing-address-adjust-default-customer-location">Billing-Address: Adjust default customer location</h3>
 
-<p>We want that the default customers billing and shipping address is within
-Germany. The form will default to <code class="highlighter-rouge">Spree::Country.default</code>, which we can
+<p><em>We want that the default customers billing and shipping address is within
+Germany.</em></p>
+
+<p>The form will default to <code class="highlighter-rouge">Spree::Country.default</code>, which we can
 influence by modifying <code class="highlighter-rouge">config/initializers/spree.rb</code></p>
 
 <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># config/initializers/spree.rb add</span>
@@ -281,6 +285,9 @@ seeded: <code class="highlighter-rouge">rails r 'p Spree::Country.all.to_a'</cod
 <p>It’s sad and not fair and we love all our “neighbours” (that includes humans on
 other continents), but right now we cannot spend resources on intensive
 regulation, tax and shipping company research.</p>
+
+<p><em>We <del>want</del> have to restrict billing and shipping addresses to a predefined list of
+countries.</em></p>
 
 <p>Thus we will exclude countries from the list of countries to chose from as
 shipping and billing address.</p>
@@ -301,6 +308,8 @@ your business needs and possibilities, or modify the example one (“EU_VAT”).
 </code></pre></div></div>
 
 <h3 id="taxes">Taxes</h3>
+
+<p><em>We need to define the German default tax rates.</em></p>
 
 <p>In Germany, you’ll probably need two tax items. Specify in Backend -&gt; Settings
 -&gt; Taxes .

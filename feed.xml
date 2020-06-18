@@ -6,8 +6,8 @@
 </description>
     <link>http://yourdomain.com/</link>
     <atom:link href="http://yourdomain.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 03 Jun 2020 19:28:34 +0200</pubDate>
-    <lastBuildDate>Wed, 03 Jun 2020 19:28:34 +0200</lastBuildDate>
+    <pubDate>Thu, 18 Jun 2020 11:36:35 +0200</pubDate>
+    <lastBuildDate>Thu, 18 Jun 2020 11:36:35 +0200</lastBuildDate>
     <generator>Jekyll v3.8.7</generator>
     
       <item>
@@ -76,6 +76,8 @@ the credentials given in the install step (admin@example.com and test123 by
 default).&lt;/p&gt;
 
 &lt;h2 id=&quot;step-two-dont-pay&quot;&gt;Step Two: Don’t pay&lt;/h2&gt;
+
+&lt;p&gt;&lt;em&gt;We want to make the default currency Euros and look at a checkout process.&lt;/em&gt;&lt;/p&gt;
 
 &lt;p&gt;As the scenario is a German shop I want to change the Default currency from $ to
 € (admin -&amp;gt; Settings -&amp;gt; Store -&amp;gt; Default Currency). While we are there, we can
@@ -169,8 +171,10 @@ pre-arranged).&lt;/p&gt;
 
 &lt;h3 id=&quot;billing-address-adjust-default-customer-location&quot;&gt;Billing-Address: Adjust default customer location&lt;/h3&gt;
 
-&lt;p&gt;We want that the default customers billing and shipping address is within
-Germany. The form will default to &lt;code class=&quot;highlighter-rouge&quot;&gt;Spree::Country.default&lt;/code&gt;, which we can
+&lt;p&gt;&lt;em&gt;We want that the default customers billing and shipping address is within
+Germany.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;The form will default to &lt;code class=&quot;highlighter-rouge&quot;&gt;Spree::Country.default&lt;/code&gt;, which we can
 influence by modifying &lt;code class=&quot;highlighter-rouge&quot;&gt;config/initializers/spree.rb&lt;/code&gt;&lt;/p&gt;
 
 &lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# config/initializers/spree.rb add&lt;/span&gt;
@@ -188,6 +192,9 @@ seeded: &lt;code class=&quot;highlighter-rouge&quot;&gt;rails r 'p Spree::Countr
 &lt;p&gt;It’s sad and not fair and we love all our “neighbours” (that includes humans on
 other continents), but right now we cannot spend resources on intensive
 regulation, tax and shipping company research.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;We &lt;del&gt;want&lt;/del&gt; have to restrict billing and shipping addresses to a predefined list of
+countries.&lt;/em&gt;&lt;/p&gt;
 
 &lt;p&gt;Thus we will exclude countries from the list of countries to chose from as
 shipping and billing address.&lt;/p&gt;
@@ -208,6 +215,8 @@ your business needs and possibilities, or modify the example one (“EU_VAT”).
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h3 id=&quot;taxes&quot;&gt;Taxes&lt;/h3&gt;
+
+&lt;p&gt;&lt;em&gt;We need to define the German default tax rates.&lt;/em&gt;&lt;/p&gt;
 
 &lt;p&gt;In Germany, you’ll probably need two tax items. Specify in Backend -&amp;gt; Settings
 -&amp;gt; Taxes .
