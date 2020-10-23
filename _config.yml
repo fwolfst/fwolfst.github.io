@@ -32,6 +32,7 @@ github_username:  fwolfst
 plugins:
   - jekyll-feed
   - jekyll-haml-markup
+  - jekyll-toc
 
 # Exclude from processing.
 # The following items will not be processed, by default.
