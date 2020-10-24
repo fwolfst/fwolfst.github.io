@@ -1,18 +1,17 @@
 ---
 layout: page
-title: About
+title: About these pages
 permalink: /about/
 ---
 
-This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](https://jekyllrb.com/)
+These pages constitute my blog and experiment with Jekyll.
 
-You can find the source code for Minima at GitHub:
-[jekyll][jekyll-organization] /
-[minima](https://github.com/jekyll/minima)
+My name is Felix Wolfsteller, I live in the ecovillage project "[Sieben
+Linden](https://siebenlinden.org)" in the north of Germany.
 
-You can find the source code for Jekyll at GitHub:
-[jekyll][jekyll-organization] /
-[jekyll](https://github.com/jekyll/jekyll)
+Besides many labels, I am often referred to as hardcore IT-expert. In that role
+I enjoy the Ruby programming language and its ecosystem.
 
+Open Source and why.
 
-[jekyll-organization]: https://github.com/jekyll
+You can find out more info about Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](https://jekyllrb.com/). Its code is at [https://github.com/jekyll](https://github.com/jekyll).
