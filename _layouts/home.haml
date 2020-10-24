@@ -1,19 +1,19 @@
-!!!
-%html{lang: "{{ page.lang | default: site.lang | default: 'en' }}" }
-  %head
-    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
-    %meta{"name" => "viewport", "content" => "width=device-width, initial-scale=1"}/
-    -#"{%- seo -%}"
-    -#{%- feed_meta -%}
-    %link{rel: "stylesheet", href: "{{ '/assets/css/style.css' | relative_url }}"}
-  %body
-    #header
-      {%- include header.haml -%}
-    #sidebar
-      {%- include sidebar.haml -%}
-    #content
-      {{ content }}
-    #side
-      {%- include side.haml -%}
-    #footer
-      {%- include footer.haml -%}
+---
+layout: default
+---
+
+{{ content }}
+
+%h1 Blog Posts
+
+.post-list
+  {%- for post in site.posts -%}
+  .post-list-entry
+    %h3
+      %a.post-link{href: "{{ post.url | relative_url }}"}
+        {{ post.title | escape }}
+    %span.post-meta
+      {{ post.date | date: date_format }}
+    {{ post.excerpt }}
+  {%- endfor -%}
+
