@@ -27,6 +27,7 @@ Because the external assets are hand-picked, these have to be checked and
 included separately, namely:
 
 `css/fork-awesome-1.1.7` [source](https://github.com/ForkAwesome/Fork-Awesome/releases)
+`css/normalize.css` [source](https://github.com/necolas/normalize.css)
 
 ## Features
 

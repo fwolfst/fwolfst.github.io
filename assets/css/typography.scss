@@ -4,7 +4,7 @@ a:link {
 }
 
 a:visited {
-  color: #333388;
+  color: #303030;
   text-decoration: none;
 }
 
@@ -13,3 +13,13 @@ a:hover {
   text-decoration: underline;
 }
 
+blockquote {
+  background-color: #eee;
+  font-family: mono;
+  border-left:   5px solid #aaa;
+  border-right:  1px solid #ddd;
+  border-top:    1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+
+  padding-left: 1em;
+}
