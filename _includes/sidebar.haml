@@ -1,14 +1,36 @@
 .head
-  SIDEBAR HEAD
+  .brand
+    %img.brand(src='https://avatars2.githubusercontent.com/u/219373?s=460&v=4')
+  .statement
+    statement
 
 %nav
-  %ul
-    %li
+  .nav-item
+    {% assign home_link = site.baseurl | append: "/" %}
+    %a(href="{{ home_link }}")
       HOME
-    %li
+  .nav-item
+    {% assign home_link = site.baseurl | append: "/archive" %}
+    %a(href="{{ archive_link  }}")
       ARCHIVE
-    %li
+  .nav-item
+    {% assign home_link = site.baseurl | append: "/archive" %}
+    %a(href="{{ archive_link  }}")
+      SNACKS
+  .nav-item
+    {% assign home_link = site.baseurl | append: "/archive" %}
+    %a(href="{{ archive_link  }}")
+      RESOURCES
+  .nav-item
+    {% assign about_link = site.baseurl | append: "/about" %}
+    %a(href="{{ about_link  }}")
       ABOUT
 
 .foot
-  SIDEBAR FOOT
+  %a(href="")
+    %i.fa.fa-mastodon
+  %a(href="https://github.com/fwolfst")
+    %i.fa.fa-github
+  %i.fa.fa-linkedin
+  %i.fa.fa-xing
+  %i.fa.fa-rss

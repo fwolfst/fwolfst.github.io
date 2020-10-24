@@ -12,7 +12,7 @@ layout: default
     %h3
       %a.post-link{href: "{{ post.url | relative_url }}"}
         {{ post.title | escape }}
-    %span.post-meta
+    .post-meta
       {{ post.date | date: date_format }}
     {{ post.excerpt }}
   {%- endfor -%}
