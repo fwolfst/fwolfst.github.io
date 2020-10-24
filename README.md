@@ -12,10 +12,21 @@ Inspiration came mostly from the [minima]() and the [chirpy](https://github.com/
 
 Locally, just clone the repository and
 
-```ruby
+```bash
 bundle
 bundle exec jekyll serve
 ```
+
+### Updates
+
+```bash
+bundle update
+```
+
+Because the external assets are hand-picked, these have to be checked and
+included separately, namely:
+
+`css/fork-awesome-1.1.7` [source](https://github.com/ForkAwesome/Fork-Awesome/releases)
 
 ## Features
 
@@ -24,7 +35,10 @@ Some features come from jekyll-plugins:
 * haml syntax
 * Table of contents
 
-Others are implemented via layouts and Co.
+Others are implemented via layouts and Co. or inherent:
+
+* works without JS
+* self-contained (no external resources)
 
 ## Architecture doc
 
@@ -34,7 +48,7 @@ Others are implemented via layouts and Co.
 
 ## Mentions
 
-jekyll, chirpy, normalize
+jekyll, chirpy, normalize, fork awesome
 
 ## License
 
