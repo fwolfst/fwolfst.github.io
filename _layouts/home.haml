@@ -14,6 +14,6 @@ layout: default
         {{ post.title | escape }}
     .post-meta
       {{ post.date | date: date_format }}
-    {{ post.excerpt }}
+    {{ post.content | strip_html | truncatewords: 50 }}
   {%- endfor -%}
 
