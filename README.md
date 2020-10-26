@@ -14,7 +14,7 @@ Locally, just clone the repository and
 
 ```bash
 bundle
-bundle exec jekyll serve
+bundle exec jekyll serve --livereload
 ```
 
 ### Updates
