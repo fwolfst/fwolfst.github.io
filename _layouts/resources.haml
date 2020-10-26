@@ -33,13 +33,16 @@ layout: default
     .resource
       %a.resource-title(href="{{ resource.url }}")
         {{ resource.title }}
-      .description
-        {{ resource.description }}
       .tags
         {% for resource_tag in resource.tags %}
-        .tag
-          ({{ resource_tag.tag }})
+        {% if resource_tag.tag != tag %}
+        %a(href="{{ pound }}{{ resource_tag.tag | slugify }}")
+          .tag
+            {{ resource_tag.tag }}
+        {% endif %}
         {% endfor %}
+      .description
+        {{ resource.description }}
     {% endif %}
     {% endfor %}
 {% endfor %}

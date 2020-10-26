@@ -23,3 +23,32 @@
   url: https://github.com/eliotsykes/real-world-rails
   tags:
     - tag: rails
+- title: Edgeryders
+  description: Digital community/company hybrid with awesome discussions (discourse forum)
+  url: https://edgeryders.eu
+  tags:
+    - tag: community
+- title: Ecovillage Sieben Linden
+  description: Social/ecological project where I live (few non-german content)
+  url: https://siebenlinden.org
+  tags:
+    - tag: community
+- title: Andrew Kane
+  description: ahoy, blazer, chartkick and so much more fame
+  url: https://github.com/ankane/
+  tags:
+    - tag: Awesome developers
+    - tag: ruby
+- title: Adam Cooke
+  description: much more than actionnav and documentation
+  url: https://github.com/adamcooke
+  tags:
+    - tag: Awesome developers
+    - tag: ruby
+- title: Piotr Murach
+  description: clean tty gems
+  url: https://github.com/piotrmurach/
+  tags:
+    - tag: Awesome developers
+    - tag: ruby
+
