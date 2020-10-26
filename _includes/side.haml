@@ -1,4 +1,46 @@
-SIDE R
-
+{%- if page.toc -%}
 #toc
+  %h2
+    Content
   {% toc %}
+{%- endif -%}
+
+{%- if page.categories -%}
+.categories-vertical
+  %h2
+    Categories
+  {%- for category in page.categories -%}
+  {% capture category_name %}{{ category }}{% endcapture %}
+  {% assign category_slug = "#" | append: category_name | slugize %}
+  -#%a{href: "/categories/{{ "" | append: category | slugize}}"}
+  %a{href: "/categories/{{ category_slug }}"}
+    .category
+      {{ category }}
+  {%- endfor -%}
+{% elsif page.url == '/resources/' %}
+.categories-vertical
+  {% for resource in site.data.resources %}
+  {% assign tags = tags | concat: resource.tags %}
+  {% endfor %}
+  {% assign all_tags = tags | uniq | map: 'tag' | sort %}
+  {% assign pound = "#" %}
+  %h2
+    Resources (Tags)
+  {% for tag in all_tags %}
+  %a{href: ""}
+    .category
+      {{ tag }}
+  {% endfor %}
+{% else %}
+.categories-vertical
+  %h2
+    Categories
+  {% assign category_list = site.categories | sort %}
+  {% for cat in category_list %}
+  {% assign category_name = cat | first %}
+  {% assign category_slug = "#" | append: category_name | slugize %}
+  %a{href: "/categories/{{ category_slug }}"}
+    .category
+      {{ category_name }}
+  {% endfor %}
+{%- endif -%}

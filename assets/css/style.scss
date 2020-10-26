@@ -127,6 +127,9 @@ body {
   padding-top:  2em;
 
   #toc {
+    h2 {
+      margin-top: 0px;
+    }
     .section-nav {
       list-style-type: decimal;
       margin-left: -1em;
@@ -183,11 +186,51 @@ body {
   border-bottom: solid 1px #999;
   width: 100%;
   padding-bottom: 1.3em;
+}
 
-  .post-meta {
-    color: #999;
-    font-size: 0.9em;
-    padding-bottom: 0.3em;
+
+.post-meta {
+  color: #999;
+  font-size: 0.9em;
+  padding-bottom: 0.3em;
+}
+
+.categories-vertical {
+  display: flex;
+  flex-direction: column;
+
+  .category {
+    border: solid 1px #bbb;
+    border-radius: 15px;
+    padding: 0.4em;
+    color: #888;
+    margin-bottom: 0.5em;
+    margin-right: 1em;
+    text-align: center;
   }
+}
+.categories-horizontal {
+  display: flex;
+  flex-direction: row;
+  min-width: 0;
+  flex-basis: 100%;
+  flex-wrap: wrap;
+
+  .category {
+    border: solid 1px #bbb;
+    border-radius: 15px;
+    padding: 0.4em;
+    color: #888;
+    margin-bottom: 0.5em;
+    margin-right: 1em;
+    text-align: center;
+    .count {
+      display: inline-block;
+    }
+  }
+}
+
+.post-item {
+  padding-bottom: 1.5em;
 }
 
