@@ -1,0 +1,22 @@
+.resources {
+  display: flex;
+  flex-direction: column;
+
+  .resource {
+    padding-bottom: 1.5em;
+    .resource-title {
+      font-size: 1.3em;
+    }
+    .tags {
+      display: flex;
+      flex-direction: row;
+
+      .tag {
+
+      }
+    }
+    .description {
+
+    }
+  }
+}

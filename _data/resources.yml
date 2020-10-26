@@ -1,0 +1,25 @@
+- title: Complete guide to grids
+  url: https://css-tricks.com/snippets/css/complete-guide-grid/
+  description: Neat visual overview regarding CSS grid layout
+  tags:
+    - tag: css
+    - tag: grid
+- title: Complete guide to flexbox
+  url: https://css-tricks.com/snippets/css/a-guide-to-flexbox/
+  description: Neat visual overview regarding CSS flexbox display
+  tags:
+    - tag: css
+    - tag: flex
+- title: webjeda about categories and tags
+  url: https://blog.webjeda.com/jekyll-categories/
+  tags:
+    - tag: jekyll
+- title: Fork Awesome
+  url: https://forkaweso.me/Fork-Awesome/examples/
+  tags:
+    - tag: assets
+- title: Real World Rails
+  description: Meta-repo with code of Ruby on Rails applications
+  url: https://github.com/eliotsykes/real-world-rails
+  tags:
+    - tag: rails
