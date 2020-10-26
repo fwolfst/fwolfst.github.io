@@ -5,4 +5,7 @@ layout: default
 %h1.title
   {{ page.title }}
 
+.post-meta
+  {{ page.date | date: site.date.formats.short }}
+
 {{ content }}
