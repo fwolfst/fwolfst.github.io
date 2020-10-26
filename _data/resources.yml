@@ -51,4 +51,8 @@
   tags:
     - tag: Awesome developers
     - tag: ruby
-
+- title: Public Money, Public Code
+  description: The most important tech/FOSS campaign at the moment, available in many language. "Why is software created using taxpayers’ money not released as Free Software?"
+  url: https://publiccode.eu/
+  tags:
+    - tag: Free Software
