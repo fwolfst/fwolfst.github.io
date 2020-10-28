@@ -56,3 +56,8 @@
   url: https://publiccode.eu/
   tags:
     - tag: Free Software
+- title: meta community
+  description: Discourse forum for 'IT-people' in intentional communities, maintained by me.
+  url: https://meta-community.org
+  tags:
+    - tag: community
