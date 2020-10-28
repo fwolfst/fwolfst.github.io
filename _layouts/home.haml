@@ -15,5 +15,8 @@ layout: default
     .post-meta
       {{ post.date | date: site.date.formats.short }}
     {{ post.content | strip_html | truncatewords: 50 }}
+    .more
+      %a.post-link{href: "{{ post.url | relative_url }}"}
+        more ...
   {%- endfor -%}
 
