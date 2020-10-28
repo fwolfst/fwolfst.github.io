@@ -1,0 +1,21 @@
+---
+layout: default
+---
+
+{{ content }}
+
+%h1 Snacks
+
+.post-list
+
+  {%- for snack in site.categories['snacks'] -%}
+  .post-list-entry
+    %h3
+      -# post.permalink!
+      %a.post-link{href: "{{ snack.url | relative_url }}"}
+        {{ snack.title | escape }}
+    .post-meta
+      {{ snack.date | date: date_format }}
+    {{ snack.content | strip_html | truncatewords: 50 }}
+  {%- endfor -%}
+

@@ -1,0 +1,51 @@
+---
+layout: default
+---
+
+%h2
+  List of tags
+
+{% for resource in site.data.resources %}
+{% assign tags = tags | concat: resource.tags %}
+{% endfor %}
+
+{% assign all_tags = tags | uniq | map: 'tag' | sort %}
+
+{% assign pound = "#" %}
+
+.tag-list
+  {% for tag in all_tags %}
+  .tag(style="display: inline-block")
+    %a(href="{{ pound }}{{ tag | slugify }}" style="display: inline-block")
+      {{ tag }}
+      &nbsp;
+  {% endfor %}
+
+{% for tag in all_tags %}
+.resource-by-tag
+  %h3
+    {{tag}}
+
+  .resources
+    {% for resource in site.data.resources %}
+    {% assign resource_tag_names = resource.tags | map :'tag' %}
+    {% if resource_tag_names contains tag %}
+    .resource
+      %a.resource-title(href="{{ resource.url }}")
+        {{ resource.title }}
+      .tags
+        {% for resource_tag in resource.tags %}
+        {% if resource_tag.tag != tag %}
+        %a(href="{{ pound }}{{ resource_tag.tag | slugify }}")
+          .tag
+            {{ resource_tag.tag }}
+        {% endif %}
+        {% endfor %}
+      .description
+        {{ resource.description }}
+    {% endif %}
+    {% endfor %}
+{% endfor %}
+
+{{ content }}
+

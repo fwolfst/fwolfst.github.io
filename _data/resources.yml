@@ -1,0 +1,58 @@
+- title: Complete guide to grids
+  url: https://css-tricks.com/snippets/css/complete-guide-grid/
+  description: Neat visual overview regarding CSS grid layout
+  tags:
+    - tag: css
+    - tag: grid
+- title: Complete guide to flexbox
+  url: https://css-tricks.com/snippets/css/a-guide-to-flexbox/
+  description: Neat visual overview regarding CSS flexbox display
+  tags:
+    - tag: css
+    - tag: flex
+- title: webjeda about categories and tags
+  url: https://blog.webjeda.com/jekyll-categories/
+  tags:
+    - tag: jekyll
+- title: Fork Awesome
+  url: https://forkaweso.me/Fork-Awesome/examples/
+  tags:
+    - tag: assets
+- title: Real World Rails
+  description: Meta-repo with code of Ruby on Rails applications
+  url: https://github.com/eliotsykes/real-world-rails
+  tags:
+    - tag: rails
+- title: Edgeryders
+  description: Digital community/company hybrid with awesome discussions (discourse forum)
+  url: https://edgeryders.eu
+  tags:
+    - tag: community
+- title: Ecovillage Sieben Linden
+  description: Social/ecological project where I live (few non-german content)
+  url: https://siebenlinden.org
+  tags:
+    - tag: community
+- title: Andrew Kane
+  description: ahoy, blazer, chartkick and so much more fame
+  url: https://github.com/ankane/
+  tags:
+    - tag: Awesome developers
+    - tag: ruby
+- title: Adam Cooke
+  description: much more than actionnav and documentation
+  url: https://github.com/adamcooke
+  tags:
+    - tag: Awesome developers
+    - tag: ruby
+- title: Piotr Murach
+  description: clean tty gems
+  url: https://github.com/piotrmurach/
+  tags:
+    - tag: Awesome developers
+    - tag: ruby
+- title: Public Money, Public Code
+  description: The most important tech/FOSS campaign at the moment, available in many language. "Why is software created using taxpayers’ money not released as Free Software?"
+  url: https://publiccode.eu/
+  tags:
+    - tag: Free Software

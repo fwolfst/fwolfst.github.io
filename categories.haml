@@ -1,0 +1,33 @@
+---
+layout: page
+permalink: /categories/
+title: Categories
+---
+
+.categories-horizontal
+  {% assign category_list = site.categories | sort %}
+  {% for category in category_list %}
+  {% capture category_name %}{{ category | first }}{% endcapture %}
+  %a(href="#{{ category_name | slugize }}")
+    .category
+      {{ category_name }}
+      &nbsp;
+      %span.count
+        {{ site.categories[category_name].size }}
+  {% endfor %}
+
+.category-list
+  {% for category in category_list %}
+  {% capture category_name %}{{ category | first }}{% endcapture %}
+  %div{id: "{{ category_name | slugize }}"}
+    %h2
+      {{ category_name }}&nbsp;({{ site.categories[category_name].size }})
+  {% for post in site.categories[category_name] %}
+  .post-item
+    %a.post-link{href: "{{ post.url }}"}
+      .post-meta
+        {{ post.date | date: site.date.formats.short }}
+      &nbsp;
+      {{ post.title }}
+  {% endfor %}
+  {% endfor %}
