@@ -45,6 +45,12 @@
   tags:
     - tag: Awesome developers
     - tag: ruby
+- title: Vladimir Dementyev (palkan)
+  description: evilmartian fame, action_policy makes it for me
+  url: https://github.com/palkan
+  tags:
+    - tag: Awesome developers
+    - tag: ruby
 - title: Piotr Murach
   description: clean tty gems
   url: https://github.com/piotrmurach/
