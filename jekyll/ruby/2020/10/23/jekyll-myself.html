@@ -1,0 +1,149 @@
+<!DOCTYPE html><html lang="en"><head><meta content="text/html; charset=UTF-8" http-equiv="Content-Type"><meta content="width=device-width, initial-scale=1" name="viewport"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Welcome to Jekyll II | felix wolfsteller - blog</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Welcome to Jekyll II" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="A while ago I wanted to revamp my blog a little, add some more flavor for professionals and open it up to put some smaller tipps (“snacks”) there." />
+<meta property="og:description" content="A while ago I wanted to revamp my blog a little, add some more flavor for professionals and open it up to put some smaller tipps (“snacks”) there." />
+<link rel="canonical" href="/jekyll/ruby/2020/10/23/jekyll-myself.html" />
+<meta property="og:url" content="/jekyll/ruby/2020/10/23/jekyll-myself.html" />
+<meta property="og:site_name" content="felix wolfsteller - blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-10-23T17:44:02+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Welcome to Jekyll II" />
+<script type="application/ld+json">
+{"description":"A while ago I wanted to revamp my blog a little, add some more flavor for professionals and open it up to put some smaller tipps (“snacks”) there.","mainEntityOfPage":{"@type":"WebPage","@id":"/jekyll/ruby/2020/10/23/jekyll-myself.html"},"@type":"BlogPosting","url":"/jekyll/ruby/2020/10/23/jekyll-myself.html","headline":"Welcome to Jekyll II","dateModified":"2020-10-23T17:44:02+02:00","datePublished":"2020-10-23T17:44:02+02:00","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link href="/assets/css/style.css" rel="stylesheet"><link href="/assets/fork-awesome-1.1.7/css/fork-awesome.min.css" rel="stylesheet"></head><body><div id="header"><strong style="float:left;">Welcome to Jekyll II</strong>felix wolfsteller - blog</div><div id="sidebar"><div class="head"><div class="brand"><img class="brand" src="https://avatars2.githubusercontent.com/u/219373?s=460&v=4"></div></div><nav><div class="nav-item"><a href="/">HOME</a></div><div class="nav-item"><a href="/snacks">SNACKS</a></div><div class="nav-item"><a href="/resources">RESOURCES</a></div><div class="nav-item"><a href="/about">ABOUT</a></div></nav><div class="foot"><a href=""><i class="fa fa-mastodon"></i></a><a href="https://github.com/fwolfst"><i class="fa fa-github"></i></a><a href=" www.linkedin.com/in/felix-wolfsteller"><i class="fa fa-linkedin"></i></a><a href="https://www.xing.com/profile/Felix_Wolfsteller"><i class="fa fa-xing"></i></a><a href="/feed.xml"><i class="fa fa-rss"></i></a></div></div><div id="content"><h1 class="title">Welcome to Jekyll II</h1><div class="post-meta">2020-10-23</div><p>A while ago I wanted to revamp my blog a little, add some more flavor for professionals and
+open it up to put some smaller tipps (“snacks”) there.</p>
+
+<p>The blog is realized with <a href="jekyllrb.com">jekyll</a> and after browsing some
+pre-made “themes” I stumbled upon Cotes Chungs <a href="https://github.com/cotes2020/jekyll-theme-chirpy">chirpy</a>. Looked nice, fancy features, active dev. However, it is full of client-side rendering and phoning-home stuff (all assets come via CDNs etc).</p>
+
+<p>I throwed some patches at it and went on with other projects. Now, a couple of
+month later I come back to Jekyll and my blog. Initially I wanted to go all
+Chirpy but realized that dev there is too fast and it wouldnt be easy to create
+and keep up a fork of my taste.</p>
+
+<blockquote>
+  <p>So, let’s start from scratch.</p>
+</blockquote>
+
+<h2 id="learning-goals">Learning goals</h2>
+
+<p>I had several itches:</p>
+
+<ul>
+  <li>playing with “modern CSS” (flex and grid)</li>
+  <li>playing with “modern JavaScript” (nobloat, stimulus style)</li>
+  <li>how to use jekyll more as a knowledgebase</li>
+</ul>
+
+<p><strong>The rest of this post will likely become more a list of notes along the process
+than a well-written instructional recap.</strong></p>
+
+<p>A repository to follow along is at <a href="https://github.com    /commits"></a></p>
+
+<h2 id="what-i-learned">What I learned</h2>
+
+<p>Getting a naked jekyll thing is easy, just remove all references to the theme.
+Is that a good idea? Probably not.</p>
+
+<blockquote>
+  <p>I might put key insights into quote-styles in this post.</p>
+</blockquote>
+
+<p>Like this:</p>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">bundle exec jekyll s --livereload</code> saves you a few keystrokes</p>
+</blockquote>
+
+<h2 id="flex-and-grid">Flex and Grid</h2>
+
+<p>Very smooth experience, good summaries regarding the approaches:</p>
+
+<ul>
+  <li><a href="https://css-tricks.com/snippets/css/complete-guide-grid/">Guide to Grid</a></li>
+  <li><a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/">Guide to Flexbox</a></li>
+</ul>
+
+<h2 id="fork-awesome">Fork Awesome</h2>
+
+<p>At a certain point my browser was showing the <a href="https://forkaweso.me/Fork-Awesome/whats-new/">Fork Awesome</a> page. Never heard of it before, and was I was reading sounded fine. It has a mastodon icon which I wanted, so it was an easy choice.</p>
+
+<blockquote>
+  <p><a href="https://forkaweso.me">Fork Awesome</a> works for me.</p>
+</blockquote>
+
+<h2 id="categories-andor-tags">Categories and/or tags</h2>
+
+<p>I want my posts to be organized in categories. Jekyll itself will not create a
+new category page for every found category and there are multiple approaches and
+plugins to tackle this issue.</p>
+
+<blockquote>
+  <p>From jekylls perspective there is no difference between tags and
+categories</p>
+</blockquote>
+
+<p>The quickest solution is to put all available data on a single categories page.
+As long as there isnt too much content and you can ignore SEO-stuff this will
+work just fine.</p>
+
+<blockquote>
+  <p>There are many ways, data, collections, scripts to populate pages or
+collections …</p>
+</blockquote>
+
+<h2 id="snacks-and-resources">Snacks and resources</h2>
+
+<p>Idea was: <strong>snacks</strong> are very short articles (what I learned, or something sweet
+that I discovered).</p>
+
+<p>Rather then having them as separate collection, I just added a category and
+filter on the snack page.</p>
+
+<p><strong>Resources</strong> is basically a link list, with tags added to each link. I modelled
+these as data.</p>
+
+<p>However, tagging works differently for these resources, and for now I reverted
+to to use heaps of loops (https://stackoverflow.com/questions/64524362/how-to-get-the-unique-values-of-nested-lists-in-jekyll-data).</p>
+
+<h2 id="seo">SEO</h2>
+
+<p>Nothing hot, just using the <code class="language-plaintext highlighter-rouge">jekyll-seo-tag</code> plugin.</p>
+
+<h2 id="licensing">Licensing</h2>
+
+<p>Finally, I also need to choose a license to put the code and content under. Code
+(which there is none yet anyway) is easy, I default to (A)GPLv3+.</p>
+
+<p>Content shall be CC-BY-NC-SA .</p>
+
+<h2 id="deployment">Deployment</h2>
+
+<h2 id="very-much-open-questions">Very much open questions</h2>
+
+<ul>
+  <li>Do I really want to add some stimulus and turbolinks sprinkles?</li>
+  <li>How to achieve <a href="[https://reuse.software">reuse compliance</a>?</li>
+  <li>How to make the grid responsive, e.g. with sweet SCSS mixins?</li>
+  <li>How to make tags hierarchical (web:css, web:assets, …) and group resources
+by it?</li>
+  <li>Where to indicate license more clearly?</li>
+</ul>
+
+</div><div id="side"><div id="toc"><h2>Content</h2><ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#learning-goals">Learning goals</a></li>
+<li class="toc-entry toc-h2"><a href="#what-i-learned">What I learned</a></li>
+<li class="toc-entry toc-h2"><a href="#flex-and-grid">Flex and Grid</a></li>
+<li class="toc-entry toc-h2"><a href="#fork-awesome">Fork Awesome</a></li>
+<li class="toc-entry toc-h2"><a href="#categories-andor-tags">Categories and/or tags</a></li>
+<li class="toc-entry toc-h2"><a href="#snacks-and-resources">Snacks and resources</a></li>
+<li class="toc-entry toc-h2"><a href="#seo">SEO</a></li>
+<li class="toc-entry toc-h2"><a href="#licensing">Licensing</a></li>
+<li class="toc-entry toc-h2"><a href="#deployment">Deployment</a></li>
+<li class="toc-entry toc-h2"><a href="#very-much-open-questions">Very much open questions</a></li>
+</ul></div><div class="categories-vertical"><h2>Categories</h2><a href="/categories/#jekyll"><div class="category">jekyll</div></a><a href="/categories/#ruby"><div class="category">ruby</div></a></div></div><div id="footer"><div class="copyright">copyright 2020 Felix Wolfsteller,</div><div class="hire">available for hire&nbsp;<i class="fa fa-check"></i></div><div class="code"><a href="https://github.com/fwolfst/"><span><i class="fa fa-github fa-fw"></i></span><span>this page</span></a></div></div></body></html>

@@ -1,0 +1,39 @@
+.resource-by-tag {
+  h3 {
+    border-bottom: 1px solid #ddd;
+  }
+}
+
+.resources {
+  display: flex;
+  flex-direction: column;
+
+  .resource {
+    padding-bottom: 1.5em;
+
+    .resource-title {
+      font-size: 1.3em;
+      float: left;
+    }
+    .tags {
+      display: flex;
+      flex-direction: row;
+      padding-left: 0.5em;
+      float: left;
+
+      .tag {
+        background: #ddd;
+        border-radius: 20px;
+        padding-left:  10px;
+        padding-right: 10px;
+        padding-top:    2px;
+        padding-bottom: 2px;
+      }
+    }
+    .description {
+      color: #333;
+      clear: both;
+      padding-left: 1em;
+    }
+  }
+}

@@ -1,14 +1,147 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Felix Wolfsteller - Technical Blog</title>
-    <description>Technical Blog of Felix Wolfsteller (econya), serving you articles about ruby and linux.
+    <title>felix wolfsteller - blog</title>
+    <description>Mostly technical blog of Felix Wolfsteller (econya)</description>
+    <link>/</link>
+    <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Wed, 28 Oct 2020 09:55:27 +0100</pubDate>
+    <lastBuildDate>Wed, 28 Oct 2020 09:55:27 +0100</lastBuildDate>
+    <generator>Jekyll v4.1.1</generator>
+    
+      <item>
+        <title>Welcome to Jekyll II</title>
+        <description>&lt;p&gt;A while ago I wanted to revamp my blog a little, add some more flavor for professionals and
+open it up to put some smaller tipps (“snacks”) there.&lt;/p&gt;
+
+&lt;p&gt;The blog is realized with &lt;a href=&quot;jekyllrb.com&quot;&gt;jekyll&lt;/a&gt; and after browsing some
+pre-made “themes” I stumbled upon Cotes Chungs &lt;a href=&quot;https://github.com/cotes2020/jekyll-theme-chirpy&quot;&gt;chirpy&lt;/a&gt;. Looked nice, fancy features, active dev. However, it is full of client-side rendering and phoning-home stuff (all assets come via CDNs etc).&lt;/p&gt;
+
+&lt;p&gt;I throwed some patches at it and went on with other projects. Now, a couple of
+month later I come back to Jekyll and my blog. Initially I wanted to go all
+Chirpy but realized that dev there is too fast and it wouldnt be easy to create
+and keep up a fork of my taste.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;So, let’s start from scratch.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;learning-goals&quot;&gt;Learning goals&lt;/h2&gt;
+
+&lt;p&gt;I had several itches:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;playing with “modern CSS” (flex and grid)&lt;/li&gt;
+  &lt;li&gt;playing with “modern JavaScript” (nobloat, stimulus style)&lt;/li&gt;
+  &lt;li&gt;how to use jekyll more as a knowledgebase&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;The rest of this post will likely become more a list of notes along the process
+than a well-written instructional recap.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;A repository to follow along is at &lt;a href=&quot;https://github.com    /commits&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;what-i-learned&quot;&gt;What I learned&lt;/h2&gt;
+
+&lt;p&gt;Getting a naked jekyll thing is easy, just remove all references to the theme.
+Is that a good idea? Probably not.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;I might put key insights into quote-styles in this post.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Like this:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;bundle exec jekyll s --livereload&lt;/code&gt; saves you a few keystrokes&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;flex-and-grid&quot;&gt;Flex and Grid&lt;/h2&gt;
+
+&lt;p&gt;Very smooth experience, good summaries regarding the approaches:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://css-tricks.com/snippets/css/complete-guide-grid/&quot;&gt;Guide to Grid&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://css-tricks.com/snippets/css/a-guide-to-flexbox/&quot;&gt;Guide to Flexbox&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;fork-awesome&quot;&gt;Fork Awesome&lt;/h2&gt;
+
+&lt;p&gt;At a certain point my browser was showing the &lt;a href=&quot;https://forkaweso.me/Fork-Awesome/whats-new/&quot;&gt;Fork Awesome&lt;/a&gt; page. Never heard of it before, and was I was reading sounded fine. It has a mastodon icon which I wanted, so it was an easy choice.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;a href=&quot;https://forkaweso.me&quot;&gt;Fork Awesome&lt;/a&gt; works for me.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;categories-andor-tags&quot;&gt;Categories and/or tags&lt;/h2&gt;
+
+&lt;p&gt;I want my posts to be organized in categories. Jekyll itself will not create a
+new category page for every found category and there are multiple approaches and
+plugins to tackle this issue.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;From jekylls perspective there is no difference between tags and
+categories&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;The quickest solution is to put all available data on a single categories page.
+As long as there isnt too much content and you can ignore SEO-stuff this will
+work just fine.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;There are many ways, data, collections, scripts to populate pages or
+collections …&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;snacks-and-resources&quot;&gt;Snacks and resources&lt;/h2&gt;
+
+&lt;p&gt;Idea was: &lt;strong&gt;snacks&lt;/strong&gt; are very short articles (what I learned, or something sweet
+that I discovered).&lt;/p&gt;
+
+&lt;p&gt;Rather then having them as separate collection, I just added a category and
+filter on the snack page.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Resources&lt;/strong&gt; is basically a link list, with tags added to each link. I modelled
+these as data.&lt;/p&gt;
+
+&lt;p&gt;However, tagging works differently for these resources, and for now I reverted
+to to use heaps of loops (https://stackoverflow.com/questions/64524362/how-to-get-the-unique-values-of-nested-lists-in-jekyll-data).&lt;/p&gt;
+
+&lt;h2 id=&quot;seo&quot;&gt;SEO&lt;/h2&gt;
+
+&lt;p&gt;Nothing hot, just using the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;jekyll-seo-tag&lt;/code&gt; plugin.&lt;/p&gt;
+
+&lt;h2 id=&quot;licensing&quot;&gt;Licensing&lt;/h2&gt;
+
+&lt;p&gt;Finally, I also need to choose a license to put the code and content under. Code
+(which there is none yet anyway) is easy, I default to (A)GPLv3+.&lt;/p&gt;
+
+&lt;p&gt;Content shall be CC-BY-NC-SA .&lt;/p&gt;
+
+&lt;h2 id=&quot;deployment&quot;&gt;Deployment&lt;/h2&gt;
+
+&lt;h2 id=&quot;very-much-open-questions&quot;&gt;Very much open questions&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Do I really want to add some stimulus and turbolinks sprinkles?&lt;/li&gt;
+  &lt;li&gt;How to achieve &lt;a href=&quot;[https://reuse.software&quot;&gt;reuse compliance&lt;/a&gt;?&lt;/li&gt;
+  &lt;li&gt;How to make the grid responsive, e.g. with sweet SCSS mixins?&lt;/li&gt;
+  &lt;li&gt;How to make tags hierarchical (web:css, web:assets, …) and group resources
+by it?&lt;/li&gt;
+  &lt;li&gt;Where to indicate license more clearly?&lt;/li&gt;
+&lt;/ul&gt;
+
 </description>
-    <link>http://yourdomain.com/</link>
-    <atom:link href="http://yourdomain.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 18 Jun 2020 11:46:19 +0200</pubDate>
-    <lastBuildDate>Thu, 18 Jun 2020 11:46:19 +0200</lastBuildDate>
-    <generator>Jekyll v3.8.7</generator>
+        <pubDate>Fri, 23 Oct 2020 17:44:02 +0200</pubDate>
+        <link>/jekyll/ruby/2020/10/23/jekyll-myself.html</link>
+        <guid isPermaLink="true">/jekyll/ruby/2020/10/23/jekyll-myself.html</guid>
+        
+        
+        <category>jekyll</category>
+        
+        <category>ruby</category>
+        
+      </item>
     
       <item>
         <title>Rails 6 and vendor sass assets</title>
@@ -47,11 +180,11 @@ processes.&lt;/p&gt;
 &lt;a href=&quot;https://github.com/joshuajansen/bulma-rails&quot;&gt;bulma-rails&lt;/a&gt;. Having gemified
 assets also has the benefit of a single point where to raise issues or provide
 examples that might originate from the combination of the technology (e.g. how
-to integrate to sprockets, or use &lt;code class=&quot;highlighter-rouge&quot;&gt;dom_id&lt;/code&gt;, …).  Also, installation is often
-trivial (one line in &lt;code class=&quot;highlighter-rouge&quot;&gt;Gemfile&lt;/code&gt; and one somewhere for asset integration).&lt;/p&gt;
+to integrate to sprockets, or use &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dom_id&lt;/code&gt;, …).  Also, installation is often
+trivial (one line in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Gemfile&lt;/code&gt; and one somewhere for asset integration).&lt;/p&gt;
 
 &lt;p&gt;Bottom line: I am pro assets-as-a-gem. Which does not mean that
-&lt;code class=&quot;highlighter-rouge&quot;&gt;this is the way&lt;/code&gt;.&lt;/p&gt;
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;this is the way&lt;/code&gt;.&lt;/p&gt;
 
 &lt;h2 id=&quot;installing-assets&quot;&gt;Installing assets&lt;/h2&gt;
 
@@ -67,9 +200,9 @@ wget https://github.com/jgthms/bulma/archive/0.9.0.tar.gz
 &lt;span class=&quot;nb&quot;&gt;tar &lt;/span&gt;xzf 0.9.0.tar.gz
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h3 id=&quot;move-the-sass-to-appassetsvendorbulma-090&quot;&gt;Move the sass to &lt;code class=&quot;highlighter-rouge&quot;&gt;app/assets/vendor/bulma-0.9.0&lt;/code&gt;&lt;/h3&gt;
+&lt;h3 id=&quot;move-the-sass-to-appassetsvendorbulma-090&quot;&gt;Move the sass to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;app/assets/vendor/bulma-0.9.0&lt;/code&gt;&lt;/h3&gt;
 
-&lt;p&gt;Assuming your project lives in &lt;code class=&quot;highlighter-rouge&quot;&gt;/home/projects/project&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Assuming your project lives in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/home/projects/project&lt;/code&gt;.&lt;/p&gt;
 
 &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;BULMA_VENDOR_ASSET_DIR&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/home/projects/project/app/assets/vendor/bulma-0.9.0
 &lt;span class=&quot;nb&quot;&gt;mkdir&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$BULMA_VENDOR_ASSET_DIR&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
@@ -97,8 +230,8 @@ wget https://github.com/jgthms/bulma/archive/0.9.0.tar.gz
 
 </description>
         <pubDate>Wed, 17 Jun 2020 13:01:25 +0200</pubDate>
-        <link>http://yourdomain.com/rails/assets/2020/06/17/rails-assets.html</link>
-        <guid isPermaLink="true">http://yourdomain.com/rails/assets/2020/06/17/rails-assets.html</guid>
+        <link>/rails/assets/2020/06/17/rails-assets.html</link>
+        <guid isPermaLink="true">/rails/assets/2020/06/17/rails-assets.html</guid>
         
         <category>rails</category>
         
@@ -150,7 +283,7 @@ application. It looks like a pretty big thing.&lt;/p&gt;
 &lt;h2 id=&quot;step-one-bring-up-the-framework&quot;&gt;Step one: Bring up the framework&lt;/h2&gt;
 
 &lt;p&gt;For playing around we want a solidus shop with the whole shebang, thus instead
-of requiring only the frontend, backend or other parts, we grab the &lt;code class=&quot;highlighter-rouge&quot;&gt;solidus&lt;/code&gt;
+of requiring only the frontend, backend or other parts, we grab the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;solidus&lt;/code&gt;
 dependency, which will pull in all the other stuff.&lt;/p&gt;
 
 &lt;p&gt;We will basically follow the &lt;a href=&quot;https://github.com/solidusio/solidus/&quot;&gt;solidus README&lt;/a&gt;.&lt;/p&gt;
@@ -206,11 +339,11 @@ Adress Form&lt;/p&gt;
 
 &lt;p&gt;However, I had to figure out how to apply this monkey patch. After some
 &lt;a href=&quot;https://github.com/solidusio/solidus/issues/3651&quot;&gt;professional help&lt;/a&gt; I figured
-that the file needs to end on &lt;code class=&quot;highlighter-rouge&quot;&gt;_decorator.rb&lt;/code&gt; (rtfm) to be auto-required.&lt;/p&gt;
+that the file needs to end on &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_decorator.rb&lt;/code&gt; (rtfm) to be auto-required.&lt;/p&gt;
 
 &lt;p&gt;So, add a file:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# app/models/spree/address/optional_phone_decorator.rb
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# app/models/spree/address/optional_phone_decorator.rb
 module Spree::Address::OptionalPhoneDecorator                                    
   def require_phone?                                                             
     false                                                                        
@@ -228,11 +361,11 @@ on server restart).&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;We want to make the last name field in addresses mandatory.&lt;/em&gt;&lt;/p&gt;
 
-&lt;p&gt;Apparently, in version 3.0, solidus will replace &lt;code class=&quot;highlighter-rouge&quot;&gt;firstname&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;lastname&lt;/code&gt; of
+&lt;p&gt;Apparently, in version 3.0, solidus will replace &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;firstname&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;lastname&lt;/code&gt; of
 addresses by a single name field, but the current (2.10) backend and frontend
 still use both attributes.&lt;/p&gt;
 
-&lt;p&gt;For whatever reason, only &lt;code class=&quot;highlighter-rouge&quot;&gt;firstname&lt;/code&gt; is a required attribute - in order to
+&lt;p&gt;For whatever reason, only &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;firstname&lt;/code&gt; is a required attribute - in order to
 identify users/addresses and make a valid “contract” (bill) with them we need
 both, though. At least I believe that it works like that in the EU.&lt;/p&gt;
 
@@ -275,8 +408,8 @@ pre-arranged).&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;We want that the default customers billing and shipping address is within
 Germany.&lt;/em&gt;&lt;/p&gt;
 
-&lt;p&gt;The form will default to &lt;code class=&quot;highlighter-rouge&quot;&gt;Spree::Country.default&lt;/code&gt;, which we can
-influence by modifying &lt;code class=&quot;highlighter-rouge&quot;&gt;config/initializers/spree.rb&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;The form will default to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Spree::Country.default&lt;/code&gt;, which we can
+influence by modifying &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;config/initializers/spree.rb&lt;/code&gt;&lt;/p&gt;
 
 &lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# config/initializers/spree.rb add&lt;/span&gt;
 
@@ -286,7 +419,7 @@ influence by modifying &lt;code class=&quot;highlighter-rouge&quot;&gt;config/in
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;In case you need a different iso code, refer to the docs or look what is already
-seeded: &lt;code class=&quot;highlighter-rouge&quot;&gt;rails r 'p Spree::Country.all.to_a'&lt;/code&gt;.&lt;/p&gt;
+seeded: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;rails r 'p Spree::Country.all.to_a'&lt;/code&gt;.&lt;/p&gt;
 
 &lt;h3 id=&quot;exclude-customers&quot;&gt;Exclude customers&lt;/h3&gt;
 
@@ -306,9 +439,9 @@ shipping and billing address.&lt;/p&gt;
 &lt;p&gt;Now, either create a new zone that includes just the countries that are fitting
 your business needs and possibilities, or modify the example one (“EU_VAT”).&lt;/p&gt;
 
-&lt;p&gt;Afterwards, set the &lt;code class=&quot;highlighter-rouge&quot;&gt;checkout_zone&lt;/code&gt; in &lt;code class=&quot;highlighter-rouge&quot;&gt;config/initializers/spree.rb&lt;/code&gt;:&lt;/p&gt;
+&lt;p&gt;Afterwards, set the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;checkout_zone&lt;/code&gt; in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;config/initializers/spree.rb&lt;/code&gt;:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# config/initializers/spree.rb
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# config/initializers/spree.rb
 
   #...
   config.checkout_zone = 'EU_VAT' # referenced by zone name
@@ -341,8 +474,8 @@ for that.&lt;/p&gt;
 
 </description>
         <pubDate>Wed, 03 Jun 2020 08:03:20 +0200</pubDate>
-        <link>http://yourdomain.com/solidus/2020/06/03/solidus-i.html</link>
-        <guid isPermaLink="true">http://yourdomain.com/solidus/2020/06/03/solidus-i.html</guid>
+        <link>/solidus/2020/06/03/solidus-i.html</link>
+        <guid isPermaLink="true">/solidus/2020/06/03/solidus-i.html</guid>
         
         <category>solidus</category>
         
@@ -389,7 +522,7 @@ for that.&lt;/p&gt;
 
 &lt;h2 id=&quot;step-one-create-the-vm&quot;&gt;Step one: create the VM&lt;/h2&gt;
 
-&lt;p&gt;Instead of spoiling my main system with other package installations, configurations and tasks, I will create a virtual machine running ubuntu to be my docker/dokku host.  I will call that machine &lt;code class=&quot;highlighter-rouge&quot;&gt;vlaada&lt;/code&gt; and it will be a minimal Ubuntu 14.04 (trusty) system.  To be on the safe side, I will not create the VM by hand and will not use any heavy machinery like puppet or chef, but use &lt;code class=&quot;highlighter-rouge&quot;&gt;vmbuilder&lt;/code&gt; (&lt;code class=&quot;highlighter-rouge&quot;&gt;apt-get install python-vm-builder&lt;/code&gt;).  Note that while I use kvm and libvirt here you can use other hypervisors.&lt;/p&gt;
+&lt;p&gt;Instead of spoiling my main system with other package installations, configurations and tasks, I will create a virtual machine running ubuntu to be my docker/dokku host.  I will call that machine &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;vlaada&lt;/code&gt; and it will be a minimal Ubuntu 14.04 (trusty) system.  To be on the safe side, I will not create the VM by hand and will not use any heavy machinery like puppet or chef, but use &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;vmbuilder&lt;/code&gt; (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;apt-get install python-vm-builder&lt;/code&gt;).  Note that while I use kvm and libvirt here you can use other hypervisors.&lt;/p&gt;
 
 &lt;p&gt;To ease creation of the VM, I put the somewhat long commands in &lt;a href=&quot;https://github.com/fwolfst/scripts/master/setup_dokku_vm&quot;&gt;(ba)sh scripts&lt;/a&gt;:&lt;/p&gt;
 
@@ -437,15 +570,15 @@ for that.&lt;/p&gt;
 &lt;p&gt;Some options require special attention:&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;addpkg linux-image-generic&lt;/code&gt;: vmbuilder (?) bug workaround (you might not need it)&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;addpkg acpid&lt;/code&gt;: allows us to shut the machine down cleanly without logging in&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;addpkg apparmor&lt;/code&gt;: another workaround, otherwise docker/dokku won’t play nice with us (again, ymmv)&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;addpkg postgresql-client&lt;/code&gt;: will need this later to make postgresql database dumps, the dokku postgresql plugin &lt;a href=&quot;https://github.com/Kloadut/dokku-pg-plugin/issues/71&quot;&gt;won’t install this package for us&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;user&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;ssh-user-key&lt;/code&gt;: locks the machine down (a bit), use the public key with which you want to log into the system later&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;--execscript ...&lt;/code&gt;: assemble path to the &lt;code class=&quot;highlighter-rouge&quot;&gt;post_setup&lt;/code&gt; script (see below); it is executed at the end of the build process&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;addpkg linux-image-generic&lt;/code&gt;: vmbuilder (?) bug workaround (you might not need it)&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;addpkg acpid&lt;/code&gt;: allows us to shut the machine down cleanly without logging in&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;addpkg apparmor&lt;/code&gt;: another workaround, otherwise docker/dokku won’t play nice with us (again, ymmv)&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;addpkg postgresql-client&lt;/code&gt;: will need this later to make postgresql database dumps, the dokku postgresql plugin &lt;a href=&quot;https://github.com/Kloadut/dokku-pg-plugin/issues/71&quot;&gt;won’t install this package for us&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;user&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh-user-key&lt;/code&gt;: locks the machine down (a bit), use the public key with which you want to log into the system later&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;--execscript ...&lt;/code&gt;: assemble path to the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;post_setup&lt;/code&gt; script (see below); it is executed at the end of the build process&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;The content of &lt;code class=&quot;highlighter-rouge&quot;&gt;post-setup&lt;/code&gt;-script:&lt;/p&gt;
+&lt;p&gt;The content of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;post-setup&lt;/code&gt;-script:&lt;/p&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
 
@@ -468,28 +601,28 @@ wget https://raw.githubusercontent.com/dokku/dokku/v0.5.4/bootstrap.sh
 
 &lt;p&gt;If that last part looks scary to you, it is.  It basically allows the dokku and dokkulord users to sudo without password.&lt;/p&gt;
 
-&lt;p&gt;Now, calling &lt;code class=&quot;highlighter-rouge&quot;&gt;setup_dokku_vm vlaada&lt;/code&gt; will create and register a virtual machine.&lt;/p&gt;
+&lt;p&gt;Now, calling &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;setup_dokku_vm vlaada&lt;/code&gt; will create and register a virtual machine.&lt;/p&gt;
 
 &lt;p&gt;On my favorite machine, this vm-creation-process takes around 20 minutes.&lt;/p&gt;
 
-&lt;p&gt;If you are impatient and want to see some white letters run over your black screen, the command above will tell you where to &lt;code class=&quot;highlighter-rouge&quot;&gt;sudo tail -f &lt;/code&gt; to to see what is happening (&lt;code class=&quot;highlighter-rouge&quot;&gt; .... logging to file: /tmp/tmpXXXXYYYZZZ&lt;/code&gt;).  On inspection you will see that no magic happens.&lt;/p&gt;
+&lt;p&gt;If you are impatient and want to see some white letters run over your black screen, the command above will tell you where to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sudo tail -f &lt;/code&gt; to to see what is happening (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt; .... logging to file: /tmp/tmpXXXXYYYZZZ&lt;/code&gt;).  On inspection you will see that no magic happens.&lt;/p&gt;
 
-&lt;p&gt;If you use &lt;code class=&quot;highlighter-rouge&quot;&gt;virt-manager&lt;/code&gt; you can now easily connect to the VM host and see that &lt;code class=&quot;highlighter-rouge&quot;&gt;vlaada&lt;/code&gt; has been created and registered.  It’s ready to start!
-Now might be a good time to clone this machine, e.g. using &lt;code class=&quot;highlighter-rouge&quot;&gt;virt-clone --auto-clone -o vlaada --prompt&lt;/code&gt; (&lt;code class=&quot;highlighter-rouge&quot;&gt;apt-get install virtinst&lt;/code&gt; to get &lt;code class=&quot;highlighter-rouge&quot;&gt;virt-clone&lt;/code&gt;, this only applies to the libvirt setting I use).&lt;/p&gt;
+&lt;p&gt;If you use &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;virt-manager&lt;/code&gt; you can now easily connect to the VM host and see that &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;vlaada&lt;/code&gt; has been created and registered.  It’s ready to start!
+Now might be a good time to clone this machine, e.g. using &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;virt-clone --auto-clone -o vlaada --prompt&lt;/code&gt; (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;apt-get install virtinst&lt;/code&gt; to get &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;virt-clone&lt;/code&gt;, this only applies to the libvirt setting I use).&lt;/p&gt;
 
 &lt;h3 id=&quot;install-dokku&quot;&gt;Install dokku&lt;/h3&gt;
 
-&lt;p&gt;This already happened in the &lt;code class=&quot;highlighter-rouge&quot;&gt;post_setup&lt;/code&gt; script!&lt;/p&gt;
+&lt;p&gt;This already happened in the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;post_setup&lt;/code&gt; script!&lt;/p&gt;
 
 &lt;h3 id=&quot;login-via-ssh&quot;&gt;Login via ssh&lt;/h3&gt;
 
-&lt;p&gt;As your key is already registered you can now login to the machine via ssh (you can also connect with &lt;code class=&quot;highlighter-rouge&quot;&gt;virt-manager&lt;/code&gt; if you want - even remotely!).&lt;/p&gt;
+&lt;p&gt;As your key is already registered you can now login to the machine via ssh (you can also connect with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;virt-manager&lt;/code&gt; if you want - even remotely!).&lt;/p&gt;
 
 &lt;p&gt;Make your ssh-keys known or passed around where necessary.&lt;/p&gt;
 
-&lt;p&gt;To find the IP of your virtual machine (if its dhcped like in my setup) you can look at the current dhcp-leases with &lt;code class=&quot;highlighter-rouge&quot;&gt;cat /var/lib/libvirt/dnsmasq/default.leases&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;To find the IP of your virtual machine (if its dhcped like in my setup) you can look at the current dhcp-leases with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cat /var/lib/libvirt/dnsmasq/default.leases&lt;/code&gt;.&lt;/p&gt;
 
-&lt;p&gt;Assuming the IP is &lt;code class=&quot;highlighter-rouge&quot;&gt;192.168.122.177&lt;/code&gt; you &lt;code class=&quot;highlighter-rouge&quot;&gt;ssh dokkulord@192.168.122.177&lt;/code&gt; into the machine to administrative tasks and &lt;code class=&quot;highlighter-rouge&quot;&gt;ssh dokku@192.168.122.177&lt;/code&gt; to run dokku commands.&lt;/p&gt;
+&lt;p&gt;Assuming the IP is &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;192.168.122.177&lt;/code&gt; you &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh dokkulord@192.168.122.177&lt;/code&gt; into the machine to administrative tasks and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh dokku@192.168.122.177&lt;/code&gt; to run dokku commands.&lt;/p&gt;
 
 &lt;p&gt;Everything works?  Great, lets make this fun possible at home!&lt;/p&gt;
 
@@ -497,7 +630,7 @@ Now might be a good time to clone this machine, e.g. using &lt;code class=&quot;
 
 &lt;p&gt;vlaada (the dokku VM) lives on a server in the wild and it shall not be accessible from outside (except for ports 80 and 443).  To access it, I will dig an ssh tunnel through the server.&lt;/p&gt;
 
-&lt;p&gt;In my &lt;code class=&quot;highlighter-rouge&quot;&gt;~/.ssh/config&lt;/code&gt; I put&lt;/p&gt;
+&lt;p&gt;In my &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;~/.ssh/config&lt;/code&gt; I put&lt;/p&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;# ~/.ssh/config&lt;/span&gt;
 vlaada-tunnel
@@ -513,7 +646,7 @@ dokku-vlaada
   Host localhost
   Port 7722&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
-&lt;p&gt;Calling &lt;code class=&quot;highlighter-rouge&quot;&gt;ssh vlaada-tunnel&lt;/code&gt; makes connections to the localhosts port 7722 end up at port 22 on the VM that we have set up (here, referenced by its IP &lt;code class=&quot;highlighter-rouge&quot;&gt;192.168.122.177&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;Calling &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh vlaada-tunnel&lt;/code&gt; makes connections to the localhosts port 7722 end up at port 22 on the VM that we have set up (here, referenced by its IP &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;192.168.122.177&lt;/code&gt;).&lt;/p&gt;
 
 &lt;p&gt;I also add an host entry&lt;/p&gt;
 
@@ -522,23 +655,23 @@ dokku-vlaada
 
 &lt;h3 id=&quot;test-that&quot;&gt;Test that&lt;/h3&gt;
 
-&lt;p&gt;Now after digging the tunnel (&lt;code class=&quot;highlighter-rouge&quot;&gt;ssh vlaada-tunnel&lt;/code&gt;) I am able to &lt;code class=&quot;highlighter-rouge&quot;&gt;ssh vlaada&lt;/code&gt; into the dokku machine, which is somewhere out there, hidden in the wild.  Cool.&lt;/p&gt;
+&lt;p&gt;Now after digging the tunnel (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh vlaada-tunnel&lt;/code&gt;) I am able to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh vlaada&lt;/code&gt; into the dokku machine, which is somewhere out there, hidden in the wild.  Cool.&lt;/p&gt;
 
-&lt;p&gt;Given that I authorized my key to perform dokku stuff &lt;code class=&quot;highlighter-rouge&quot;&gt;ssh dokku-vlaada&lt;/code&gt; will run dokku commands on vlaada.&lt;/p&gt;
+&lt;p&gt;Given that I authorized my key to perform dokku stuff &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh dokku-vlaada&lt;/code&gt; will run dokku commands on vlaada.&lt;/p&gt;
 
-&lt;p&gt;You can configure dokku by digging a tunnel to port 80 (&lt;code class=&quot;highlighter-rouge&quot;&gt;ssh -L 8099:192.168.122.177:80 myhost&lt;/code&gt;) and visiting it (&lt;code class=&quot;highlighter-rouge&quot;&gt;http://localhost:8099&lt;/code&gt; in that example) with a webbrowser.  This will especially set the &lt;code class=&quot;highlighter-rouge&quot;&gt;/home/dokku/VHOST&lt;/code&gt; file content if using vhosts (which I do).&lt;/p&gt;
+&lt;p&gt;You can configure dokku by digging a tunnel to port 80 (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh -L 8099:192.168.122.177:80 myhost&lt;/code&gt;) and visiting it (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;http://localhost:8099&lt;/code&gt; in that example) with a webbrowser.  This will especially set the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/home/dokku/VHOST&lt;/code&gt; file content if using vhosts (which I do).&lt;/p&gt;
 
 &lt;h3 id=&quot;create-an-alias&quot;&gt;Create an alias&lt;/h3&gt;
 
 &lt;p&gt;Now you can create an [alias (with nalias)][alias] to run dokku commands:&lt;/p&gt;
 
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;alias dokku-vlaada='ssh dokku@vlaada'&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;alias dokku-vlaada='ssh dokku@vlaada'&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;Alternatively in following examples you can run dokku as dokkulord from 192.168.122.177 yourself (&lt;code class=&quot;highlighter-rouge&quot;&gt;sudo dokku &amp;lt;command&amp;gt;&lt;/code&gt;) or “spell it out” &lt;code class=&quot;highlighter-rouge&quot;&gt;ssh dokku@vlaada &amp;lt;command&amp;gt;&lt;/code&gt;.  For the latter (and the alias) the tunnel has to be dug first.&lt;/p&gt;
+&lt;p&gt;Alternatively in following examples you can run dokku as dokkulord from 192.168.122.177 yourself (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sudo dokku &amp;lt;command&amp;gt;&lt;/code&gt;) or “spell it out” &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh dokku@vlaada &amp;lt;command&amp;gt;&lt;/code&gt;.  For the latter (and the alias) the tunnel has to be dug first.&lt;/p&gt;
 
 &lt;h2 id=&quot;configure-https-forwardingnat&quot;&gt;Configure http(s) forwarding/NAT&lt;/h2&gt;
 
-&lt;p&gt;To expose port 80 and port 443 of your virtual machine to the internets you want to NAt these ports (e.g. using &lt;code class=&quot;highlighter-rouge&quot;&gt;iptables&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;To expose port 80 and port 443 of your virtual machine to the internets you want to NAt these ports (e.g. using &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;iptables&lt;/code&gt;).&lt;/p&gt;
 
 &lt;h3 id=&quot;integration-test-this&quot;&gt;“Integration”-Test this&lt;/h3&gt;
 
@@ -550,46 +683,46 @@ dokku-vlaada
 &lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git remote add dokku dokku@vlaada:ruby-sample
 &lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git push dokku master&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
-&lt;p&gt;Afterward just a few minutes, &lt;code class=&quot;highlighter-rouge&quot;&gt;ruby-sample.myhost&lt;/code&gt; should be available (watch STDOUT).  Brilliant!&lt;/p&gt;
+&lt;p&gt;Afterward just a few minutes, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ruby-sample.myhost&lt;/code&gt; should be available (watch STDOUT).  Brilliant!&lt;/p&gt;
 
 &lt;h2 id=&quot;install-postgres-plugin&quot;&gt;Install postgres plugin&lt;/h2&gt;
 
 &lt;p&gt;SQLite databases won’t work out of the box, so pick an app which uses postgresql in production configuration and install the postgres plugin (you only have to do this once):&lt;/p&gt;
 
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dokku-vlaada plugin:install https://github.com/dokku/dokku-postgres.git&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dokku-vlaada plugin:install https://github.com/dokku/dokku-postgres.git&lt;/code&gt;&lt;/p&gt;
 
 &lt;h1 id=&quot;create-a-postgresql-database&quot;&gt;Create a postgresql database&lt;/h1&gt;
 
-&lt;p&gt;I use &lt;code class=&quot;highlighter-rouge&quot;&gt;db.&amp;lt;appname&amp;gt;&lt;/code&gt; as a name for the database.&lt;/p&gt;
+&lt;p&gt;I use &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;db.&amp;lt;appname&amp;gt;&lt;/code&gt; as a name for the database.&lt;/p&gt;
 
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dokku-vlaada postgres:create db.myapp&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dokku-vlaada postgres:create db.myapp&lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;Create the app&lt;/p&gt;
 
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dokku-vlaada apps:create myapp&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dokku-vlaada apps:create myapp&lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;And link it&lt;/p&gt;
 
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dokku-vlaada postgres:link db.myapp myapp&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dokku-vlaada postgres:link db.myapp myapp&lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;Now add the remote to your rails app, e.g.
-&lt;code class=&quot;highlighter-rouge&quot;&gt;git remote add dokku dokku@vlaada:myapp&lt;/code&gt; .&lt;/p&gt;
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git remote add dokku dokku@vlaada:myapp&lt;/code&gt; .&lt;/p&gt;
 
 &lt;p&gt;And push it&lt;/p&gt;
 
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;git push dokku master&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git push dokku master&lt;/code&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;setup-db-run-the-migrations&quot;&gt;Setup DB, run the migrations&lt;/h2&gt;
 
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dokku-vlaada run myapp rake db:setup&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dokku-vlaada run myapp rake db:setup&lt;/code&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;backup-your-database&quot;&gt;Backup your database&lt;/h2&gt;
 
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dokku-vlaada postgres:export db.myapp &amp;gt; myapp.db.pgdump&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dokku-vlaada postgres:export db.myapp &amp;gt; myapp.db.pgdump&lt;/code&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;add-some-storage&quot;&gt;Add some storage&lt;/h2&gt;
 
-&lt;p&gt;If your app handles file uploads or &lt;em&gt;any other data that should be persisted&lt;/em&gt; you will be happy to use the &lt;code class=&quot;highlighter-rouge&quot;&gt;storage plugin&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;If your app handles file uploads or &lt;em&gt;any other data that should be persisted&lt;/em&gt; you will be happy to use the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;storage plugin&lt;/code&gt;.&lt;/p&gt;
 
 &lt;h2 id=&quot;let-us-encrypt&quot;&gt;Let us encrypt&lt;/h2&gt;
 
@@ -597,7 +730,7 @@ dokku-vlaada
 
 &lt;p&gt;Enter the awesomeness by installing the plugin&lt;/p&gt;
 
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dokku-vlaada plugin:install https://github.com/dokku/dokku-letsencrypt.git&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dokku-vlaada plugin:install https://github.com/dokku/dokku-letsencrypt.git&lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;That was simple.&lt;/p&gt;
 
@@ -609,13 +742,13 @@ dokku-vlaada letsencrypt myapp&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 &lt;p&gt;That was tough, but now you have deployed a valid, trusted certificate and configured your nginx to use it.  Please read the letsencrypt plugins README, as it also has some legal stuff on it.&lt;/p&gt;
 
 &lt;h3 id=&quot;notes&quot;&gt;Notes&lt;/h3&gt;
-&lt;p&gt;In the &lt;code class=&quot;highlighter-rouge&quot;&gt;vmbuilder&lt;/code&gt; step you might find following options helpful:&lt;/p&gt;
+&lt;p&gt;In the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;vmbuilder&lt;/code&gt; step you might find following options helpful:&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;--mirror http://your-apt-mirror-cache-or-proxy&lt;/code&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;--mirror http://your-apt-mirror-cache-or-proxy&lt;/code&gt;
 This might save you some time and network traffic.&lt;/li&gt;
   &lt;li&gt;You can checkout the scripts at http://github.com/fwolfst/scripts/setup_dokku_vm .&lt;/li&gt;
-  &lt;li&gt;To have the app logging to stdout and seeing the logs via &lt;code class=&quot;highlighter-rouge&quot;&gt;dokku logs myapp&lt;/code&gt; the easiest way is to include the &lt;code class=&quot;highlighter-rouge&quot;&gt;rails_12factor&lt;/code&gt; gem in your Gemfile.&lt;/li&gt;
+  &lt;li&gt;To have the app logging to stdout and seeing the logs via &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dokku logs myapp&lt;/code&gt; the easiest way is to include the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;rails_12factor&lt;/code&gt; gem in your Gemfile.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h4 id=&quot;having-a-better-idea&quot;&gt;Having a better idea?&lt;/h4&gt;
@@ -624,8 +757,8 @@ This might save you some time and network traffic.&lt;/li&gt;
 
 </description>
         <pubDate>Mon, 18 Apr 2016 19:01:25 +0200</pubDate>
-        <link>http://yourdomain.com/docker/dokku/dokku-alt/virtualization/2016/04/18/dokku-on-ubuntu-vm-complete-rails.html</link>
-        <guid isPermaLink="true">http://yourdomain.com/docker/dokku/dokku-alt/virtualization/2016/04/18/dokku-on-ubuntu-vm-complete-rails.html</guid>
+        <link>/docker/dokku/dokku-alt/virtualization/2016/04/18/dokku-on-ubuntu-vm-complete-rails.html</link>
+        <guid isPermaLink="true">/docker/dokku/dokku-alt/virtualization/2016/04/18/dokku-on-ubuntu-vm-complete-rails.html</guid>
         
         <category>docker</category>
         
@@ -672,7 +805,7 @@ This might save you some time and network traffic.&lt;/li&gt;
 
 &lt;p&gt;The Captive Portal intercepts any traffic for a not yet registered IP/MAC-Adress pair (clients come from the local network, so IP-Adresses can resolved to MAC-Adresses, although this can be tricked) and responds with a login page.&lt;/p&gt;
 
-&lt;p&gt;Users can either be defined with a local user manager, a RADIUS server &lt;del&gt;or an &lt;a href=&quot;https://redmine.pfsense.org/issues/5112&quot; title=&quot;Link to LDAP Authentication Captive Portal redmine issue for pfSense&quot;&gt;LDAP server&lt;/a&gt;&lt;/del&gt; (this is another story and worth another blog post).  Upon successfull login, the MAC/IP/username-triple will be saved in a SQLite-database, the user is redirected to the requested URL (&lt;code class=&quot;highlighter-rouge&quot;&gt;redirurl&lt;/code&gt;) and forthcoming traffic will be allowed.&lt;/p&gt;
+&lt;p&gt;Users can either be defined with a local user manager, a RADIUS server &lt;del&gt;or an &lt;a href=&quot;https://redmine.pfsense.org/issues/5112&quot; title=&quot;Link to LDAP Authentication Captive Portal redmine issue for pfSense&quot;&gt;LDAP server&lt;/a&gt;&lt;/del&gt; (this is another story and worth another blog post).  Upon successfull login, the MAC/IP/username-triple will be saved in a SQLite-database, the user is redirected to the requested URL (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;redirurl&lt;/code&gt;) and forthcoming traffic will be allowed.&lt;/p&gt;
 
 &lt;p&gt;The Captive Portal (with default settings) has a serious drawback: Only standard HTTP traffic can be intercepted, or more precisely: a redirect to the login page only works for HTTP-connections (for good reason).  In principle it is possible to use a certificate and intercept/redirect https-traffic, but you need a proper certificate if the users should not be scared away by a certificate warning.  &lt;em&gt;Note:&lt;/em&gt; Yes, allowing http logins is as good as no logins if you are talking real security.&lt;/p&gt;
 
@@ -682,7 +815,7 @@ This might save you some time and network traffic.&lt;/li&gt;
 
 &lt;h3 id=&quot;the-resulting-need-for-a-dedicated-login-page&quot;&gt;The resulting need for a dedicated login page&lt;/h3&gt;
 
-&lt;p&gt;One solution (besides many others) is to communicate a dedicated login page (e.g. https://intranet.intern), where after successfull login the Captive Portal redirects to a given page - the &lt;code class=&quot;highlighter-rouge&quot;&gt;redirurl&lt;/code&gt; is just a parameter to the login-page (&lt;code class=&quot;highlighter-rouge&quot;&gt;http://192.168.0.1:8002/?redirurl=http://github.com&lt;/code&gt; for example).&lt;/p&gt;
+&lt;p&gt;One solution (besides many others) is to communicate a dedicated login page (e.g. https://intranet.intern), where after successfull login the Captive Portal redirects to a given page - the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;redirurl&lt;/code&gt; is just a parameter to the login-page (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;http://192.168.0.1:8002/?redirurl=http://github.com&lt;/code&gt; for example).&lt;/p&gt;
 
 &lt;p&gt;But this would force users to generate traffic to an external page, so the better idea is to redirect the user to a dedicated internal portal-kind-of-page.&lt;/p&gt;
 
@@ -702,26 +835,26 @@ This might save you some time and network traffic.&lt;/li&gt;
   
        &lt;span class=&quot;c1&quot;&gt;// Get IP/MAC from request and arp.&lt;/span&gt;
        &lt;span class=&quot;nv&quot;&gt;$client_ip&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$_SERVER&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'REMOTE_ADDR'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
-       &lt;span class=&quot;nv&quot;&gt;$client_mac&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;pfSense_ip_to_mac&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$client_ip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'macaddr'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+       &lt;span class=&quot;nv&quot;&gt;$client_mac&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;pfSense_ip_to_mac&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$client_ip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'macaddr'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
   
        &lt;span class=&quot;c1&quot;&gt;// Get username from CP db.&lt;/span&gt;
-       &lt;span class=&quot;nv&quot;&gt;$db&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;captiveportal_opendb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+       &lt;span class=&quot;nv&quot;&gt;$db&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;captiveportal_opendb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$db&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$client_ip&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$client_mac&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-         &lt;span class=&quot;nv&quot;&gt;$username_query&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;SELECT username FROM captiveportal &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;
+         &lt;span class=&quot;nv&quot;&gt;$username_query&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;SELECT username FROM captiveportal &quot;&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;.&lt;/span&gt;
                            &lt;span class=&quot;s2&quot;&gt;&quot; WHERE mac='&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$client_mac&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;' AND ip='&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$client_ip&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;';&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-         &lt;span class=&quot;nv&quot;&gt;$response&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$db&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;query&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$username_query&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+         &lt;span class=&quot;nv&quot;&gt;$response&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$db&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;query&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$username_query&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
          &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$response&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;FALSE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-           &lt;span class=&quot;nv&quot;&gt;$username&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$response&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;fetchArray&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+           &lt;span class=&quot;nv&quot;&gt;$username&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$response&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;fetchArray&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
          &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
          &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
            &lt;span class=&quot;c1&quot;&gt;// Not logged in&lt;/span&gt;
          &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-         &lt;span class=&quot;nv&quot;&gt;$db&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;close&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+         &lt;span class=&quot;nv&quot;&gt;$db&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;close&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
        &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
          &lt;span class=&quot;k&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;No Database connection or invalid request!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
          &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$db&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-           &lt;span class=&quot;nv&quot;&gt;$db&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;close&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+           &lt;span class=&quot;nv&quot;&gt;$db&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;close&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
          &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
          &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
@@ -762,11 +895,11 @@ This might save you some time and network traffic.&lt;/li&gt;
 
 &lt;p&gt;The default “solution” of pfSenses Captive Portal is to javascript-wise open a popup-window with a button to log out.  What I did not yet mention is that actually, not only username, IP- and MAC addresses of clients are stored, besides other things that happen, a session(id) is created on successfull authentication against the CP.  For security reasons the client can only log out by giving a session-id.  As in our http-case all traffic can possibly be listened to anyway, the sessionid does not provide much additional security (against ip/mac faking), so we can as well use the information gathered above to log the user out.&lt;/p&gt;
 
-&lt;p&gt;Therefore, we make the “login” page (&lt;code class=&quot;highlighter-rouge&quot;&gt;192.168.0.1:8002&lt;/code&gt;) behave differently if requested as &lt;code class=&quot;highlighter-rouge&quot;&gt;192.168.0.1:8002/logout&lt;/code&gt;.  In that case, the IP/MAC and username info is gathered (see above) and the respective session deleted from the database.  All that is missing now is a ‘page’ or ‘path’ to request that /logout-URL.&lt;/p&gt;
+&lt;p&gt;Therefore, we make the “login” page (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;192.168.0.1:8002&lt;/code&gt;) behave differently if requested as &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;192.168.0.1:8002/logout&lt;/code&gt;.  In that case, the IP/MAC and username info is gathered (see above) and the respective session deleted from the database.  All that is missing now is a ‘page’ or ‘path’ to request that /logout-URL.&lt;/p&gt;
 
-&lt;p&gt;As the default captive portal logout action requires the session id (and passes it to the function &lt;code class=&quot;highlighter-rouge&quot;&gt;captiveportal_disconnect_client&lt;/code&gt; in &lt;code class=&quot;highlighter-rouge&quot;&gt;/etc/inc/captiveportal.inc&lt;/code&gt;), we will also use that function instead of taking care of RADIUS-server notification, firewall-rule-modification etc. ourselves.&lt;/p&gt;
+&lt;p&gt;As the default captive portal logout action requires the session id (and passes it to the function &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;captiveportal_disconnect_client&lt;/code&gt; in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/etc/inc/captiveportal.inc&lt;/code&gt;), we will also use that function instead of taking care of RADIUS-server notification, firewall-rule-modification etc. ourselves.&lt;/p&gt;
 
-&lt;p&gt;To make the code paths and changes read easy, in this example I will &lt;strong&gt;query the database again&lt;/strong&gt; to access the sessionId and call the internal &lt;code class=&quot;highlighter-rouge&quot;&gt;captiveportal_disconnect_client&lt;/code&gt; function. I extracted some code into functions to further improve readability.&lt;/p&gt;
+&lt;p&gt;To make the code paths and changes read easy, in this example I will &lt;strong&gt;query the database again&lt;/strong&gt; to access the sessionId and call the internal &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;captiveportal_disconnect_client&lt;/code&gt; function. I extracted some code into functions to further improve readability.&lt;/p&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-php&quot; data-lang=&quot;php&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;html&amp;gt;&lt;/span&gt;
   &lt;span class=&quot;nt&quot;&gt;&amp;lt;body&amp;gt;&lt;/span&gt;
@@ -776,25 +909,25 @@ This might save you some time and network traffic.&lt;/li&gt;
 
        &lt;span class=&quot;c1&quot;&gt;// Get IP/MAC from request and arp.&lt;/span&gt;
        &lt;span class=&quot;nv&quot;&gt;$client_ip&lt;/span&gt;  &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$_SERVER&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'REMOTE_ADDR'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
-       &lt;span class=&quot;nv&quot;&gt;$client_mac&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;pfSense_ip_to_mac&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$client_ip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'macaddr'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+       &lt;span class=&quot;nv&quot;&gt;$client_mac&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;pfSense_ip_to_mac&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$client_ip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'macaddr'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
 
-       &lt;span class=&quot;k&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;captiveportal_get_logged_in_username&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$ip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$mac&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+       &lt;span class=&quot;k&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;captiveportal_get_logged_in_username&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$ip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$mac&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
          &lt;span class=&quot;nv&quot;&gt;$username&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
          &lt;span class=&quot;c1&quot;&gt;// Get username from CP db.&lt;/span&gt;
-         &lt;span class=&quot;nv&quot;&gt;$db&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;captiveportal_opendb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+         &lt;span class=&quot;nv&quot;&gt;$db&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;captiveportal_opendb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
          &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$db&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-           &lt;span class=&quot;nv&quot;&gt;$ip&lt;/span&gt;  &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;SQLite3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;escapeString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$ip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-           &lt;span class=&quot;nv&quot;&gt;$mac&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;SQLite3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;escapeString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$mac&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-           &lt;span class=&quot;nv&quot;&gt;$username_query&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;SELECT username FROM captiveportal &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;
+           &lt;span class=&quot;nv&quot;&gt;$ip&lt;/span&gt;  &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;SQLite3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;escapeString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$ip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+           &lt;span class=&quot;nv&quot;&gt;$mac&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;SQLite3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;escapeString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$mac&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+           &lt;span class=&quot;nv&quot;&gt;$username_query&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;SELECT username FROM captiveportal &quot;&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;.&lt;/span&gt;
                              &lt;span class=&quot;s2&quot;&gt;&quot; WHERE ip='&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$ip&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;' AND mac='&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$mac&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;';&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-           &lt;span class=&quot;nv&quot;&gt;$response&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$db&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;query&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$username_query&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+           &lt;span class=&quot;nv&quot;&gt;$response&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$db&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;query&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$username_query&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$response&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;FALSE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-             &lt;span class=&quot;nv&quot;&gt;$username&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$response&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;fetchArray&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+             &lt;span class=&quot;nv&quot;&gt;$username&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$response&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;fetchArray&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
            &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
            &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
              &lt;span class=&quot;c1&quot;&gt;// Not logged in&lt;/span&gt;
            &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-           &lt;span class=&quot;nv&quot;&gt;$db&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;close&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+           &lt;span class=&quot;nv&quot;&gt;$db&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;close&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
          &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
          &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
            &lt;span class=&quot;k&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;No Database connection!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
@@ -802,23 +935,23 @@ This might save you some time and network traffic.&lt;/li&gt;
          &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$username&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
       &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 
-      &lt;span class=&quot;k&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;captiveportal_get_sessionid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$ip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$mac&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;captiveportal_get_sessionid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$ip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$mac&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
          &lt;span class=&quot;nv&quot;&gt;$sessionid&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
          &lt;span class=&quot;c1&quot;&gt;// Get sessionid from CP db.&lt;/span&gt;
-         &lt;span class=&quot;nv&quot;&gt;$db&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;captiveportal_opendb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+         &lt;span class=&quot;nv&quot;&gt;$db&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;captiveportal_opendb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
          &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$db&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-           &lt;span class=&quot;nv&quot;&gt;$ip&lt;/span&gt;  &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;SQLite3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;escapeString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$ip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-           &lt;span class=&quot;nv&quot;&gt;$mac&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;SQLite3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;escapeString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$mac&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-           &lt;span class=&quot;nv&quot;&gt;$sessionid_query&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;SELECT sessionid FROM captiveportal &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;
+           &lt;span class=&quot;nv&quot;&gt;$ip&lt;/span&gt;  &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;SQLite3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;escapeString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$ip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+           &lt;span class=&quot;nv&quot;&gt;$mac&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;SQLite3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;escapeString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$mac&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+           &lt;span class=&quot;nv&quot;&gt;$sessionid_query&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;SELECT sessionid FROM captiveportal &quot;&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;.&lt;/span&gt;
                               &lt;span class=&quot;s2&quot;&gt;&quot; WHERE ip='&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$ip&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;' AND mac='&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$mac&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;';&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-           &lt;span class=&quot;nv&quot;&gt;$response&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$db&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;query&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$sessionid_query&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+           &lt;span class=&quot;nv&quot;&gt;$response&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$db&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;query&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$sessionid_query&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$response&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;FALSE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-             &lt;span class=&quot;nv&quot;&gt;$sessionid&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$response&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;fetchArray&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+             &lt;span class=&quot;nv&quot;&gt;$sessionid&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$response&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;fetchArray&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
            &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
            &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
              &lt;span class=&quot;c1&quot;&gt;// Not logged in&lt;/span&gt;
            &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-           &lt;span class=&quot;nv&quot;&gt;$db&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;close&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+           &lt;span class=&quot;nv&quot;&gt;$db&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;close&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
          &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
          &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
            &lt;span class=&quot;k&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;No Database connection!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
@@ -826,12 +959,12 @@ This might save you some time and network traffic.&lt;/li&gt;
          &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$sessionid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
       &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 
-      &lt;span class=&quot;nv&quot;&gt;$username&lt;/span&gt;  &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;captiveportal_get_logged_in_username&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$client_ip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$client_mac&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-      &lt;span class=&quot;nv&quot;&gt;$sessionid&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;captiveportal_get_sessionid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$client_ip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$client_mac&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+      &lt;span class=&quot;nv&quot;&gt;$username&lt;/span&gt;  &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;captiveportal_get_logged_in_username&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$client_ip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$client_mac&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+      &lt;span class=&quot;nv&quot;&gt;$sessionid&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;captiveportal_get_sessionid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$client_ip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$client_mac&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
     &lt;span class=&quot;cp&quot;&gt;?&amp;gt;&lt;/span&gt;
     &lt;span class=&quot;cp&quot;&gt;&amp;lt;?php&lt;/span&gt;
       &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$sessionid&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$_SERVER&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'REQUEST_URI'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'/logout'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;nx&quot;&gt;captiveportal_disconnect_client&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$sessionid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;nf&quot;&gt;captiveportal_disconnect_client&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$sessionid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
     &lt;span class=&quot;cp&quot;&gt;?&amp;gt;&lt;/span&gt;
       Logged out.
     &lt;span class=&quot;cp&quot;&gt;&amp;lt;?php&lt;/span&gt;
@@ -902,8 +1035,8 @@ This might save you some time and network traffic.&lt;/li&gt;
 &lt;p&gt;Awesome!  Get in contact with me!&lt;/p&gt;
 </description>
         <pubDate>Thu, 03 Dec 2015 10:09:09 +0100</pubDate>
-        <link>http://yourdomain.com/portal,/pfsense,/intranet/2015/12/03/pfsense-intranet-portal.html</link>
-        <guid isPermaLink="true">http://yourdomain.com/portal,/pfsense,/intranet/2015/12/03/pfsense-intranet-portal.html</guid>
+        <link>/portal,/pfsense,/intranet/2015/12/03/pfsense-intranet-portal.html</link>
+        <guid isPermaLink="true">/portal,/pfsense,/intranet/2015/12/03/pfsense-intranet-portal.html</guid>
         
         <category>pfsense</category>
         
@@ -928,7 +1061,7 @@ This might save you some time and network traffic.&lt;/li&gt;
 
 &lt;p&gt;Welcome &lt;a href=&quot;http://dev.modern.ie/tools/vms&quot;&gt;http://dev.modern.ie&lt;/a&gt;, where you can &lt;em&gt;download time-bombed VMs&lt;/em&gt;.  Pretty cool service from Microsoft.&lt;/p&gt;
 
-&lt;p&gt;Now, these machines come as &lt;code class=&quot;highlighter-rouge&quot;&gt;.ova&lt;/code&gt; files, suitable to be used with Oracles VirtualBox.  Prefering kvm and virsh?  Thought so.  See how to get it done.&lt;/p&gt;
+&lt;p&gt;Now, these machines come as &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.ova&lt;/code&gt; files, suitable to be used with Oracles VirtualBox.  Prefering kvm and virsh?  Thought so.  See how to get it done.&lt;/p&gt;
 
 &lt;h3 id=&quot;aim&quot;&gt;Aim&lt;/h3&gt;
 
@@ -969,8 +1102,8 @@ unzip IE10&lt;span class=&quot;se&quot;&gt;\ &lt;/span&gt;-&lt;span class=&quot;
 
 </description>
         <pubDate>Mon, 18 May 2015 17:47:25 +0200</pubDate>
-        <link>http://yourdomain.com/docker/dokku/dokku-alt/virtualization/2015/05/18/microsoft-edge-vms-with-virsh.html</link>
-        <guid isPermaLink="true">http://yourdomain.com/docker/dokku/dokku-alt/virtualization/2015/05/18/microsoft-edge-vms-with-virsh.html</guid>
+        <link>/docker/dokku/dokku-alt/virtualization/2015/05/18/microsoft-edge-vms-with-virsh.html</link>
+        <guid isPermaLink="true">/docker/dokku/dokku-alt/virtualization/2015/05/18/microsoft-edge-vms-with-virsh.html</guid>
         
         <category>virtualization</category>
         
@@ -1004,7 +1137,7 @@ unzip IE10&lt;span class=&quot;se&quot;&gt;\ &lt;/span&gt;-&lt;span class=&quot;
 &lt;p&gt;Whether through the tunnel or other means (e.g. VNC)
 Start the guest and ssh into it (you provided a key, so it should work passwordless).  Then, fire up the dokku installation:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;dookulord@vlaada:~$ wget -qO- https://raw.github.com/progrium/dokku/v0.3.17/bootstrap.sh | sudo DOKKU_TAG=v0.3.17 bash
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;dookulord@vlaada:~$ wget -qO- https://raw.github.com/progrium/dokku/v0.3.17/bootstrap.sh | sudo DOKKU_TAG=v0.3.17 bash
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;This process will take another 5 minutes.&lt;/p&gt;
@@ -1041,7 +1174,7 @@ To dokku@vlaada:ruby-sample
 
 &lt;h2 id=&quot;enter-the-dokku-client&quot;&gt;Enter the dokku ‘client’&lt;/h2&gt;
 
-&lt;p&gt;To control vlaadas working as dokku-master, we have to log in as user dokku.  Therefore, another entry in &lt;code class=&quot;highlighter-rouge&quot;&gt;~/.ssh/config&lt;/code&gt; comes handy:&lt;/p&gt;
+&lt;p&gt;To control vlaadas working as dokku-master, we have to log in as user dokku.  Therefore, another entry in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;~/.ssh/config&lt;/code&gt; comes handy:&lt;/p&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;# ~/.ssh/config&lt;/span&gt;
 &lt;span class=&quot;c&quot;&gt;# ... snip ...&lt;/span&gt;
@@ -1050,19 +1183,19 @@ Host dokku-vlaada
   Hostname vlaada
   Port 7722&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
-&lt;p&gt;This makes it possible to &lt;code class=&quot;highlighter-rouge&quot;&gt;ssh dokku-vlaada&lt;/code&gt; - it will list all the possible dokku commands (assuming the tunnel is digged).&lt;/p&gt;
+&lt;p&gt;This makes it possible to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh dokku-vlaada&lt;/code&gt; - it will list all the possible dokku commands (assuming the tunnel is digged).&lt;/p&gt;
 
-&lt;p&gt;You can further shorten this by placing an alias in your &lt;code class=&quot;highlighter-rouge&quot;&gt;~/.bash_aliases&lt;/code&gt; (although you use zsh): &lt;code class=&quot;highlighter-rouge&quot;&gt;alias dokku-vlaada='ssh dokku-vlaada'&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;You can further shorten this by placing an alias in your &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;~/.bash_aliases&lt;/code&gt; (although you use zsh): &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;alias dokku-vlaada='ssh dokku-vlaada'&lt;/code&gt;.&lt;/p&gt;
 
-&lt;p&gt;Call &lt;code class=&quot;highlighter-rouge&quot;&gt;dokku-vlaada apps&lt;/code&gt; to see the apps you installed (it should list ruby-sample).&lt;/p&gt;
+&lt;p&gt;Call &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dokku-vlaada apps&lt;/code&gt; to see the apps you installed (it should list ruby-sample).&lt;/p&gt;
 
 &lt;h2 id=&quot;exposing-dokkus-nginx&quot;&gt;Exposing dokkus nginx&lt;/h2&gt;
 
-&lt;p&gt;Now that the dokku guest is running, you want to expose ports 80 (&lt;code class=&quot;highlighter-rouge&quot;&gt;http&lt;/code&gt;) and 443 (&lt;code class=&quot;highlighter-rouge&quot;&gt;https&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;Now that the dokku guest is running, you want to expose ports 80 (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;http&lt;/code&gt;) and 443 (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;https&lt;/code&gt;).&lt;/p&gt;
 
-&lt;p&gt;A low-level tool to achieve that is &lt;code class=&quot;highlighter-rouge&quot;&gt;rinetd&lt;/code&gt; (&lt;code class=&quot;highlighter-rouge&quot;&gt;apt-get install rinetd&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;A low-level tool to achieve that is &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;rinetd&lt;/code&gt; (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;apt-get install rinetd&lt;/code&gt;).&lt;/p&gt;
 
-&lt;p&gt;Edit &lt;code class=&quot;highlighter-rouge&quot;&gt;/etc/rinetd.conf&lt;/code&gt; like following (replace the &lt;code class=&quot;highlighter-rouge&quot;&gt;192.168.122.77&lt;/code&gt; by the IP of your dokku guest).&lt;/p&gt;
+&lt;p&gt;Edit &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/etc/rinetd.conf&lt;/code&gt; like following (replace the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;192.168.122.77&lt;/code&gt; by the IP of your dokku guest).&lt;/p&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;# /etc/rinetd.conf&lt;/span&gt;
 &lt;span class=&quot;c&quot;&gt;# ...snip..&lt;/span&gt;
@@ -1079,9 +1212,9 @@ Host dokku-vlaada
 &lt;span class=&quot;c&quot;&gt;# Felix added 80 and 443 redirects 2015-05-01&lt;/span&gt;
 &lt;span class=&quot;c&quot;&gt;# ...snip..&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
-&lt;p&gt;Afterwards, do not forget to restart &lt;code class=&quot;highlighter-rouge&quot;&gt;rinetd&lt;/code&gt;:&lt;/p&gt;
+&lt;p&gt;Afterwards, do not forget to restart &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;rinetd&lt;/code&gt;:&lt;/p&gt;
 
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;service rinetd restart&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;service rinetd restart&lt;/code&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;next-steps&quot;&gt;Next steps&lt;/h2&gt;
 
@@ -1095,8 +1228,8 @@ Host dokku-vlaada
 
 </description>
         <pubDate>Fri, 01 May 2015 19:01:25 +0200</pubDate>
-        <link>http://yourdomain.com/docker/dokku/dokku-alt/virtualization/2015/05/01/dokku-on-ubuntu-vm-part-II.html</link>
-        <guid isPermaLink="true">http://yourdomain.com/docker/dokku/dokku-alt/virtualization/2015/05/01/dokku-on-ubuntu-vm-part-II.html</guid>
+        <link>/docker/dokku/dokku-alt/virtualization/2015/05/01/dokku-on-ubuntu-vm-part-II.html</link>
+        <guid isPermaLink="true">/docker/dokku/dokku-alt/virtualization/2015/05/01/dokku-on-ubuntu-vm-part-II.html</guid>
         
         <category>dokku</category>
         
@@ -1122,9 +1255,9 @@ Host dokku-vlaada
 &lt;p&gt;I do not use aliases extensively.  But when I do, I want them to be ‘just there’.  I do not remember where I got the following trick from, but its one of the adjustments to new systems I find myself to do rather sooner than later.&lt;/p&gt;
 
 &lt;p&gt;##Create an alias with a quick command
-My aliases go to their own file, &lt;code class=&quot;highlighter-rouge&quot;&gt;~/.bash_aliases&lt;/code&gt; .&lt;/p&gt;
+My aliases go to their own file, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;~/.bash_aliases&lt;/code&gt; .&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# ~/.bash_aliases
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# ~/.bash_aliases
 # The Mother of Alias
 alias nalias='echo &quot;&quot; &amp;gt;&amp;gt; ~/.bash_aliases;\
   vim -c &quot;startinsert&quot; + ~/.bash_aliases;\
@@ -1132,13 +1265,13 @@ alias nalias='echo &quot;&quot; &amp;gt;&amp;gt; ~/.bash_aliases;\
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;After linking this up, e.g. with a
-&lt;code class=&quot;highlighter-rouge&quot;&gt;source ~/.bash_aliases&lt;/code&gt;
-in your &lt;code class=&quot;highlighter-rouge&quot;&gt;~/.bashrc&lt;/code&gt;, you can now type
-&lt;code class=&quot;highlighter-rouge&quot;&gt;nalias&lt;/code&gt; (“new alias”) and will be put in vim in your &lt;code class=&quot;highlighter-rouge&quot;&gt;~/.bash_aliases&lt;/code&gt; ready to enter a new alias.  Once done and &lt;code class=&quot;highlighter-rouge&quot;&gt;:x&lt;/code&gt;ed, your new alias is ready to be used.&lt;/p&gt;
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;source ~/.bash_aliases&lt;/code&gt;
+in your &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;~/.bashrc&lt;/code&gt;, you can now type
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;nalias&lt;/code&gt; (“new alias”) and will be put in vim in your &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;~/.bash_aliases&lt;/code&gt; ready to enter a new alias.  Once done and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;:x&lt;/code&gt;ed, your new alias is ready to be used.&lt;/p&gt;
 
 &lt;p&gt;If you happen to work in multiple terminals, add a
-&lt;code class=&quot;highlighter-rouge&quot;&gt;alias ralias='source ~/.bash_aliases'&lt;/code&gt; (reload alias)
-to allow you to quickly resource the &lt;code class=&quot;highlighter-rouge&quot;&gt;~/.bash_aliases&lt;/code&gt;.&lt;/p&gt;
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;alias ralias='source ~/.bash_aliases'&lt;/code&gt; (reload alias)
+to allow you to quickly resource the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;~/.bash_aliases&lt;/code&gt;.&lt;/p&gt;
 
 &lt;hr /&gt;
 
@@ -1148,8 +1281,8 @@ to allow you to quickly resource the &lt;code class=&quot;highlighter-rouge&quot
 
 </description>
         <pubDate>Thu, 30 Apr 2015 00:00:00 +0200</pubDate>
-        <link>http://yourdomain.com/bash/2015/04/30/the-mother-of-all-aliases.html</link>
-        <guid isPermaLink="true">http://yourdomain.com/bash/2015/04/30/the-mother-of-all-aliases.html</guid>
+        <link>/bash/2015/04/30/the-mother-of-all-aliases.html</link>
+        <guid isPermaLink="true">/bash/2015/04/30/the-mother-of-all-aliases.html</guid>
         
         <category>bash</category>
         
@@ -1194,7 +1327,7 @@ to allow you to quickly resource the &lt;code class=&quot;highlighter-rouge&quot
   &lt;li&gt;DNS set up to resolve your domain&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;Instead of spoiling my main system with other package installations, configurations and tasks, I will create a virtual machine running ubuntu to be my docker/dokku host.  I will call that machine &lt;code class=&quot;highlighter-rouge&quot;&gt;vlaada&lt;/code&gt; and it will be a minimal Ubuntu 14.04 (trusty) system.  To be on the safe side, I will not create the VM by hand or with any mind-blowing creatures like puppet or chef, but use &lt;code class=&quot;highlighter-rouge&quot;&gt;vmbuilder&lt;/code&gt; (&lt;code class=&quot;highlighter-rouge&quot;&gt;apt-get install python-vm-builder&lt;/code&gt;).  Note that while I use kvm and libvirt here you can use other hypervisors.&lt;/p&gt;
+&lt;p&gt;Instead of spoiling my main system with other package installations, configurations and tasks, I will create a virtual machine running ubuntu to be my docker/dokku host.  I will call that machine &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;vlaada&lt;/code&gt; and it will be a minimal Ubuntu 14.04 (trusty) system.  To be on the safe side, I will not create the VM by hand or with any mind-blowing creatures like puppet or chef, but use &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;vmbuilder&lt;/code&gt; (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;apt-get install python-vm-builder&lt;/code&gt;).  Note that while I use kvm and libvirt here you can use other hypervisors.&lt;/p&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
 &lt;span class=&quot;c&quot;&gt;# Build base vm (kvm, libvirt) to use with dokku&lt;/span&gt;
@@ -1227,15 +1360,15 @@ to allow you to quickly resource the &lt;code class=&quot;highlighter-rouge&quot
 &lt;p&gt;Some options require special attention:&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;addpkg linux-image-generic&lt;/code&gt;: vmbuilder (?) bug workaround (you might not need it)&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;addpkg acpid&lt;/code&gt;: allows us to shut the machine down cleanly without logging in&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;addpkg apparmor&lt;/code&gt;: another workaround, otherwise docker/dokku won’t play nice with us (again, ymmv)&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;addpkg postgresql-client&lt;/code&gt;: will need this later to make postgresql database dumps, the dokku postgresql plugin &lt;a href=&quot;https://github.com/Kloadut/dokku-pg-plugin/issues/71&quot;&gt;won’t install this package for us&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;user&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;ssh-user-key&lt;/code&gt;: locks the machine down (a bit), use the public key with which you want to log into the system later&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;--execscript ...&lt;/code&gt;: assemble path to the setup-vlaada- script (see below); it is executed at the end of the build process&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;addpkg linux-image-generic&lt;/code&gt;: vmbuilder (?) bug workaround (you might not need it)&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;addpkg acpid&lt;/code&gt;: allows us to shut the machine down cleanly without logging in&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;addpkg apparmor&lt;/code&gt;: another workaround, otherwise docker/dokku won’t play nice with us (again, ymmv)&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;addpkg postgresql-client&lt;/code&gt;: will need this later to make postgresql database dumps, the dokku postgresql plugin &lt;a href=&quot;https://github.com/Kloadut/dokku-pg-plugin/issues/71&quot;&gt;won’t install this package for us&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;user&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh-user-key&lt;/code&gt;: locks the machine down (a bit), use the public key with which you want to log into the system later&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;--execscript ...&lt;/code&gt;: assemble path to the setup-vlaada- script (see below); it is executed at the end of the build process&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;The content of &lt;code class=&quot;highlighter-rouge&quot;&gt;setup-vlaada&lt;/code&gt;-script:&lt;/p&gt;
+&lt;p&gt;The content of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;setup-vlaada&lt;/code&gt;-script:&lt;/p&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
 &lt;span class=&quot;c&quot;&gt;# Prepare a bare ubuntu VM for simple dokku installation&lt;/span&gt;
@@ -1256,16 +1389,16 @@ to allow you to quickly resource the &lt;code class=&quot;highlighter-rouge&quot
 
 &lt;p&gt;On my favorite machine, this vm-creation-process takes around 20 minutes.  On my development machine with ecovillage-internet multiply this by 3.&lt;/p&gt;
 
-&lt;p&gt;If you are impatient when no white letters run over your black screen, the command above will tell you where to &lt;code class=&quot;highlighter-rouge&quot;&gt;sudo tail -f &lt;/code&gt; to to see what is happening (&lt;code class=&quot;highlighter-rouge&quot;&gt; .... logging to file: /tmp/tmpXXXXYYYZZZ&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;If you are impatient when no white letters run over your black screen, the command above will tell you where to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sudo tail -f &lt;/code&gt; to to see what is happening (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt; .... logging to file: /tmp/tmpXXXXYYYZZZ&lt;/code&gt;).&lt;/p&gt;
 
-&lt;p&gt;vmbuilder will then provide us with a qcow image in the subfolder &lt;code class=&quot;highlighter-rouge&quot;&gt;ubuntu-kvm&lt;/code&gt;.  Now might be a good time to clone this machine, e.g. using
-&lt;code class=&quot;highlighter-rouge&quot;&gt;virt-clone --auto-clone -o vlaada --prompt&lt;/code&gt; (&lt;code class=&quot;highlighter-rouge&quot;&gt;apt-get install virtinst&lt;/code&gt; to get &lt;code class=&quot;highlighter-rouge&quot;&gt;virt-clone&lt;/code&gt;, this only applies to the libvirt setting I use).&lt;/p&gt;
+&lt;p&gt;vmbuilder will then provide us with a qcow image in the subfolder &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ubuntu-kvm&lt;/code&gt;.  Now might be a good time to clone this machine, e.g. using
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;virt-clone --auto-clone -o vlaada --prompt&lt;/code&gt; (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;apt-get install virtinst&lt;/code&gt; to get &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;virt-clone&lt;/code&gt;, this only applies to the libvirt setting I use).&lt;/p&gt;
 
 &lt;h2 id=&quot;configuring-access-to-the-dokku-vm&quot;&gt;Configuring access to the dokku VM&lt;/h2&gt;
 
 &lt;p&gt;vlaada (the dokku VM) lives on a server in the wild and it shall not be accessible from outside (except for ports 80 and 443).  To access it, I will dig an ssh tunnel through the server.&lt;/p&gt;
 
-&lt;p&gt;In my &lt;code class=&quot;highlighter-rouge&quot;&gt;~/.ssh/config&lt;/code&gt; I put&lt;/p&gt;
+&lt;p&gt;In my &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;~/.ssh/config&lt;/code&gt; I put&lt;/p&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;# ~/.ssh/config&lt;/span&gt;
 vlaada-tunnel
@@ -1276,7 +1409,7 @@ vlaada
   User dokkulord
   Port 7722&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
-&lt;p&gt;Calling &lt;code class=&quot;highlighter-rouge&quot;&gt;ssh vlaada-tunnel&lt;/code&gt; makes connections to the localhosts port 7722 end up at port 22 on the vm that we have set up (here, referenced by its IP &lt;code class=&quot;highlighter-rouge&quot;&gt;192.168.122.77&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;Calling &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh vlaada-tunnel&lt;/code&gt; makes connections to the localhosts port 7722 end up at port 22 on the vm that we have set up (here, referenced by its IP &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;192.168.122.77&lt;/code&gt;).&lt;/p&gt;
 
 &lt;p&gt;I also add an host entry&lt;/p&gt;
 
@@ -1285,7 +1418,7 @@ vlaada
 
 &lt;h3 id=&quot;test-that&quot;&gt;Test that&lt;/h3&gt;
 
-&lt;p&gt;Now after digging the tunnel (&lt;code class=&quot;highlighter-rouge&quot;&gt;ssh vlaada-tunnel&lt;/code&gt;) I am able to &lt;code class=&quot;highlighter-rouge&quot;&gt;ssh vlaada&lt;/code&gt; into the dokku machine, which is somewhere out there, hidden in the wild.  Cool.&lt;/p&gt;
+&lt;p&gt;Now after digging the tunnel (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh vlaada-tunnel&lt;/code&gt;) I am able to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh vlaada&lt;/code&gt; into the dokku machine, which is somewhere out there, hidden in the wild.  Cool.&lt;/p&gt;
 
 &lt;h2 id=&quot;next-steps&quot;&gt;Next steps&lt;/h2&gt;
 
@@ -1294,10 +1427,10 @@ vlaada
 &lt;hr /&gt;
 
 &lt;h3 id=&quot;notes&quot;&gt;Notes&lt;/h3&gt;
-&lt;p&gt;In the &lt;code class=&quot;highlighter-rouge&quot;&gt;vmbuilder&lt;/code&gt; step you might find following options helpful:&lt;/p&gt;
+&lt;p&gt;In the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;vmbuilder&lt;/code&gt; step you might find following options helpful:&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;--mirror http://your-apt-mirror-cache-or-proxy&lt;/code&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;--mirror http://your-apt-mirror-cache-or-proxy&lt;/code&gt;
 This might save you some time and network traffic.&lt;/li&gt;
 &lt;/ul&gt;
 
@@ -1307,8 +1440,8 @@ This might save you some time and network traffic.&lt;/li&gt;
 
 </description>
         <pubDate>Mon, 27 Apr 2015 19:01:25 +0200</pubDate>
-        <link>http://yourdomain.com/docker/dokku/dokku-alt/virtualization/2015/04/27/dokku-on-ubuntu-vm-part-I.html</link>
-        <guid isPermaLink="true">http://yourdomain.com/docker/dokku/dokku-alt/virtualization/2015/04/27/dokku-on-ubuntu-vm-part-I.html</guid>
+        <link>/docker/dokku/dokku-alt/virtualization/2015/04/27/dokku-on-ubuntu-vm-part-I.html</link>
+        <guid isPermaLink="true">/docker/dokku/dokku-alt/virtualization/2015/04/27/dokku-on-ubuntu-vm-part-I.html</guid>
         
         <category>docker</category>
         
