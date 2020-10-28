@@ -1,8 +1,8 @@
 .head
   .brand
     %img.brand(src='https://avatars2.githubusercontent.com/u/219373?s=460&v=4')
-  .statement
-    statement
+-#  .statement
+-#    statement
 
 %nav
   .nav-item
@@ -10,16 +10,12 @@
     %a(href="{{ home_link }}")
       HOME
   .nav-item
-    {% assign home_link = site.baseurl | append: "/archive" %}
-    %a(href="{{ archive_link  }}")
-      ARCHIVE
-  .nav-item
-    {% assign home_link = site.baseurl | append: "/archive" %}
-    %a(href="{{ archive_link  }}")
+    {% assign snacks_link = site.baseurl | append: "/snacks" %}
+    %a(href="{{ snacks_link  }}")
       SNACKS
   .nav-item
-    {% assign home_link = site.baseurl | append: "/archive" %}
-    %a(href="{{ archive_link  }}")
+    {% assign resources_link = site.baseurl | append: "/resources" %}
+    %a(href="{{ resources_link  }}")
       RESOURCES
   .nav-item
     {% assign about_link = site.baseurl | append: "/about" %}
@@ -31,6 +27,9 @@
     %i.fa.fa-mastodon
   %a(href="https://github.com/fwolfst")
     %i.fa.fa-github
-  %i.fa.fa-linkedin
-  %i.fa.fa-xing
-  %i.fa.fa-rss
+  %a(href=" www.linkedin.com/in/felix-wolfsteller")
+    %i.fa.fa-linkedin
+  %a(href="https://www.xing.com/profile/Felix_Wolfsteller")
+    %i.fa.fa-xing
+  %a(href="{{ 'feed.xml' | relative_url }}")
+    %i.fa.fa-rss
