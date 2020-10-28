@@ -47,23 +47,25 @@ Some features come from jekyll-plugins:
 * Table of contents
 * very basic seo
 
-Others are implemented via layouts and Co. or inherent:
+Others are implemented via layouts and co. or inherent:
 
 * works without JS
-* self-contained (no external resources)
+* self-contained (no external resources), no extra tracking
 
 ## Architecture doc
 
-* layout
-  * learn grid and flex
-* use toc
+Pretty standard jekyll stuff afaik.
 
 ## Mentions
 
 jekyll, chirpy, normalize, fork awesome
 
+## Deployment
+
+Jekyll github deploy: https://github.com/yegor256/jekyll-github-deploy .
+
 ## License
 
 If not stated otherwise in the files itself or listed here, the code is
 published under the [AGPLv3+](), Copyright 2020 Felix Wolfsteller. The content
-is published as [](), Copyright 2020 Felix Wolfsteller .
+is published as [CC-BY-NC-SA 4.0+](https://creativecommons.org/licenses/by-nc-sa/4.0), Copyright 2020 Felix Wolfsteller .
