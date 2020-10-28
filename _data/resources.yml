@@ -67,3 +67,15 @@
   url: https://meta-community.org
   tags:
     - tag: community
+- title: fairkom
+  description: public portfolio a bit like Framasoft, made from people who understand Free Software
+  url: https://fairkom.net
+  tags:
+    - tag: Free Software
+    - tag: company
+- title: intevation
+  description: company I worked for many years, understood Free Software, mostly serving the public sector
+  url: https://intevation.de
+  tags:
+    - tag: Free Software
+    - tag: company
