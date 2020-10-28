@@ -35,6 +35,7 @@ Some features come from jekyll-plugins:
 
 * haml syntax
 * Table of contents
+* very basic seo
 
 Others are implemented via layouts and Co. or inherent:
 

@@ -22,6 +22,7 @@ plugins:
   - jekyll-feed
   - jekyll-haml-markup
   - jekyll-toc
+  - jekyll-seo-tag
 
 date:
   formats:
