@@ -187,6 +187,8 @@ body { display: grid; grid-template-areas: "sidebar header  header" "sidebar con
 
 .post-list-entry { border-bottom: solid 1px #999; width: 100%; padding-bottom: 1.3em; }
 
+.post-list-entry .more { padding-top: 1em; }
+
 .post-meta { color: #999; font-size: 0.9em; padding-bottom: 0.3em; }
 
 .categories-vertical { display: flex; flex-direction: column; }
