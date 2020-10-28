@@ -1,0 +1,41 @@
+---
+layout: post
+title:  "Nice to locals: ActiveStorage might soon come with a ProxyController"
+date:   2020-10-28 10:00:00
+categories: rails snacks
+tags: solidus online-shop
+---
+
+`ActiveStorage` is the Ruby on Rails storage framework for "uploaded" stuff like
+images etc.
+The whole thing is a bit complicated (with signed
+keys for representations, polymorphic associations, cache-header support and so on), but here I will focus
+on a single simple implementation detail.
+
+Well engineered it was crafted as a wrapper around various "cloud" storage
+providers - called Services. 
+
+A *local* ("Disk") service was implemented to [mimic the behavior of these
+cloud services](https://discuss.rubyonrails.org/t/local-activestorage-and-url-expiration-with-big-long-file-uploads/74749/12)
+ and allow storage on the development and testing machine. It suffers from that
+heritage a bit.
+
+I use the local disk service also in production because I like to keep my
+systems compact and "local".
+
+When you (or actually, typically your browser) request a file, ActiveStorage
+will answer with a redirect to the actual location (for different reasons these
+might and should change within a cloud service setup). In the "local" setup this
+means that **an additional redirect, request and dispatch** is done for every
+access to the resource (lets ignore client-side cache for a second), which is
+not necessary in all cases.
+
+But that issue might be gone sooner or later, as a `ProxyController` was merged
+this year: [https://github.com/rails/rails/commit/dfb5a82b259e134eac89784ac4ace0c44d1b4aee](https://github.com/rails/rails/commit/dfb5a82b259e134eac89784ac4ace0c44d1b4aee) .
+
+## ProxyController to the rescue!
+
+The `ProxyController` will be able to "stream" the binary data directly to the
+client without 
+
+Very cool, looking forward if this change will make it into a release.
