@@ -15,6 +15,12 @@ baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 github_username:  fwolfst
 
+social:
+  name: Felix Wolfsteller
+  links:
+    - https://github.com/fwolfst
+    - https://troet.cafe/web/accounts/93840
+
 # Build settings
 plugins:
   - jekyll-feed
