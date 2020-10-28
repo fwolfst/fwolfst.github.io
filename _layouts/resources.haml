@@ -13,13 +13,17 @@ layout: default
 
 {% assign pound = "#" %}
 
-.tag-list
+.tags
   {% for tag in all_tags %}
-  .tag(style="display: inline-block")
-    %a(href="{{ pound }}{{ tag | slugify }}" style="display: inline-block")
-      {{ tag }}
-      &nbsp;
+  .tag-wrap
+    .tag(style="display: inline-block")
+      %a(href="{{ pound }}{{ tag | slugify }}" style="display: inline-block")
+        {{ tag }}
+        &nbsp;
   {% endfor %}
+
+%br
+%hr
 
 {% for tag in all_tags %}
 .resource-by-tag
