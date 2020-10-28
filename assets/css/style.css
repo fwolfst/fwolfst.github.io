@@ -127,15 +127,17 @@ blockquote { background-color: #eee; font-family: mono; border-left: 5px solid #
 
 .resource-by-tag h3 { border-bottom: 1px solid #ddd; }
 
+.tag-wrap { padding-right: 0.5em; padding-bottom: 0.5em; }
+
+.tags { display: flex; flex-direction: row; padding-left: 0.5em; float: left; flex-wrap: wrap; }
+
+.tags .tag { background: #ddd; border-radius: 20px; padding-left: 10px; padding-right: 10px; padding-top: 2px; padding-bottom: 2px; }
+
 .resources { display: flex; flex-direction: column; }
 
 .resources .resource { padding-bottom: 1.5em; }
 
 .resources .resource .resource-title { font-size: 1.3em; float: left; }
-
-.resources .resource .tags { display: flex; flex-direction: row; padding-left: 0.5em; float: left; }
-
-.resources .resource .tags .tag { background: #ddd; border-radius: 20px; padding-left: 10px; padding-right: 10px; padding-top: 2px; padding-bottom: 2px; }
 
 .resources .resource .description { color: #333; clear: both; padding-left: 1em; }
 
