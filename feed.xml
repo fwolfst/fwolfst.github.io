@@ -5,8 +5,8 @@
     <description>Mostly technical blog of Felix Wolfsteller (econya)</description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 28 Oct 2020 10:13:13 +0100</pubDate>
-    <lastBuildDate>Wed, 28 Oct 2020 10:13:13 +0100</lastBuildDate>
+    <pubDate>Wed, 28 Oct 2020 10:16:33 +0100</pubDate>
+    <lastBuildDate>Wed, 28 Oct 2020 10:16:33 +0100</lastBuildDate>
     <generator>Jekyll v4.1.1</generator>
     
       <item>
@@ -263,8 +263,8 @@ wget https://github.com/jgthms/bulma/archive/0.9.0.tar.gz
 
 </description>
         <pubDate>Wed, 17 Jun 2020 13:01:25 +0200</pubDate>
-        <link>/rails/assets/2020/06/17/rails-assets.html</link>
-        <guid isPermaLink="true">/rails/assets/2020/06/17/rails-assets.html</guid>
+        <link>/rails/assets/snacks/2020/06/17/rails-assets.html</link>
+        <guid isPermaLink="true">/rails/assets/snacks/2020/06/17/rails-assets.html</guid>
         
         <category>rails</category>
         
@@ -274,6 +274,8 @@ wget https://github.com/jgthms/bulma/archive/0.9.0.tar.gz
         <category>rails</category>
         
         <category>assets</category>
+        
+        <category>snacks</category>
         
       </item>
     
@@ -790,8 +792,8 @@ This might save you some time and network traffic.&lt;/li&gt;
 
 </description>
         <pubDate>Mon, 18 Apr 2016 19:01:25 +0200</pubDate>
-        <link>/docker/dokku/dokku-alt/virtualization/2016/04/18/dokku-on-ubuntu-vm-complete-rails.html</link>
-        <guid isPermaLink="true">/docker/dokku/dokku-alt/virtualization/2016/04/18/dokku-on-ubuntu-vm-complete-rails.html</guid>
+        <link>/docker/dokku/virtualization/2016/04/18/dokku-on-ubuntu-vm-complete-rails.html</link>
+        <guid isPermaLink="true">/docker/dokku/virtualization/2016/04/18/dokku-on-ubuntu-vm-complete-rails.html</guid>
         
         <category>docker</category>
         
@@ -801,8 +803,6 @@ This might save you some time and network traffic.&lt;/li&gt;
         <category>docker</category>
         
         <category>dokku</category>
-        
-        <category>dokku-alt</category>
         
         <category>virtualization</category>
         
@@ -1068,17 +1068,15 @@ This might save you some time and network traffic.&lt;/li&gt;
 &lt;p&gt;Awesome!  Get in contact with me!&lt;/p&gt;
 </description>
         <pubDate>Thu, 03 Dec 2015 10:09:09 +0100</pubDate>
-        <link>/portal,/pfsense,/intranet/2015/12/03/pfsense-intranet-portal.html</link>
-        <guid isPermaLink="true">/portal,/pfsense,/intranet/2015/12/03/pfsense-intranet-portal.html</guid>
+        <link>/pfsense/intranet/2015/12/03/pfsense-intranet-portal.html</link>
+        <guid isPermaLink="true">/pfsense/intranet/2015/12/03/pfsense-intranet-portal.html</guid>
         
         <category>pfsense</category>
         
         <category>intranet</category>
         
         
-        <category>portal,</category>
-        
-        <category>pfsense,</category>
+        <category>pfsense</category>
         
         <category>intranet</category>
         
@@ -1135,19 +1133,15 @@ unzip IE10&lt;span class=&quot;se&quot;&gt;\ &lt;/span&gt;-&lt;span class=&quot;
 
 </description>
         <pubDate>Mon, 18 May 2015 17:47:25 +0200</pubDate>
-        <link>/docker/dokku/dokku-alt/virtualization/2015/05/18/microsoft-edge-vms-with-virsh.html</link>
-        <guid isPermaLink="true">/docker/dokku/dokku-alt/virtualization/2015/05/18/microsoft-edge-vms-with-virsh.html</guid>
+        <link>/virtualization/snacks/2015/05/18/microsoft-edge-vms-with-virsh.html</link>
+        <guid isPermaLink="true">/virtualization/snacks/2015/05/18/microsoft-edge-vms-with-virsh.html</guid>
         
         <category>virtualization</category>
         
         
-        <category>docker</category>
-        
-        <category>dokku</category>
-        
-        <category>dokku-alt</category>
-        
         <category>virtualization</category>
+        
+        <category>snacks</category>
         
       </item>
     
@@ -1261,8 +1255,8 @@ Host dokku-vlaada
 
 </description>
         <pubDate>Fri, 01 May 2015 19:01:25 +0200</pubDate>
-        <link>/docker/dokku/dokku-alt/virtualization/2015/05/01/dokku-on-ubuntu-vm-part-II.html</link>
-        <guid isPermaLink="true">/docker/dokku/dokku-alt/virtualization/2015/05/01/dokku-on-ubuntu-vm-part-II.html</guid>
+        <link>/docker/dokku/virtualization/2015/05/01/dokku-on-ubuntu-vm-part-II.html</link>
+        <guid isPermaLink="true">/docker/dokku/virtualization/2015/05/01/dokku-on-ubuntu-vm-part-II.html</guid>
         
         <category>dokku</category>
         
@@ -1274,8 +1268,6 @@ Host dokku-vlaada
         <category>docker</category>
         
         <category>dokku</category>
-        
-        <category>dokku-alt</category>
         
         <category>virtualization</category>
         
@@ -1473,8 +1465,8 @@ This might save you some time and network traffic.&lt;/li&gt;
 
 </description>
         <pubDate>Mon, 27 Apr 2015 19:01:25 +0200</pubDate>
-        <link>/docker/dokku/dokku-alt/virtualization/2015/04/27/dokku-on-ubuntu-vm-part-I.html</link>
-        <guid isPermaLink="true">/docker/dokku/dokku-alt/virtualization/2015/04/27/dokku-on-ubuntu-vm-part-I.html</guid>
+        <link>/docker/dokku/virtualization/2015/04/27/dokku-on-ubuntu-vm-part-I.html</link>
+        <guid isPermaLink="true">/docker/dokku/virtualization/2015/04/27/dokku-on-ubuntu-vm-part-I.html</guid>
         
         <category>docker</category>
         
@@ -1486,8 +1478,6 @@ This might save you some time and network traffic.&lt;/li&gt;
         <category>docker</category>
         
         <category>dokku</category>
-        
-        <category>dokku-alt</category>
         
         <category>virtualization</category>
         
