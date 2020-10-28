@@ -2,7 +2,7 @@
 layout: post
 title:  "dokku on Ubuntu VM - Part 2: Configure and use dokku"
 date:   2015-05-01 17:01:25
-categories: docker dokku dokku-alt virtualization
+categories: docker dokku virtualization
 tags: dokku virtualization docker
 ---
 

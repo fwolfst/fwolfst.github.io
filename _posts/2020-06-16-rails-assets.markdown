@@ -2,7 +2,7 @@
 layout: post
 title:  "Rails 6 and vendor sass assets"
 date:   2020-06-17 11:01:25
-categories: rails assets
+categories: rails assets snacks
 tags: rails css
 ---
 

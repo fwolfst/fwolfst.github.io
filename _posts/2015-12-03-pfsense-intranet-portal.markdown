@@ -2,7 +2,7 @@
 layout: post
 title:  "pfSense Captive Portal login/logout page"
 date:   2015-12-03 09:09:09
-categories: portal, pfsense, intranet
+categories: pfsense intranet
 tags: pfsense intranet
 ---
 
