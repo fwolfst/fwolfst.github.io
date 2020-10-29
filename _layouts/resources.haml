@@ -31,7 +31,8 @@ layout: default
     {{tag}}
 
   .resources
-    {% for resource in site.data.resources %}
+    {% assign all_resources = site.data.resources | sort_natural: 'title' %}
+    {% for resource in all_resources %}
     {% assign resource_tag_names = resource.tags | map :'tag' %}
     {% if resource_tag_names contains tag %}
     .resource
