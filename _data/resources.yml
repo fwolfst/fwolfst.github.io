@@ -79,3 +79,20 @@
   tags:
     - tag: Free Software
     - tag: company
+- title: darknet diaries
+  description: pretty cool (real) stories and interviews regarding (ITish) security matters
+  url: darknetdiaries.com
+  tags:
+    - tag: podcast
+    - tag: security
+- title: free as in freedom (faif)
+  description: shedding light on Free Software issues
+  url: http://faif.us/
+  tags:
+    - tag: podcast
+    - tag: Free Software
+- title: greater than code
+  description: \"The Human Side of Technology\"
+  url: https://greaterthancode.com
+  tags:
+    - tag: podcast
