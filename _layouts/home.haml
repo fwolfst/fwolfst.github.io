@@ -12,6 +12,14 @@ layout: default
     %h3
       %a.post-link{href: "{{ post.url | relative_url }}"}
         {{ post.title | escape }}
+    {% for category in post.categories %}
+    {% assign category_slug = category | slugify %}
+    .tags(style="float:right;")
+      %a(href="{{ 'categories/#' | append: category_slug }}")
+        .tag
+          {{ category }}
+    {% endfor %}
+
     .post-meta
       {{ post.date | date: site.date.formats.short }}
     {{ post.content | strip_html | truncatewords: 50 }}
