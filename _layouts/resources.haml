@@ -27,6 +27,7 @@ layout: default
 
 {% for tag in all_tags %}
 .resource-by-tag
+  %a(name="{{ tag | slugify }}")
   %h3
     {{tag}}
 
