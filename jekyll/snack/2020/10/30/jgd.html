@@ -1,0 +1,37 @@
+<!DOCTYPE html><html lang="en"><head><meta content="text/html; charset=UTF-8" http-equiv="Content-Type"><meta content="width=device-width, initial-scale=1" name="viewport"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>deploy to github.io with jekyll-github-deploy | felix wolfsteller - blog</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="deploy to github.io with jekyll-github-deploy" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="At github you can have jekyll generated sites for your repositories and they will be published at &lt;whatever&gt;.github.io. In your repositories settings you can select the branch from which the site is built or served." />
+<meta property="og:description" content="At github you can have jekyll generated sites for your repositories and they will be published at &lt;whatever&gt;.github.io. In your repositories settings you can select the branch from which the site is built or served." />
+<link rel="canonical" href="/jekyll/snack/2020/10/30/jgd.html" />
+<meta property="og:url" content="/jekyll/snack/2020/10/30/jgd.html" />
+<meta property="og:site_name" content="felix wolfsteller - blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-10-30T07:44:02+01:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="deploy to github.io with jekyll-github-deploy" />
+<script type="application/ld+json">
+{"description":"At github you can have jekyll generated sites for your repositories and they will be published at &lt;whatever&gt;.github.io. In your repositories settings you can select the branch from which the site is built or served.","mainEntityOfPage":{"@type":"WebPage","@id":"/jekyll/snack/2020/10/30/jgd.html"},"@type":"BlogPosting","url":"/jekyll/snack/2020/10/30/jgd.html","headline":"deploy to github.io with jekyll-github-deploy","dateModified":"2020-10-30T07:44:02+01:00","datePublished":"2020-10-30T07:44:02+01:00","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link href="/assets/css/style.css" rel="stylesheet"><link href="/assets/fork-awesome-1.1.7/css/fork-awesome.min.css" rel="stylesheet"></head><body><div id="header"><strong style="float:left;">deploy to github.io with jekyll-github-deploy</strong>felix wolfsteller - blog</div><div id="sidebar"><div class="head"><div class="brand"><img class="brand" src="https://avatars2.githubusercontent.com/u/219373?s=460&v=4"></div></div><nav><div class="nav-item"><a href="/">HOME</a></div><div class="nav-item"><a href="/snacks">SNACKS</a></div><div class="nav-item"><a href="/resources">RESOURCES</a></div><div class="nav-item"><a href="/about">ABOUT</a></div></nav><div class="foot"><a href="https://troet.cafe/web/accounts/93840"><i class="fa fa-mastodon"></i></a><a href="https://github.com/fwolfst"><i class="fa fa-github"></i></a><a href="https://www.linkedin.com/in/felix-wolfsteller"><i class="fa fa-linkedin"></i></a><a href="https://www.xing.com/profile/Felix_Wolfsteller"><i class="fa fa-xing"></i></a><a href="/feed.xml"><i class="fa fa-rss"></i></a></div></div><div id="content"><h1 class="title">deploy to github.io with jekyll-github-deploy</h1><div class="post-meta">2020-10-30</div><p>At github you can have jekyll generated sites for your repositories and they
+will be published at <code class="language-plaintext highlighter-rouge">&lt;whatever&gt;.github.io</code>. In your repositories settings you
+can select the branch from which the site is built or served.</p>
+
+<p>However for <code class="language-plaintext highlighter-rouge">&lt;username&gt;.github.io</code> pages, stuff has to be served from your
+<code class="language-plaintext highlighter-rouge">master</code> branch.</p>
+
+<p><a href="https://github.com/yegor256/jekyll-github-deploy">jekyll-github-deploy</a> (jgd) is a shell-script wrapper that makes building
+your site locally and pushing the result into the master branch easy:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jgd <span class="nt">--branch-from</span><span class="o">=</span><span class="nb">source</span> <span class="nt">--branch</span><span class="o">=</span>master
+</code></pre></div></div>
+
+<p>(That means that your jekyll sources are to be found in another branch)</p>
+
+<p>Unfortunately, the <code class="language-plaintext highlighter-rouge">README.md</code> is removed from the master branch (where you
+“deploy” your site into), but that is the branch that is shown by default when
+people browse the repo. <a href="https://github.com/yegor256/jekyll-github-deploy/issues/32">We are working on that, though</a>.</p>
+</div><div id="side"><div id="toc"><h2>Content</h2><ul class="section-nav">
+</ul></div><div class="categories-vertical"><h2>Categories</h2><a href="/categories/#jekyll"><div class="category">jekyll</div></a><a href="/categories/#snack"><div class="category">snack</div></a></div></div><div id="footer"><div class="copyright">copyright 2020 Felix Wolfsteller,</div><div class="hire">available for hire&nbsp;<i class="fa fa-check"></i></div><div class="license">published under&nbsp;<a href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC-BY-NC-SA 4.0+</a></div><div class="code"><a href="https://github.com/fwolfst/"><span><i class="fa fa-github fa-fw"></i></span><span>this page</span></a></div></div></body></html>

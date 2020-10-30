@@ -5,9 +5,41 @@
     <description>Mostly technical blog of Felix Wolfsteller (econya)</description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 29 Oct 2020 12:51:57 +0100</pubDate>
-    <lastBuildDate>Thu, 29 Oct 2020 12:51:57 +0100</lastBuildDate>
+    <pubDate>Fri, 30 Oct 2020 10:13:36 +0100</pubDate>
+    <lastBuildDate>Fri, 30 Oct 2020 10:13:36 +0100</lastBuildDate>
     <generator>Jekyll v4.1.1</generator>
+    
+      <item>
+        <title>deploy to github.io with jekyll-github-deploy</title>
+        <description>&lt;p&gt;At github you can have jekyll generated sites for your repositories and they
+will be published at &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&amp;lt;whatever&amp;gt;.github.io&lt;/code&gt;. In your repositories settings you
+can select the branch from which the site is built or served.&lt;/p&gt;
+
+&lt;p&gt;However for &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&amp;lt;username&amp;gt;.github.io&lt;/code&gt; pages, stuff has to be served from your
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;master&lt;/code&gt; branch.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/yegor256/jekyll-github-deploy&quot;&gt;jekyll-github-deploy&lt;/a&gt; (jgd) is a shell-script wrapper that makes building
+your site locally and pushing the result into the master branch easy:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;jgd &lt;span class=&quot;nt&quot;&gt;--branch-from&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--branch&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;master
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;(That means that your jekyll sources are to be found in another branch)&lt;/p&gt;
+
+&lt;p&gt;Unfortunately, the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;README.md&lt;/code&gt; is removed from the master branch (where you
+“deploy” your site into), but that is the branch that is shown by default when
+people browse the repo. &lt;a href=&quot;https://github.com/yegor256/jekyll-github-deploy/issues/32&quot;&gt;We are working on that, though&lt;/a&gt;.&lt;/p&gt;
+</description>
+        <pubDate>Fri, 30 Oct 2020 07:44:02 +0100</pubDate>
+        <link>/jekyll/snack/2020/10/30/jgd.html</link>
+        <guid isPermaLink="true">/jekyll/snack/2020/10/30/jgd.html</guid>
+        
+        
+        <category>jekyll</category>
+        
+        <category>snack</category>
+        
+      </item>
     
       <item>
         <title>Nice to locals: ActiveStorage might soon come with a ProxyController</title>
@@ -1321,49 +1353,6 @@ Host dokku-vlaada
         <category>dokku</category>
         
         <category>virtualization</category>
-        
-      </item>
-    
-      <item>
-        <title>The Mother of All Aliases</title>
-        <description>&lt;p&gt;Sometimes I feel old.  Like too old to use zsh or fish instead of bash.  &lt;del&gt;So, I stick to bash (well, sometimes).&lt;/del&gt;  Anyways, following instructions &lt;del&gt;probably&lt;/del&gt; work for zsh (oh-my-zsh) as well.&lt;/p&gt;
-
-&lt;p&gt;I do not use aliases extensively.  But when I do, I want them to be ‘just there’.  I do not remember where I got the following trick from, but its one of the adjustments to new systems I find myself to do rather sooner than later.&lt;/p&gt;
-
-&lt;p&gt;##Create an alias with a quick command
-My aliases go to their own file, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;~/.bash_aliases&lt;/code&gt; .&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# ~/.bash_aliases
-# The Mother of Alias
-alias nalias='echo &quot;&quot; &amp;gt;&amp;gt; ~/.bash_aliases;\
-  vim -c &quot;startinsert&quot; + ~/.bash_aliases;\
-  source ~/.bash_aliases'
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;After linking this up, e.g. with a
-&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;source ~/.bash_aliases&lt;/code&gt;
-in your &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;~/.bashrc&lt;/code&gt;, you can now type
-&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;nalias&lt;/code&gt; (“new alias”) and will be put in vim in your &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;~/.bash_aliases&lt;/code&gt; ready to enter a new alias.  Once done and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;:x&lt;/code&gt;ed, your new alias is ready to be used.&lt;/p&gt;
-
-&lt;p&gt;If you happen to work in multiple terminals, add a
-&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;alias ralias='source ~/.bash_aliases'&lt;/code&gt; (reload alias)
-to allow you to quickly resource the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;~/.bash_aliases&lt;/code&gt;.&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;h4 id=&quot;having-a-better-idea&quot;&gt;Having a better idea?&lt;/h4&gt;
-
-&lt;p&gt;Awesome!  Get in contact with me!&lt;/p&gt;
-
-</description>
-        <pubDate>Thu, 30 Apr 2015 00:00:00 +0200</pubDate>
-        <link>/bash/2015/04/30/the-mother-of-all-aliases.html</link>
-        <guid isPermaLink="true">/bash/2015/04/30/the-mother-of-all-aliases.html</guid>
-        
-        <category>bash</category>
-        
-        
-        <category>bash</category>
         
       </item>
     

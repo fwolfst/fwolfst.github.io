@@ -151,7 +151,7 @@ body { display: grid; grid-template-areas: "sidebar header  header" "sidebar con
 
 #sidebar .head .brand { width: 50%; }
 
-#sidebar .head .brand img { border-radius: 50%; width: 100%; box-shadow: 0 0 20px 0px #ccc; }
+#sidebar .head .brand img { border-radius: 50%; width: 100%; box-shadow: 0 0 25px 2px #aaa; border: 3px solid #eee; }
 
 #sidebar nav { flex-grow: 2; display: flex; flex-direction: column; justify-content: start; align-items: center; }
 
