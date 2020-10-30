@@ -5,8 +5,8 @@
     <description>Mostly technical blog of Felix Wolfsteller (econya)</description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 30 Oct 2020 10:13:36 +0100</pubDate>
-    <lastBuildDate>Fri, 30 Oct 2020 10:13:36 +0100</lastBuildDate>
+    <pubDate>Fri, 30 Oct 2020 10:30:18 +0100</pubDate>
+    <lastBuildDate>Fri, 30 Oct 2020 10:30:18 +0100</lastBuildDate>
     <generator>Jekyll v4.1.1</generator>
     
       <item>
@@ -235,6 +235,9 @@ to to use heaps of loops (https://stackoverflow.com/questions/64524362/how-to-ge
 &lt;p&gt;Content shall be CC-BY-NC-SA .&lt;/p&gt;
 
 &lt;h2 id=&quot;deployment&quot;&gt;Deployment&lt;/h2&gt;
+
+&lt;p&gt;I use Jekyll github deploy: https://github.com/yegor256/jekyll-github-deploy .
+See also &lt;a href=&quot;https://fwolfst.github.io/jekyll/snack/2020/10/30/jgd.html&quot;&gt;https://fwolfst.github.io/jekyll/snack/2020/10/30/jgd.html&lt;/a&gt; .&lt;/p&gt;
 
 &lt;h2 id=&quot;very-much-open-questions&quot;&gt;Very much open questions&lt;/h2&gt;
 
