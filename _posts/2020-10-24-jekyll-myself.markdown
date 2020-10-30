@@ -99,6 +99,10 @@ Content shall be CC-BY-NC-SA .
 
 ## Deployment
 
+I use Jekyll github deploy: https://github.com/yegor256/jekyll-github-deploy .
+See also [https://fwolfst.github.io/jekyll/snack/2020/10/30/jgd.html](https://fwolfst.github.io/jekyll/snack/2020/10/30/jgd.html) .
+
+
 ## Very much open questions
 
 * Do I really want to add some stimulus and turbolinks sprinkles?

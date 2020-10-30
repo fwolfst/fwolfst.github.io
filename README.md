@@ -62,7 +62,8 @@ jekyll, chirpy, normalize, fork awesome
 
 ## Deployment
 
-Jekyll github deploy: https://github.com/yegor256/jekyll-github-deploy .
+I use Jekyll github deploy: https://github.com/yegor256/jekyll-github-deploy .
+See also https://fwolfst.github.io/jekyll/snack/2020/10/30/jgd.html .
 
 ## License
 
