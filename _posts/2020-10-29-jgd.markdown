@@ -1,0 +1,27 @@
+---
+layout: post
+title:  "deploy to github.io with jekyll-github-deploy"
+date:   2020-10-30 08:44:02 +0200
+categories: jekyll snack
+toc: true
+---
+
+At github you can have jekyll generated sites for your repositories and they
+will be published at `<whatever>.github.io`. In your repositories settings you
+can select the branch from which the site is built or served.
+
+However for `<username>.github.io` pages, stuff has to be served from your
+`master` branch.
+
+[jekyll-github-deploy](https://github.com/yegor256/jekyll-github-deploy) (jgd) is a shell-script wrapper that makes building
+your site locally and pushing the result into the master branch easy:
+
+```bash
+jgd --branch-from=source --branch=master
+```
+
+(That means that your jekyll sources are to be found in another branch)
+
+Unfortunately, the `README.md` is removed from the master branch (where you
+"deploy" your site into), but that is the branch that is shown by default when
+people browse the repo. [We are working on that, though](https://github.com/yegor256/jekyll-github-deploy/issues/32).
