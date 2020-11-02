@@ -17,10 +17,10 @@ bundle
 bundle exec jekyll serve --livereload
 ```
 
-Or to show drafts, too
+Or to show drafts (including those with future dates), too
 
 ```bash
-jekyll serve -D
+jekyll serve -D --future --livereload
 ```
 
 and visit
