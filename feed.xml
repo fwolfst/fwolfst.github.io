@@ -5,9 +5,32 @@
     <description>Mostly technical blog of Felix Wolfsteller (econya)</description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 02 Nov 2020 09:25:51 +0100</pubDate>
-    <lastBuildDate>Mon, 02 Nov 2020 09:25:51 +0100</lastBuildDate>
+    <pubDate>Mon, 02 Nov 2020 09:27:20 +0100</pubDate>
+    <lastBuildDate>Mon, 02 Nov 2020 09:27:20 +0100</lastBuildDate>
     <generator>Jekyll v4.1.1</generator>
+    
+      <item>
+        <title>list all crontabs</title>
+        <description>&lt;p&gt;Often enough, we search a cron entry and are not sure which user is issuing it,
+or we doubt if there is a crontab entry present (or missing).&lt;/p&gt;
+
+&lt;p&gt;In this case, outputting all manually registered crontabs can be handy:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;user &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;si&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cut&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-f1&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-d&lt;/span&gt;: /etc/passwd&lt;span class=&quot;si&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do &lt;/span&gt;crontab &lt;span class=&quot;nt&quot;&gt;-u&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$user&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-l&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;done&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;(you need extended permissions for that command).&lt;/p&gt;
+</description>
+        <pubDate>Sun, 01 Nov 2020 10:01:01 +0100</pubDate>
+        <link>/linux/snack/2020/11/01/list-all-crontabs.html</link>
+        <guid isPermaLink="true">/linux/snack/2020/11/01/list-all-crontabs.html</guid>
+        
+        
+        <category>linux</category>
+        
+        <category>snack</category>
+        
+      </item>
     
       <item>
         <title>deploy to github.io with jekyll-github-deploy</title>
@@ -1228,134 +1251,6 @@ unzip IE10&lt;span class=&quot;se&quot;&gt;\ &lt;/span&gt;-&lt;span class=&quot;
         <category>virtualization</category>
         
         <category>snacks</category>
-        
-      </item>
-    
-      <item>
-        <title>dokku on Ubuntu VM - Part 2: Configure and use dokku</title>
-        <description>&lt;p&gt;&lt;span style=&quot;color: red;&quot;&gt;
-&lt;strong&gt;Outdated. Find more up-to-date version in &lt;a href=&quot;http://fwolfst.github.io/docker/dokku/dokku-alt/virtualization/2016/04/18/dokku-on-ubuntu-vm-complete-rails.html&quot;&gt;this newer article&lt;/a&gt; .&lt;/strong&gt;
-&lt;/span&gt;&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;My notes in walking along the dokku path.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/diagram.png&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;With the VM setup from part I we go on and install dokku, to end up with something like in the diagram above, one day.&lt;/p&gt;
-
-&lt;h2 id=&quot;dokku-installation&quot;&gt;Dokku installation&lt;/h2&gt;
-
-&lt;p&gt;Whether through the tunnel or other means (e.g. VNC)
-Start the guest and ssh into it (you provided a key, so it should work passwordless).  Then, fire up the dokku installation:&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;dookulord@vlaada:~$ wget -qO- https://raw.github.com/progrium/dokku/v0.3.17/bootstrap.sh | sudo DOKKU_TAG=v0.3.17 bash
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;This process will take another 5 minutes.&lt;/p&gt;
-
-&lt;p&gt;Next, install your public key and make it gain you superpowers when logging in as dokku (or git pushing):&lt;/p&gt;
-
-&lt;p&gt;(run this from your development machine or server, depending on your setup)&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; ~/.ssh/id_rsa.pub | ssh vlaada &lt;span class=&quot;s2&quot;&gt;&quot;sudo sshcommand acl-add dokku &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$USER&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;If this fails, you missed the sudo-stuff from earlier on (it would fail with “sudo: no tty present and no askpass…”).&lt;/p&gt;
-
-&lt;h2 id=&quot;test&quot;&gt;Test&lt;/h2&gt;
-
-&lt;p&gt;In principle with that, you are ready to go.&lt;/p&gt;
-
-&lt;p&gt;To test, we will not yet deploy a rails app, but the modified heroku sinatra example (on your dev machine):&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git clone git@github.com:rchrd2/dokku-ruby-example.git
-&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;dokku-ruby-sample
-&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;bundle
-&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git remote add dokku dokku@vlaada:ruby-sample
-&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git push dokku master&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;This might take a minute or two and you should see these final lines:&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;o&quot;&gt;=====&amp;gt;&lt;/span&gt; Application deployed:
-       http://ruby-sample.vlaada
-
-To dokku@vlaada:ruby-sample
- &lt;span class=&quot;k&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;new branch]      master -&amp;gt; master&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;Awesome.&lt;/p&gt;
-
-&lt;h2 id=&quot;enter-the-dokku-client&quot;&gt;Enter the dokku ‘client’&lt;/h2&gt;
-
-&lt;p&gt;To control vlaadas working as dokku-master, we have to log in as user dokku.  Therefore, another entry in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;~/.ssh/config&lt;/code&gt; comes handy:&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;# ~/.ssh/config&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# ... snip ...&lt;/span&gt;
-Host dokku-vlaada
-  User dokku
-  Hostname vlaada
-  Port 7722&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;This makes it possible to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh dokku-vlaada&lt;/code&gt; - it will list all the possible dokku commands (assuming the tunnel is digged).&lt;/p&gt;
-
-&lt;p&gt;You can further shorten this by placing an alias in your &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;~/.bash_aliases&lt;/code&gt; (although you use zsh): &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;alias dokku-vlaada='ssh dokku-vlaada'&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;Call &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dokku-vlaada apps&lt;/code&gt; to see the apps you installed (it should list ruby-sample).&lt;/p&gt;
-
-&lt;h2 id=&quot;exposing-dokkus-nginx&quot;&gt;Exposing dokkus nginx&lt;/h2&gt;
-
-&lt;p&gt;Now that the dokku guest is running, you want to expose ports 80 (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;http&lt;/code&gt;) and 443 (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;https&lt;/code&gt;).&lt;/p&gt;
-
-&lt;p&gt;A low-level tool to achieve that is &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;rinetd&lt;/code&gt; (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;apt-get install rinetd&lt;/code&gt;).&lt;/p&gt;
-
-&lt;p&gt;Edit &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/etc/rinetd.conf&lt;/code&gt; like following (replace the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;192.168.122.77&lt;/code&gt; by the IP of your dokku guest).&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;# /etc/rinetd.conf&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# ...snip..&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;#&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# forwarding rules come here&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;#&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# you may specify allow and deny rules after a specific forwarding rule&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# to apply to only that forwarding rule&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;#&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# bindadress    bindport  connectaddress  connectport&lt;/span&gt;
-0.0.0.0 80 192.168.122.77 80
-0.0.0.0 443 192.168.122.77 443
-&lt;span class=&quot;c&quot;&gt;# Good idea: document what you have done, redudantly&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# Felix added 80 and 443 redirects 2015-05-01&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# ...snip..&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;Afterwards, do not forget to restart &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;rinetd&lt;/code&gt;:&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;service rinetd restart&lt;/code&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;next-steps&quot;&gt;Next steps&lt;/h2&gt;
-
-&lt;p&gt;After validating that your dokku serves you, visit ruby-sample.yourdomain.tld and relax.  Afterwards, you probably want to install some dokku-plugins and ride a real rails app, setup ssl, backups and stuff.  Lets see when I can get this covered in a blog post.&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;h4 id=&quot;having-a-better-idea&quot;&gt;Having a better idea?&lt;/h4&gt;
-
-&lt;p&gt;Awesome!  Get in contact with me!&lt;/p&gt;
-
-</description>
-        <pubDate>Fri, 01 May 2015 19:01:25 +0200</pubDate>
-        <link>/docker/dokku/virtualization/2015/05/01/dokku-on-ubuntu-vm-part-II.html</link>
-        <guid isPermaLink="true">/docker/dokku/virtualization/2015/05/01/dokku-on-ubuntu-vm-part-II.html</guid>
-        
-        <category>dokku</category>
-        
-        <category>virtualization</category>
-        
-        <category>docker</category>
-        
-        
-        <category>docker</category>
-        
-        <category>dokku</category>
-        
-        <category>virtualization</category>
         
       </item>
     
