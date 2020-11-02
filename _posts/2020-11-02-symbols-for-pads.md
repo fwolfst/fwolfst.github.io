@@ -2,7 +2,7 @@
 layout: post
 title:  "symbols for pads"
 date:   2020-11-02 11:02:02 +0200
-categories: snacks
+categories: snack
 toc: true
 ---
 

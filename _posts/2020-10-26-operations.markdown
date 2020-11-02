@@ -2,7 +2,7 @@
 layout: post
 title:  "Operations: runbook"
 date:   2020-10-26 10:00:00 +0200
-categories: snacks
+categories: snack
 toc: false
 ---
 
