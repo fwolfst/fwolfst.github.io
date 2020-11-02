@@ -4,6 +4,7 @@ title:  "Using Microsoft Edge IE VMs with kvm/libvirt"
 date:   2015-05-18 15:47:25
 categories: virtualization snacks
 tags: virtualization
+toc: true
 ---
 
 > Or how to use virt-convert on a practical example.
@@ -11,6 +12,8 @@ tags: virtualization
 Ever wanted to check how Microsoft Internet Explorer renders stuff but no license at hand?
 
 Welcome [http://dev.modern.ie][dev-modern-ie], where you can *download time-bombed VMs*.  Pretty cool service from Microsoft.
+
+**Update 2020-11**: a more recent URL is [developer.microsoft.com/en-us/microsoft-edge/tools/vms/](https://developer.microsoft.com/en-us/microsoft-edge/tools/vms/).
 
 Now, these machines come as `.ova` files, suitable to be used with Oracles VirtualBox.  Prefering kvm and virsh?  Thought so.  See how to get it done.
 
