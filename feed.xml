@@ -5,9 +5,77 @@
     <description>Mostly technical blog of Felix Wolfsteller (econya)</description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 02 Nov 2020 09:27:20 +0100</pubDate>
-    <lastBuildDate>Mon, 02 Nov 2020 09:27:20 +0100</lastBuildDate>
+    <pubDate>Mon, 02 Nov 2020 17:24:03 +0100</pubDate>
+    <lastBuildDate>Mon, 02 Nov 2020 17:24:03 +0100</lastBuildDate>
     <generator>Jekyll v4.1.1</generator>
+    
+      <item>
+        <title>symbols for pads</title>
+        <description>&lt;p&gt;While using “Pads” (like &lt;a href=&quot;https://github.com/ether/etherpad-lite&quot;&gt;etherpad lite&lt;/a&gt;, &lt;a href=&quot;https://cryptpad.fr&quot;&gt;cryptpad&lt;/a&gt; etc.) or other poor text editors you sometimes might need symbols
+to indicate lists, important items, separate sections and other stuff. This is
+the beginning of a collection of mine.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Copy and paste them as you like&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;For technical reference: these are UTF-8 symbols and will probably not be
+supported by real legacy software.&lt;/p&gt;
+
+&lt;table width=&quot;100%&quot;&gt;
+&lt;tr&gt;
+&lt;td width=&quot;33%&quot;&gt;
+  &lt;!-- clocks --&gt;
+  &amp;#9201;
+  &amp;#9200;
+  &lt;!-- coffee --&gt;
+  &amp;#9749;
+  &amp;#127799;
+&lt;/td&gt;
+&lt;td width=&quot;33%&quot;&gt;
+  &amp;#10004; &amp;#10003;
+  
+  &amp;#10007; &amp;#10008;
+  
+  &lt;!-- stars --&gt;
+  &amp;#9733; &amp;#9734;
+
+  &amp;hearts;
+
+  &amp;#10026;
+  
+  &amp;#10047;
+  
+  &amp;#10048;
+&lt;/td&gt;
+&lt;td width=&quot;33%&quot;&gt;
+  &amp;#10148;
+  
+  &lt;!-- onetwothree --&gt;
+  &amp;#10112;
+  &amp;#10113;
+  &amp;#10114;
+
+  &amp;#10140;
+  
+  &amp;#10085;
+  
+  &amp;#9989;
+
+  &amp;#9775;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+
+</description>
+        <pubDate>Mon, 02 Nov 2020 10:02:02 +0100</pubDate>
+        <link>/snacks/2020/11/02/symbols-for-pads.html</link>
+        <guid isPermaLink="true">/snacks/2020/11/02/symbols-for-pads.html</guid>
+        
+        
+        <category>snacks</category>
+        
+      </item>
     
       <item>
         <title>list all crontabs</title>
@@ -1188,69 +1256,6 @@ This might save you some time and network traffic.&lt;/li&gt;
         <category>pfsense</category>
         
         <category>intranet</category>
-        
-      </item>
-    
-      <item>
-        <title>Using Microsoft Edge IE VMs with kvm/libvirt</title>
-        <description>&lt;blockquote&gt;
-  &lt;p&gt;Or how to use virt-convert on a practical example.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Ever wanted to check how Microsoft Internet Explorer renders stuff but no license at hand?&lt;/p&gt;
-
-&lt;p&gt;Welcome &lt;a href=&quot;http://dev.modern.ie/tools/vms&quot;&gt;http://dev.modern.ie&lt;/a&gt;, where you can &lt;em&gt;download time-bombed VMs&lt;/em&gt;.  Pretty cool service from Microsoft.&lt;/p&gt;
-
-&lt;p&gt;Now, these machines come as &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.ova&lt;/code&gt; files, suitable to be used with Oracles VirtualBox.  Prefering kvm and virsh?  Thought so.  See how to get it done.&lt;/p&gt;
-
-&lt;h3 id=&quot;aim&quot;&gt;Aim&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Use Microsoft Edge VM with kvm/virsh/virt-manager,&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;requirements&quot;&gt;Requirements&lt;/h4&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Ubuntu 14.04 system&lt;/li&gt;
-  &lt;li&gt;several kvm, virsh, virt-manager, libvirtd etc. packages installed and respective permissions set up.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;download-vm&quot;&gt;Download VM&lt;/h4&gt;
-
-&lt;p&gt;Head over to &lt;a href=&quot;http://dev.modern.ie/tools/vms&quot;&gt;http://dev.modern.ie/tools/vms&lt;/a&gt; , and download your image.&lt;/p&gt;
-
-&lt;h4 id=&quot;unzip-and-untar-the-thing&quot;&gt;Unzip and untar the thing&lt;/h4&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;# Your filenames may vary.&lt;/span&gt;
-unzip IE10&lt;span class=&quot;se&quot;&gt;\ &lt;/span&gt;-&lt;span class=&quot;se&quot;&gt;\ &lt;/span&gt;Win7.zip
-&lt;span class=&quot;nb&quot;&gt;tar &lt;/span&gt;xvf IE10&lt;span class=&quot;se&quot;&gt;\ &lt;/span&gt;-&lt;span class=&quot;se&quot;&gt;\ &lt;/span&gt;Win7.ova&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;h4 id=&quot;convert-to-qcow2&quot;&gt;Convert to qcow2&lt;/h4&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;virt-convert IE10&lt;span class=&quot;se&quot;&gt;\ &lt;/span&gt;-&lt;span class=&quot;se&quot;&gt;\ &lt;/span&gt;Win7.ovf  &lt;span class=&quot;nt&quot;&gt;--destination&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--disk-format&lt;/span&gt; qcow2&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;This starts the viewer directly and you are ready to enjoy your IE experience (remember: you probably get paid to do so).&lt;/p&gt;
-
-&lt;p&gt;Note that you can even install an Excel viewer, although I am not sure whether thats fine with the EULA (like powering Windows XP with more than two cpu cores).&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;h4 id=&quot;having-a-better-idea&quot;&gt;Having a better idea?&lt;/h4&gt;
-
-&lt;p&gt;Awesome!  Get in contact with me!&lt;/p&gt;
-
-</description>
-        <pubDate>Mon, 18 May 2015 17:47:25 +0200</pubDate>
-        <link>/virtualization/snacks/2015/05/18/microsoft-edge-vms-with-virsh.html</link>
-        <guid isPermaLink="true">/virtualization/snacks/2015/05/18/microsoft-edge-vms-with-virsh.html</guid>
-        
-        <category>virtualization</category>
-        
-        
-        <category>virtualization</category>
-        
-        <category>snacks</category>
         
       </item>
     
