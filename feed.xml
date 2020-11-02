@@ -5,8 +5,8 @@
     <description>Mostly technical blog of Felix Wolfsteller (econya)</description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 02 Nov 2020 17:24:03 +0100</pubDate>
-    <lastBuildDate>Mon, 02 Nov 2020 17:24:03 +0100</lastBuildDate>
+    <pubDate>Mon, 02 Nov 2020 17:35:02 +0100</pubDate>
+    <lastBuildDate>Mon, 02 Nov 2020 17:35:02 +0100</lastBuildDate>
     <generator>Jekyll v4.1.1</generator>
     
       <item>
@@ -69,11 +69,11 @@ supported by real legacy software.&lt;/p&gt;
 
 </description>
         <pubDate>Mon, 02 Nov 2020 10:02:02 +0100</pubDate>
-        <link>/snacks/2020/11/02/symbols-for-pads.html</link>
-        <guid isPermaLink="true">/snacks/2020/11/02/symbols-for-pads.html</guid>
+        <link>/snack/2020/11/02/symbols-for-pads.html</link>
+        <guid isPermaLink="true">/snack/2020/11/02/symbols-for-pads.html</guid>
         
         
-        <category>snacks</category>
+        <category>snack</category>
         
       </item>
     
@@ -169,8 +169,8 @@ client without&lt;/p&gt;
 &lt;p&gt;Very cool, looking forward if this change will make it into a release.&lt;/p&gt;
 </description>
         <pubDate>Wed, 28 Oct 2020 11:00:00 +0100</pubDate>
-        <link>/rails/snacks/2020/10/28/proxy.html</link>
-        <guid isPermaLink="true">/rails/snacks/2020/10/28/proxy.html</guid>
+        <link>/rails/snack/2020/10/28/proxy.html</link>
+        <guid isPermaLink="true">/rails/snack/2020/10/28/proxy.html</guid>
         
         <category>solidus</category>
         
@@ -179,7 +179,7 @@ client without&lt;/p&gt;
         
         <category>rails</category>
         
-        <category>snacks</category>
+        <category>snack</category>
         
       </item>
     
@@ -208,11 +208,11 @@ for any other task that your computer should be able to do.&lt;/p&gt;
 an auto-documentation (-&amp;gt; markdown) feature.&lt;/p&gt;
 </description>
         <pubDate>Mon, 26 Oct 2020 09:00:00 +0100</pubDate>
-        <link>/snacks/2020/10/26/operations.html</link>
-        <guid isPermaLink="true">/snacks/2020/10/26/operations.html</guid>
+        <link>/snack/2020/10/26/operations.html</link>
+        <guid isPermaLink="true">/snack/2020/10/26/operations.html</guid>
         
         
-        <category>snacks</category>
+        <category>snack</category>
         
       </item>
     
@@ -440,8 +440,8 @@ wget https://github.com/jgthms/bulma/archive/0.9.0.tar.gz
 
 </description>
         <pubDate>Wed, 17 Jun 2020 13:01:25 +0200</pubDate>
-        <link>/rails/assets/snacks/2020/06/17/rails-assets.html</link>
-        <guid isPermaLink="true">/rails/assets/snacks/2020/06/17/rails-assets.html</guid>
+        <link>/rails/assets/snack/2020/06/17/rails-assets.html</link>
+        <guid isPermaLink="true">/rails/assets/snack/2020/06/17/rails-assets.html</guid>
         
         <category>rails</category>
         
@@ -452,7 +452,7 @@ wget https://github.com/jgthms/bulma/archive/0.9.0.tar.gz
         
         <category>assets</category>
         
-        <category>snacks</category>
+        <category>snack</category>
         
       </item>
     
