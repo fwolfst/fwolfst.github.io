@@ -203,4 +203,6 @@ body { display: grid; grid-template-areas: "sidebar header  header" "sidebar con
 
 .post-item { padding-bottom: 1.5em; }
 
+code, kbd, samp { color: #933; }
+
 /*# sourceMappingURL=style.css.map */
