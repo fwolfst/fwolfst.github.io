@@ -167,6 +167,8 @@ body { display: grid; grid-template-areas: "sidebar header  header" "sidebar con
 
 #content h1.title { margin-top: 0px; border-bottom: solid 1px #ddd; }
 
+#content a:link, #content a:visited { color: #357; }
+
 #side { grid-area: side; background-color: grey; background: #eee; box-shadow: inset 10px 0px 12px -12px gray; padding-left: 2em; padding-top: 2em; }
 
 #side #toc h2 { margin-top: 0px; }

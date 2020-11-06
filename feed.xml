@@ -5,9 +5,126 @@
     <description>Mostly technical blog of Felix Wolfsteller (econya)</description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 02 Nov 2020 17:35:02 +0100</pubDate>
-    <lastBuildDate>Mon, 02 Nov 2020 17:35:02 +0100</lastBuildDate>
+    <pubDate>Fri, 06 Nov 2020 09:12:41 +0100</pubDate>
+    <lastBuildDate>Fri, 06 Nov 2020 09:12:41 +0100</lastBuildDate>
     <generator>Jekyll v4.1.1</generator>
+    
+      <item>
+        <title>updating php for nextcloud on xenial</title>
+        <description>&lt;h2 id=&quot;notes-during-an-update-process&quot;&gt;Notes during an update process&lt;/h2&gt;
+
+&lt;h3 id=&quot;world-views&quot;&gt;World views&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://nextcloud.com&quot;&gt;Nextcloud&lt;/a&gt; has a &lt;a href=&quot;https://github.com/nextcloud/server/wiki/Maintenance-and-Release-Schedule&quot;&gt;speedy release cycle&lt;/a&gt; (and there is &lt;a href=&quot;https://help.nextcloud.com/t/review-nextcloud-release-cycle/95501&quot;&gt;controversy about that&lt;/a&gt;), putting quite some pressure on the admins, but sparking joy with users, as the feature development has quite some momentum.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://ubuntu.com&quot;&gt;Ubuntu&lt;/a&gt; follows a regular LTS release strategy since years.
+Wait for april in even years (and then wait a bit for added stability and
+experience).&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://php.net&quot;&gt;php&lt;/a&gt; is different, I believe. The most important thing seems
+to be that the upcoming release of 8.0 (scheduled this month, november 2020)
+will render trilliards of jokes invalid.&lt;/p&gt;
+
+&lt;div class=&quot;language-php highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;I am 42&quot;&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# -&amp;gt; evaluates to true @ php &amp;lt;= 8.0&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;At least thats proposed:
+&lt;a href=&quot;https://wiki.php.net/rfc/string_to_number_comparison&quot;&gt;https://wiki.php.net/rfc/string_to_number_comparison&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;php is absolutely not &lt;em&gt;“my”&lt;/em&gt; language, but &lt;a href=&quot;https://stitcher.io/blog/new-in-php-8&quot;&gt;this list of changes for 8.0&lt;/a&gt; seems really reasonable. I do not follow phps development, but looks like a release with really powerful changes to me.&lt;/p&gt;
+
+&lt;h3 id=&quot;legacy&quot;&gt;Legacy&lt;/h3&gt;
+
+&lt;p&gt;But back to the problem. The setup is as follows: Nextcloud 19.0.4 (very recent, but not latest) on a Ubuntu 16.04 (not
+so recent) and php7.2 (-fpm, aged) from ondrej on an apache. Nextcloud 20 is out and 21 will only work with
+php7.4+ . Most likely until then the VM will need a dist-upgrade to Ubuntu 20.04 - or be replaced.&lt;/p&gt;
+
+&lt;h4 id=&quot;configuration-files&quot;&gt;Configuration files&lt;/h4&gt;
+
+&lt;p&gt;Performance is tuned/configuration is done in following locations (in my setup):&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/etc/php/7.2/apache/php.ini
+/etc/php/7.2/cli/php.ini
+/etc/php/7.2/fpm/php-fpm.conf
+/etc/php/7.2/fpm/php.ini
+/etc/php/7.2/fpm/pool.d/www.conf
+
+/etc/apache2/conf-enabled/php7.2-fpm.conf
+/etc/apache2/sites-enabled/nextcloud.conf
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;install-php74-and-maybe-missing-modules&quot;&gt;Install php7.4 (and maybe missing modules)&lt;/h3&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;apt update &amp;amp;&amp;amp; apt install php7.4 php7.4-fpm&lt;/code&gt; and check whether any of the modules (e.g.
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;php7.2-gd&lt;/code&gt;) can receive updates, too.&lt;/p&gt;
+
+&lt;p&gt;Also 
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;apt install libapache2-mod-php7.4&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;a2enmod php7.4&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;enable-fpm-in-apache&quot;&gt;Enable fpm in apache&lt;/h3&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;a2enmod proxy_fcgi setenvif
+a2enconf php7.4-fpm
+a2dismod php7.2-fpm
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;move-overdiff-the-configuration-files&quot;&gt;Move over/diff the configuration files&lt;/h3&gt;
+
+&lt;p&gt;Check above mentioned files, e.g.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;vimdiff /etc/php/7.&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;2,4&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;/cli/php.ini
+vimdiff /etc/php/7.&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;2,4&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;/apache2/php.ini
+vimdiff /etc/php/7.&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;2,4&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;/fpm/php.ini
+vimdiff /etc/php/7.&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;2,4&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;/fpm/php-fpm.conf
+vimdiff /etc/php/7.&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;2,4&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;/fpm/pool.d/www.conf
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;restart-apache-and-fpm-service&quot;&gt;Restart apache and fpm service&lt;/h3&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;service apach2 restart
+service php7.4-fpm restart
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;update-alternatives&quot;&gt;update-alternatives&lt;/h3&gt;
+
+&lt;p&gt;Now, make php7.4 the default.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;update-alternatives &lt;span class=&quot;nt&quot;&gt;--set&lt;/span&gt; php /usr/bin/php7.4
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Verify&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;php &lt;span class=&quot;nt&quot;&gt;-v&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Check if the workers are up&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;systemctl status php7.2-fpm
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;remove-php72&quot;&gt;Remove php7.2&lt;/h3&gt;
+
+&lt;p&gt;After some while, get rid of 7.2&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;apt purge php7.2
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;when-things-go-wrong&quot;&gt;When things go wrong&lt;/h2&gt;
+
+&lt;p&gt;Oh, they will. Keep on going. Like, you will forget to install php7.4-mysql or
+something.&lt;/p&gt;
+
+</description>
+        <pubDate>Mon, 02 Nov 2020 17:04:00 +0100</pubDate>
+        <link>/php/linux/2020/11/02/php-update.html</link>
+        <guid isPermaLink="true">/php/linux/2020/11/02/php-update.html</guid>
+        
+        
+        <category>php</category>
+        
+        <category>linux</category>
+        
+      </item>
     
       <item>
         <title>symbols for pads</title>
@@ -982,280 +1099,6 @@ This might save you some time and network traffic.&lt;/li&gt;
         <category>dokku</category>
         
         <category>virtualization</category>
-        
-      </item>
-    
-      <item>
-        <title>pfSense Captive Portal login/logout page</title>
-        <description>&lt;blockquote&gt;
-  &lt;p&gt;Bringing Part of the Portal into Captive Portal.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;or:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Where I do post php code.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h3 id=&quot;prerequisistes&quot;&gt;Prerequisistes&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;pfsense installed (version 2.2.5, looks like the story will change for 2.3)&lt;/li&gt;
-  &lt;li&gt;(separate) ‘intranet’ server&lt;/li&gt;
-  &lt;li&gt;at least one user without technical background&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;aims&quot;&gt;Aims&lt;/h3&gt;
-
-&lt;p&gt;Play around and make a dedicated pfSense Captive Portal login/logout page.&lt;/p&gt;
-
-&lt;h3 id=&quot;overview&quot;&gt;Overview&lt;/h3&gt;
-
-&lt;p&gt;In the &lt;a href=&quot;http://siebenlinden.de&quot; title=&quot;Homepage of ecovillage Sieben Linden&quot;&gt;community&lt;/a&gt; I live in we run a couple of internal services and guard Internet-Access by &lt;a href=&quot;https://pfsense.org&quot; title=&quot;Homepage of pfSense&quot;&gt;pfSenses&lt;/a&gt; Captive Portal (“CP”).&lt;/p&gt;
-
-&lt;p&gt;The Captive Portal intercepts any traffic for a not yet registered IP/MAC-Adress pair (clients come from the local network, so IP-Adresses can resolved to MAC-Adresses, although this can be tricked) and responds with a login page.&lt;/p&gt;
-
-&lt;p&gt;Users can either be defined with a local user manager, a RADIUS server &lt;del&gt;or an &lt;a href=&quot;https://redmine.pfsense.org/issues/5112&quot; title=&quot;Link to LDAP Authentication Captive Portal redmine issue for pfSense&quot;&gt;LDAP server&lt;/a&gt;&lt;/del&gt; (this is another story and worth another blog post).  Upon successfull login, the MAC/IP/username-triple will be saved in a SQLite-database, the user is redirected to the requested URL (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;redirurl&lt;/code&gt;) and forthcoming traffic will be allowed.&lt;/p&gt;
-
-&lt;p&gt;The Captive Portal (with default settings) has a serious drawback: Only standard HTTP traffic can be intercepted, or more precisely: a redirect to the login page only works for HTTP-connections (for good reason).  In principle it is possible to use a certificate and intercept/redirect https-traffic, but you need a proper certificate if the users should not be scared away by a certificate warning.  &lt;em&gt;Note:&lt;/em&gt; Yes, allowing http logins is as good as no logins if you are talking real security.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/Diagram_pfsense_net.png&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;As a result, the login page of the Captive portal will &lt;strong&gt;only be shown if users attempt to access a http (vs https) page&lt;/strong&gt;.  Many users browsers are however configured to initially load (“homepage”) a https page (which is good).  These users are confronted with a connection timeout and will be scared that no internet connection is available, our intranet or their computer is broken.&lt;/p&gt;
-
-&lt;h3 id=&quot;the-resulting-need-for-a-dedicated-login-page&quot;&gt;The resulting need for a dedicated login page&lt;/h3&gt;
-
-&lt;p&gt;One solution (besides many others) is to communicate a dedicated login page (e.g. https://intranet.intern), where after successfull login the Captive Portal redirects to a given page - the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;redirurl&lt;/code&gt; is just a parameter to the login-page (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;http://192.168.0.1:8002/?redirurl=http://github.com&lt;/code&gt; for example).&lt;/p&gt;
-
-&lt;p&gt;But this would force users to generate traffic to an external page, so the better idea is to redirect the user to a dedicated internal portal-kind-of-page.&lt;/p&gt;
-
-&lt;p&gt;The “Captive” Part of the Captive Portal will still work - a not yet registered MAC/IP-pair will get the login page presented.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/Diagram_pfsense_intranet.png&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;am-i-logged-in&quot;&gt;Am I logged in?&lt;/h3&gt;
-
-&lt;p&gt;Now, it would be nice if users can see whether they are logged in to the Captive Portal and get a logout-page instead of the login-page if they are.  To figure out whether a client is logged in, we resolve its IP and MAC-address and look up the IP/MAC-address in the SQLite3 database.  We present the username if the client indeed is logged in (minimal example):&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-php&quot; data-lang=&quot;php&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;html&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;body&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;h1&amp;gt;&lt;/span&gt;Captive Portal&lt;span class=&quot;nt&quot;&gt;&amp;lt;/h1&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;cp&quot;&gt;&amp;lt;?php&lt;/span&gt;
-       &lt;span class=&quot;k&quot;&gt;require_once&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;captiveportal.inc&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-  
-       &lt;span class=&quot;c1&quot;&gt;// Get IP/MAC from request and arp.&lt;/span&gt;
-       &lt;span class=&quot;nv&quot;&gt;$client_ip&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$_SERVER&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'REMOTE_ADDR'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
-       &lt;span class=&quot;nv&quot;&gt;$client_mac&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;pfSense_ip_to_mac&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$client_ip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'macaddr'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
-  
-       &lt;span class=&quot;c1&quot;&gt;// Get username from CP db.&lt;/span&gt;
-       &lt;span class=&quot;nv&quot;&gt;$db&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;captiveportal_opendb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-       &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$db&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$client_ip&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$client_mac&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-         &lt;span class=&quot;nv&quot;&gt;$username_query&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;SELECT username FROM captiveportal &quot;&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;.&lt;/span&gt;
-                           &lt;span class=&quot;s2&quot;&gt;&quot; WHERE mac='&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$client_mac&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;' AND ip='&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$client_ip&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;';&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-         &lt;span class=&quot;nv&quot;&gt;$response&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$db&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;query&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$username_query&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-         &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$response&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;FALSE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-           &lt;span class=&quot;nv&quot;&gt;$username&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$response&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;fetchArray&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
-         &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-         &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-           &lt;span class=&quot;c1&quot;&gt;// Not logged in&lt;/span&gt;
-         &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-         &lt;span class=&quot;nv&quot;&gt;$db&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;close&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-       &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-       &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-         &lt;span class=&quot;k&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;No Database connection or invalid request!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-         &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$db&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-           &lt;span class=&quot;nv&quot;&gt;$db&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;close&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-         &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-         &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-       &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;cp&quot;&gt;?&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;cp&quot;&gt;&amp;lt;?php&lt;/span&gt;
-      &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$username&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;cp&quot;&gt;?&amp;gt;&lt;/span&gt;
-      You should be able to access the internet and are logged in as
-    &lt;span class=&quot;cp&quot;&gt;&amp;lt;?php&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$username&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-      &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-      &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;c1&quot;&gt;// Not logged in&lt;/span&gt;
-    &lt;span class=&quot;cp&quot;&gt;?&amp;gt;&lt;/span&gt;
-      &lt;span class=&quot;nt&quot;&gt;&amp;lt;h2&amp;gt;&lt;/span&gt;By Username/Pass&lt;span class=&quot;nt&quot;&gt;&amp;lt;/h2&amp;gt;&lt;/span&gt;
-      &lt;span class=&quot;nt&quot;&gt;&amp;lt;form&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;method=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;post&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;action=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;#PORTAL_ACTION#&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;lt;input&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;auth_user&quot;&lt;/span&gt;  &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/input&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;lt;input&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;auth_pass&quot;&lt;/span&gt;  &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;password&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/input&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;lt;input&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;redirurl&quot;&lt;/span&gt;   &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;hidden&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;#PORTAL_REDIRURL#&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/input&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;lt;input&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;accept&quot;&lt;/span&gt;     &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;submit&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Login&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/input&amp;gt;&lt;/span&gt;
-      &lt;span class=&quot;nt&quot;&gt;&amp;lt;/form&amp;gt;&lt;/span&gt;
-  
-      &lt;span class=&quot;nt&quot;&gt;&amp;lt;h2&amp;gt;&lt;/span&gt;By Voucher&lt;span class=&quot;nt&quot;&gt;&amp;lt;/h2&amp;gt;&lt;/span&gt;
-      &lt;span class=&quot;nt&quot;&gt;&amp;lt;form&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;method=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;post&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;action=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;#PORTAL_ACTION#&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;lt;input&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;auth_voucher&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/input&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;lt;input&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;redirurl&quot;&lt;/span&gt;     &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;hidden&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;#PORTAL_REDIRURL#&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/input&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;lt;input&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;accept&quot;&lt;/span&gt;       &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;submit&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Submit&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/input&amp;gt;&lt;/span&gt;
-      &lt;span class=&quot;nt&quot;&gt;&amp;lt;/form&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;cp&quot;&gt;&amp;lt;?php&lt;/span&gt;
-      &lt;span class=&quot;c1&quot;&gt;// Not logged in&lt;/span&gt;
-      &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;cp&quot;&gt;?&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;h3 id=&quot;logout&quot;&gt;Logout?&lt;/h3&gt;
-
-&lt;p&gt;The default “solution” of pfSenses Captive Portal is to javascript-wise open a popup-window with a button to log out.  What I did not yet mention is that actually, not only username, IP- and MAC addresses of clients are stored, besides other things that happen, a session(id) is created on successfull authentication against the CP.  For security reasons the client can only log out by giving a session-id.  As in our http-case all traffic can possibly be listened to anyway, the sessionid does not provide much additional security (against ip/mac faking), so we can as well use the information gathered above to log the user out.&lt;/p&gt;
-
-&lt;p&gt;Therefore, we make the “login” page (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;192.168.0.1:8002&lt;/code&gt;) behave differently if requested as &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;192.168.0.1:8002/logout&lt;/code&gt;.  In that case, the IP/MAC and username info is gathered (see above) and the respective session deleted from the database.  All that is missing now is a ‘page’ or ‘path’ to request that /logout-URL.&lt;/p&gt;
-
-&lt;p&gt;As the default captive portal logout action requires the session id (and passes it to the function &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;captiveportal_disconnect_client&lt;/code&gt; in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/etc/inc/captiveportal.inc&lt;/code&gt;), we will also use that function instead of taking care of RADIUS-server notification, firewall-rule-modification etc. ourselves.&lt;/p&gt;
-
-&lt;p&gt;To make the code paths and changes read easy, in this example I will &lt;strong&gt;query the database again&lt;/strong&gt; to access the sessionId and call the internal &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;captiveportal_disconnect_client&lt;/code&gt; function. I extracted some code into functions to further improve readability.&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-php&quot; data-lang=&quot;php&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;html&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;body&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;h1&amp;gt;&lt;/span&gt;Captive Portal&lt;span class=&quot;nt&quot;&gt;&amp;lt;/h1&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;cp&quot;&gt;&amp;lt;?php&lt;/span&gt;
-       &lt;span class=&quot;k&quot;&gt;require_once&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;captiveportal.inc&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-       &lt;span class=&quot;c1&quot;&gt;// Get IP/MAC from request and arp.&lt;/span&gt;
-       &lt;span class=&quot;nv&quot;&gt;$client_ip&lt;/span&gt;  &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$_SERVER&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'REMOTE_ADDR'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
-       &lt;span class=&quot;nv&quot;&gt;$client_mac&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;pfSense_ip_to_mac&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$client_ip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'macaddr'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
-
-       &lt;span class=&quot;k&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;captiveportal_get_logged_in_username&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$ip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$mac&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-         &lt;span class=&quot;nv&quot;&gt;$username&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-         &lt;span class=&quot;c1&quot;&gt;// Get username from CP db.&lt;/span&gt;
-         &lt;span class=&quot;nv&quot;&gt;$db&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;captiveportal_opendb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-         &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$db&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-           &lt;span class=&quot;nv&quot;&gt;$ip&lt;/span&gt;  &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;SQLite3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;escapeString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$ip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-           &lt;span class=&quot;nv&quot;&gt;$mac&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;SQLite3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;escapeString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$mac&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-           &lt;span class=&quot;nv&quot;&gt;$username_query&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;SELECT username FROM captiveportal &quot;&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;.&lt;/span&gt;
-                             &lt;span class=&quot;s2&quot;&gt;&quot; WHERE ip='&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$ip&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;' AND mac='&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$mac&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;';&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-           &lt;span class=&quot;nv&quot;&gt;$response&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$db&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;query&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$username_query&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-           &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$response&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;FALSE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-             &lt;span class=&quot;nv&quot;&gt;$username&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$response&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;fetchArray&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
-           &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-           &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-             &lt;span class=&quot;c1&quot;&gt;// Not logged in&lt;/span&gt;
-           &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-           &lt;span class=&quot;nv&quot;&gt;$db&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;close&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-         &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-         &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-           &lt;span class=&quot;k&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;No Database connection!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-         &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-         &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$username&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-      &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-      &lt;span class=&quot;k&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;captiveportal_get_sessionid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$ip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$mac&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-         &lt;span class=&quot;nv&quot;&gt;$sessionid&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-         &lt;span class=&quot;c1&quot;&gt;// Get sessionid from CP db.&lt;/span&gt;
-         &lt;span class=&quot;nv&quot;&gt;$db&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;captiveportal_opendb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-         &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$db&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-           &lt;span class=&quot;nv&quot;&gt;$ip&lt;/span&gt;  &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;SQLite3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;escapeString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$ip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-           &lt;span class=&quot;nv&quot;&gt;$mac&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;SQLite3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;escapeString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$mac&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-           &lt;span class=&quot;nv&quot;&gt;$sessionid_query&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;SELECT sessionid FROM captiveportal &quot;&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;.&lt;/span&gt;
-                              &lt;span class=&quot;s2&quot;&gt;&quot; WHERE ip='&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$ip&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;' AND mac='&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$mac&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;';&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-           &lt;span class=&quot;nv&quot;&gt;$response&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$db&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;query&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$sessionid_query&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-           &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$response&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;FALSE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-             &lt;span class=&quot;nv&quot;&gt;$sessionid&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$response&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;fetchArray&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
-           &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-           &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-             &lt;span class=&quot;c1&quot;&gt;// Not logged in&lt;/span&gt;
-           &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-           &lt;span class=&quot;nv&quot;&gt;$db&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;close&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-         &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-         &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-           &lt;span class=&quot;k&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;No Database connection!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-         &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-         &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$sessionid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-      &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-      &lt;span class=&quot;nv&quot;&gt;$username&lt;/span&gt;  &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;captiveportal_get_logged_in_username&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$client_ip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$client_mac&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-      &lt;span class=&quot;nv&quot;&gt;$sessionid&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;captiveportal_get_sessionid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$client_ip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$client_mac&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;cp&quot;&gt;?&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;cp&quot;&gt;&amp;lt;?php&lt;/span&gt;
-      &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$sessionid&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$_SERVER&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'REQUEST_URI'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'/logout'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;nf&quot;&gt;captiveportal_disconnect_client&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$sessionid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;cp&quot;&gt;?&amp;gt;&lt;/span&gt;
-      Logged out.
-    &lt;span class=&quot;cp&quot;&gt;&amp;lt;?php&lt;/span&gt;
-      &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-      &lt;span class=&quot;k&quot;&gt;elseif&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$username&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;cp&quot;&gt;?&amp;gt;&lt;/span&gt;
-      You should be able to access the internet and are logged in as
-    &lt;span class=&quot;cp&quot;&gt;&amp;lt;?php&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$username&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;cp&quot;&gt;?&amp;gt;&lt;/span&gt;
-      &lt;span class=&quot;nt&quot;&gt;&amp;lt;br/&amp;gt;&lt;/span&gt;
-      &lt;span class=&quot;nt&quot;&gt;&amp;lt;a&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;href=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;/logout&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;Log me out.&lt;span class=&quot;nt&quot;&gt;&amp;lt;/a&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;cp&quot;&gt;&amp;lt;?php&lt;/span&gt;
-      &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-      &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;c1&quot;&gt;// Not logged in&lt;/span&gt;
-    &lt;span class=&quot;cp&quot;&gt;?&amp;gt;&lt;/span&gt;
-      &lt;span class=&quot;nt&quot;&gt;&amp;lt;h2&amp;gt;&lt;/span&gt;By Username/Pass&lt;span class=&quot;nt&quot;&gt;&amp;lt;/h2&amp;gt;&lt;/span&gt;
-      &lt;span class=&quot;nt&quot;&gt;&amp;lt;form&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;method=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;post&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;action=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;#PORTAL_ACTION#&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;lt;input&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;auth_user&quot;&lt;/span&gt;  &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/input&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;lt;input&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;auth_pass&quot;&lt;/span&gt;  &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;password&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/input&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;lt;input&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;redirurl&quot;&lt;/span&gt;   &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;hidden&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;#PORTAL_REDIRURL#&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/input&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;lt;input&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;accept&quot;&lt;/span&gt;     &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;submit&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Login&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/input&amp;gt;&lt;/span&gt;
-      &lt;span class=&quot;nt&quot;&gt;&amp;lt;/form&amp;gt;&lt;/span&gt;
-  
-      &lt;span class=&quot;nt&quot;&gt;&amp;lt;h2&amp;gt;&lt;/span&gt;By Voucher&lt;span class=&quot;nt&quot;&gt;&amp;lt;/h2&amp;gt;&lt;/span&gt;
-      &lt;span class=&quot;nt&quot;&gt;&amp;lt;form&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;method=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;post&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;action=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;#PORTAL_ACTION#&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;lt;input&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;auth_voucher&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/input&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;lt;input&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;redirurl&quot;&lt;/span&gt;     &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;hidden&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;#PORTAL_REDIRURL#&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/input&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;lt;input&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;accept&quot;&lt;/span&gt;       &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;submit&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Einlösen&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/input&amp;gt;&lt;/span&gt;
-      &lt;span class=&quot;nt&quot;&gt;&amp;lt;/form&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;cp&quot;&gt;&amp;lt;?php&lt;/span&gt;
-      &lt;span class=&quot;c1&quot;&gt;// Not logged in&lt;/span&gt;
-      &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;cp&quot;&gt;?&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;h3 id=&quot;more-things-to-do&quot;&gt;More things to do&lt;/h3&gt;
-
-&lt;p&gt;If you use these templates, make sure to also include them for the error-page (and/or success-page if you use one).&lt;/p&gt;
-
-&lt;p&gt;Refine all those ideas.&lt;/p&gt;
-
-&lt;h3 id=&quot;use-at-own-risk&quot;&gt;Use at own risk&lt;/h3&gt;
-&lt;p&gt;The approach outlined here has at least following security issues:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;login via http is easily spoofable&lt;/li&gt;
-  &lt;li&gt;giving the logout ability makes it possible for attackers to logout any given client&lt;/li&gt;
-  &lt;li&gt;the resolution of ip to mac is valid only in local networks and everything about it can be faked&lt;/li&gt;
-  &lt;li&gt;you might run into issues if concurrent logins are enabled on your captive portal&lt;/li&gt;
-  &lt;li&gt;no SQL sanitization happens in the first code example. I am not sure whether you could fake your MAC or IP adress in a way to cause harm (probably you can).&lt;/li&gt;
-  &lt;li&gt;The code ignores malconditions and possible return values here and there.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;em&gt;Think twice before throwing this in production!&lt;/em&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;other-approaches&quot;&gt;Other approaches&lt;/h2&gt;
-
-&lt;p&gt;Use the logout page, it is shown after successfull login, trunk seems to prepare this when the default page is visited (probably in pfSense 2.3).&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;h4 id=&quot;having-a-better-idea&quot;&gt;Having a better idea?&lt;/h4&gt;
-
-&lt;p&gt;Awesome!  Get in contact with me!&lt;/p&gt;
-</description>
-        <pubDate>Thu, 03 Dec 2015 10:09:09 +0100</pubDate>
-        <link>/pfsense/intranet/2015/12/03/pfsense-intranet-portal.html</link>
-        <guid isPermaLink="true">/pfsense/intranet/2015/12/03/pfsense-intranet-portal.html</guid>
-        
-        <category>pfsense</category>
-        
-        <category>intranet</category>
-        
-        
-        <category>pfsense</category>
-        
-        <category>intranet</category>
         
       </item>
     
