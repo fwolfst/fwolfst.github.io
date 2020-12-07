@@ -5,8 +5,8 @@
     <description>Mostly technical blog of Felix Wolfsteller (econya)</description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 06 Nov 2020 09:12:41 +0100</pubDate>
-    <lastBuildDate>Fri, 06 Nov 2020 09:12:41 +0100</lastBuildDate>
+    <pubDate>Mon, 07 Dec 2020 09:29:04 +0100</pubDate>
+    <lastBuildDate>Mon, 07 Dec 2020 09:29:04 +0100</lastBuildDate>
     <generator>Jekyll v4.1.1</generator>
     
       <item>
@@ -123,6 +123,37 @@ something.&lt;/p&gt;
         <category>php</category>
         
         <category>linux</category>
+        
+      </item>
+    
+      <item>
+        <title>Advent of code 2020</title>
+        <description>&lt;p&gt;This year I decided to spend some time on the &lt;a href=&quot;https://adventofcode.com/2020&quot;&gt;Advent of
+code&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;I will use my as-of-today favorite programming language, Ruby.&lt;/p&gt;
+
+&lt;p&gt;I am not a &lt;a href=&quot;https://en.wikipedia.org/wiki/Code_golf&quot;&gt;Code golfer&lt;/a&gt; and my goal
+was strictly do &lt;strong&gt;get the solution&lt;/strong&gt; while writing code that still can be
+explained somewhat.&lt;/p&gt;
+
+&lt;p&gt;I don’t think that I will revisit my solutions and so far I consider the code
+relatively clean, allthough not performant or always elegant wrt to the Ruby
+Standard Library.&lt;/p&gt;
+
+&lt;p&gt;Nevertheless, so far it is a fun experience and I’d be glad to join a Private
+Leaderboard next year. Give me a shout if you’d enjoy doing that in 2021.&lt;/p&gt;
+
+&lt;p&gt;My solutions are &lt;a href=&quot;https://github.com/fwolfst/aoc&quot;&gt;on github&lt;/a&gt;.&lt;/p&gt;
+</description>
+        <pubDate>Mon, 02 Nov 2020 10:02:02 +0100</pubDate>
+        <link>/snack/ruby/2020/11/02/aoc.html</link>
+        <guid isPermaLink="true">/snack/ruby/2020/11/02/aoc.html</guid>
+        
+        
+        <category>snack</category>
+        
+        <category>ruby</category>
         
       </item>
     
@@ -812,293 +843,6 @@ for that.&lt;/p&gt;
         
         
         <category>solidus</category>
-        
-      </item>
-    
-      <item>
-        <title>dokku on Ubuntu VM - complete with Rails</title>
-        <description>&lt;blockquote&gt;
-  &lt;p&gt;Simple tools are beatiful&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;&lt;em&gt;This is a revised version of two earlier outdated posts of mine.&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/diagram_dokku.png&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;(Not only) the rails community is going all excited about playing around with docker containers instead of with full-blown virtual machines.&lt;/p&gt;
-
-&lt;p&gt;With &lt;a href=&quot;https://github.com/progrium/dokku&quot;&gt;dokku&lt;/a&gt; a (and there are many others) project aims to build a thin but super-soft layer between the containers (if you don’t know the difference yet: think of containers as if they were virtual machines for now) and your deployment-fu.&lt;/p&gt;
-
-&lt;p&gt;These tools scratch itches of mine: deployment for me is less fun than doing other stuff with a computer.  But slim tools usually are quite fun.  And heroku-style git-push-deployments can be really enjoyable.&lt;/p&gt;
-
-&lt;h2 id=&quot;aim&quot;&gt;Aim&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Set up a dokku guest that we can deploy a rails 4 app to.&lt;/li&gt;
-  &lt;li&gt;Run this dokku guest on a server in the wild.&lt;/li&gt;
-  &lt;li&gt;Let this dokku guest serve our app to the outside world.&lt;/li&gt;
-  &lt;li&gt;Have it make use of letsencrypt.&lt;/li&gt;
-  &lt;li&gt;Have a basic idea of how to backup your db and/or uploads.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;requirements&quot;&gt;Requirements&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Ubuntu 14.04 system&lt;/li&gt;
-  &lt;li&gt;A bit of &lt;em&gt;patience&lt;/em&gt;&lt;/li&gt;
-  &lt;li&gt;DNS set up to resolve your domain&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;step-one-create-the-vm&quot;&gt;Step one: create the VM&lt;/h2&gt;
-
-&lt;p&gt;Instead of spoiling my main system with other package installations, configurations and tasks, I will create a virtual machine running ubuntu to be my docker/dokku host.  I will call that machine &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;vlaada&lt;/code&gt; and it will be a minimal Ubuntu 14.04 (trusty) system.  To be on the safe side, I will not create the VM by hand and will not use any heavy machinery like puppet or chef, but use &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;vmbuilder&lt;/code&gt; (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;apt-get install python-vm-builder&lt;/code&gt;).  Note that while I use kvm and libvirt here you can use other hypervisors.&lt;/p&gt;
-
-&lt;p&gt;To ease creation of the VM, I put the somewhat long commands in &lt;a href=&quot;https://github.com/fwolfst/scripts/master/setup_dokku_vm&quot;&gt;(ba)sh scripts&lt;/a&gt;:&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;# setup_dokku_vm.sh &amp;lt;vmname&amp;gt;&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;# Build base vm (kvm, libvirt) based on Ubuntu 14.04 minimal to use with dokku&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# Felix Wolfsteller, 2015, 2016 GPL3+&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-z&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$1&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;then
-    &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;No argument supplied, call like '&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$0&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt; &amp;lt;vm-name&amp;gt;'.&quot;&lt;/span&gt;
-    &lt;span class=&quot;nb&quot;&gt;exit &lt;/span&gt;1
-&lt;span class=&quot;k&quot;&gt;fi
-
-&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;VMNAME&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$1&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
-&lt;span class=&quot;nv&quot;&gt;USERHOME&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$HOME&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
-
-&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;vmbuilder&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-  kvm&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-  ubuntu&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;--suite&lt;/span&gt; trusty&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;--flavour&lt;/span&gt; virtual&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;--arch&lt;/span&gt; amd64&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;--name&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$VMNAME&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;--hostname&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$VMNAME&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;--mem&lt;/span&gt; 1024&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;--cpus&lt;/span&gt; 1&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;--rootsize&lt;/span&gt; 20480&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;--swapsize&lt;/span&gt; 2048&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;--addpkg&lt;/span&gt; apparmor&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;--addpkg&lt;/span&gt; linux-image-generic&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;--addpkg&lt;/span&gt; openssh-server&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;--addpkg&lt;/span&gt; postgresql-client&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;--addpkg&lt;/span&gt; acpid&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; dokkulord&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;--ssh-user-key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$USERHOME&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;/.ssh/id_rsa.pub&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;--lock-user&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;--timezone&lt;/span&gt; Europe/Berlin&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;--libvirt&lt;/span&gt; qemu:///system&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;--verbose&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;--execscript&lt;/span&gt; &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;pwd&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;/post_setup&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;Some options require special attention:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;addpkg linux-image-generic&lt;/code&gt;: vmbuilder (?) bug workaround (you might not need it)&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;addpkg acpid&lt;/code&gt;: allows us to shut the machine down cleanly without logging in&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;addpkg apparmor&lt;/code&gt;: another workaround, otherwise docker/dokku won’t play nice with us (again, ymmv)&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;addpkg postgresql-client&lt;/code&gt;: will need this later to make postgresql database dumps, the dokku postgresql plugin &lt;a href=&quot;https://github.com/Kloadut/dokku-pg-plugin/issues/71&quot;&gt;won’t install this package for us&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;user&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh-user-key&lt;/code&gt;: locks the machine down (a bit), use the public key with which you want to log into the system later&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;--execscript ...&lt;/code&gt;: assemble path to the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;post_setup&lt;/code&gt; script (see below); it is executed at the end of the build process&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;The content of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;post-setup&lt;/code&gt;-script:&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;# Prepare a bare ubuntu VM for simple dokku installation, not unscary&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# Felix Wolfsteller, 2015, 2016 GPL3+&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;# called from vmbuilder, first argument is path to chroot us.&lt;/span&gt;
-
-&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Enable passwordless sudo for admins&quot;&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'# Allow members of group admin to not need a password'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$1&lt;/span&gt;/etc/sudoers
-&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'%admin ALL=NOPASSWD: ALL'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$1&lt;/span&gt;/etc/sudoers
-
-&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Enable (passwordless) sudo for dokku&quot;&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'# Allow members of group dokku to not need a password'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$1&lt;/span&gt;/etc/sudoers
-&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'%dokku ALL=(ALL:ALL) ALL'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$1&lt;/span&gt;/etc/sudoers
-&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'%dokku ALL=NOPASSWD: ALL'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$1&lt;/span&gt;/etc/sudoers
-
-wget https://raw.githubusercontent.com/dokku/dokku/v0.5.4/bootstrap.sh
-&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;DOKKU_TAG&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;v0.5.4 bash bootstrap.sh&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;If that last part looks scary to you, it is.  It basically allows the dokku and dokkulord users to sudo without password.&lt;/p&gt;
-
-&lt;p&gt;Now, calling &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;setup_dokku_vm vlaada&lt;/code&gt; will create and register a virtual machine.&lt;/p&gt;
-
-&lt;p&gt;On my favorite machine, this vm-creation-process takes around 20 minutes.&lt;/p&gt;
-
-&lt;p&gt;If you are impatient and want to see some white letters run over your black screen, the command above will tell you where to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sudo tail -f &lt;/code&gt; to to see what is happening (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt; .... logging to file: /tmp/tmpXXXXYYYZZZ&lt;/code&gt;).  On inspection you will see that no magic happens.&lt;/p&gt;
-
-&lt;p&gt;If you use &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;virt-manager&lt;/code&gt; you can now easily connect to the VM host and see that &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;vlaada&lt;/code&gt; has been created and registered.  It’s ready to start!
-Now might be a good time to clone this machine, e.g. using &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;virt-clone --auto-clone -o vlaada --prompt&lt;/code&gt; (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;apt-get install virtinst&lt;/code&gt; to get &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;virt-clone&lt;/code&gt;, this only applies to the libvirt setting I use).&lt;/p&gt;
-
-&lt;h3 id=&quot;install-dokku&quot;&gt;Install dokku&lt;/h3&gt;
-
-&lt;p&gt;This already happened in the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;post_setup&lt;/code&gt; script!&lt;/p&gt;
-
-&lt;h3 id=&quot;login-via-ssh&quot;&gt;Login via ssh&lt;/h3&gt;
-
-&lt;p&gt;As your key is already registered you can now login to the machine via ssh (you can also connect with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;virt-manager&lt;/code&gt; if you want - even remotely!).&lt;/p&gt;
-
-&lt;p&gt;Make your ssh-keys known or passed around where necessary.&lt;/p&gt;
-
-&lt;p&gt;To find the IP of your virtual machine (if its dhcped like in my setup) you can look at the current dhcp-leases with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cat /var/lib/libvirt/dnsmasq/default.leases&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;Assuming the IP is &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;192.168.122.177&lt;/code&gt; you &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh dokkulord@192.168.122.177&lt;/code&gt; into the machine to administrative tasks and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh dokku@192.168.122.177&lt;/code&gt; to run dokku commands.&lt;/p&gt;
-
-&lt;p&gt;Everything works?  Great, lets make this fun possible at home!&lt;/p&gt;
-
-&lt;h2 id=&quot;step-2-configuring-access-to-the-dokku-vm&quot;&gt;Step 2: Configuring access to the dokku VM&lt;/h2&gt;
-
-&lt;p&gt;vlaada (the dokku VM) lives on a server in the wild and it shall not be accessible from outside (except for ports 80 and 443).  To access it, I will dig an ssh tunnel through the server.&lt;/p&gt;
-
-&lt;p&gt;In my &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;~/.ssh/config&lt;/code&gt; I put&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;# ~/.ssh/config&lt;/span&gt;
-vlaada-tunnel
-  User felix-on-server
-  Hostname myserver.com
-  LocalForward 7722 192.168.122.177:22
-vlaada
-  User dokkulord
-  Host localhost
-  Port 7722
-dokku-vlaada
-  User dokku
-  Host localhost
-  Port 7722&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;Calling &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh vlaada-tunnel&lt;/code&gt; makes connections to the localhosts port 7722 end up at port 22 on the VM that we have set up (here, referenced by its IP &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;192.168.122.177&lt;/code&gt;).&lt;/p&gt;
-
-&lt;p&gt;I also add an host entry&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;# /etc/hosts&lt;/span&gt;
-127.0.0.1 vlaada&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;h3 id=&quot;test-that&quot;&gt;Test that&lt;/h3&gt;
-
-&lt;p&gt;Now after digging the tunnel (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh vlaada-tunnel&lt;/code&gt;) I am able to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh vlaada&lt;/code&gt; into the dokku machine, which is somewhere out there, hidden in the wild.  Cool.&lt;/p&gt;
-
-&lt;p&gt;Given that I authorized my key to perform dokku stuff &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh dokku-vlaada&lt;/code&gt; will run dokku commands on vlaada.&lt;/p&gt;
-
-&lt;p&gt;You can configure dokku by digging a tunnel to port 80 (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh -L 8099:192.168.122.177:80 myhost&lt;/code&gt;) and visiting it (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;http://localhost:8099&lt;/code&gt; in that example) with a webbrowser.  This will especially set the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/home/dokku/VHOST&lt;/code&gt; file content if using vhosts (which I do).&lt;/p&gt;
-
-&lt;h3 id=&quot;create-an-alias&quot;&gt;Create an alias&lt;/h3&gt;
-
-&lt;p&gt;Now you can create an [alias (with nalias)][alias] to run dokku commands:&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;alias dokku-vlaada='ssh dokku@vlaada'&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;Alternatively in following examples you can run dokku as dokkulord from 192.168.122.177 yourself (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sudo dokku &amp;lt;command&amp;gt;&lt;/code&gt;) or “spell it out” &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh dokku@vlaada &amp;lt;command&amp;gt;&lt;/code&gt;.  For the latter (and the alias) the tunnel has to be dug first.&lt;/p&gt;
-
-&lt;h2 id=&quot;configure-https-forwardingnat&quot;&gt;Configure http(s) forwarding/NAT&lt;/h2&gt;
-
-&lt;p&gt;To expose port 80 and port 443 of your virtual machine to the internets you want to NAt these ports (e.g. using &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;iptables&lt;/code&gt;).&lt;/p&gt;
-
-&lt;h3 id=&quot;integration-test-this&quot;&gt;“Integration”-Test this&lt;/h3&gt;
-
-&lt;p&gt;Lets deploy a toy app&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git clone git@github.com:rchrd2/dokku-ruby-example.git
-&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;dokku-ruby-example
-&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;bundle
-&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git remote add dokku dokku@vlaada:ruby-sample
-&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git push dokku master&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;Afterward just a few minutes, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ruby-sample.myhost&lt;/code&gt; should be available (watch STDOUT).  Brilliant!&lt;/p&gt;
-
-&lt;h2 id=&quot;install-postgres-plugin&quot;&gt;Install postgres plugin&lt;/h2&gt;
-
-&lt;p&gt;SQLite databases won’t work out of the box, so pick an app which uses postgresql in production configuration and install the postgres plugin (you only have to do this once):&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dokku-vlaada plugin:install https://github.com/dokku/dokku-postgres.git&lt;/code&gt;&lt;/p&gt;
-
-&lt;h1 id=&quot;create-a-postgresql-database&quot;&gt;Create a postgresql database&lt;/h1&gt;
-
-&lt;p&gt;I use &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;db.&amp;lt;appname&amp;gt;&lt;/code&gt; as a name for the database.&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dokku-vlaada postgres:create db.myapp&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;Create the app&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dokku-vlaada apps:create myapp&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;And link it&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dokku-vlaada postgres:link db.myapp myapp&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;Now add the remote to your rails app, e.g.
-&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git remote add dokku dokku@vlaada:myapp&lt;/code&gt; .&lt;/p&gt;
-
-&lt;p&gt;And push it&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git push dokku master&lt;/code&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;setup-db-run-the-migrations&quot;&gt;Setup DB, run the migrations&lt;/h2&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dokku-vlaada run myapp rake db:setup&lt;/code&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;backup-your-database&quot;&gt;Backup your database&lt;/h2&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dokku-vlaada postgres:export db.myapp &amp;gt; myapp.db.pgdump&lt;/code&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;add-some-storage&quot;&gt;Add some storage&lt;/h2&gt;
-
-&lt;p&gt;If your app handles file uploads or &lt;em&gt;any other data that should be persisted&lt;/em&gt; you will be happy to use the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;storage plugin&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;let-us-encrypt&quot;&gt;Let us encrypt&lt;/h2&gt;
-
-&lt;p&gt;With &lt;a href=&quot;https://letsencrypt.org&quot;&gt;letsencrypt&lt;/a&gt; we have serious automated ssl certificates at hand for free and dokku has a plugin (in beta stage) for you.&lt;/p&gt;
-
-&lt;p&gt;Enter the awesomeness by installing the plugin&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dokku-vlaada plugin:install https://github.com/dokku/dokku-letsencrypt.git&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;That was simple.&lt;/p&gt;
-
-&lt;p&gt;Installing a certificate is much more complicated:&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;dokku-vlaada config:set &lt;span class=&quot;nt&quot;&gt;--no-restart&lt;/span&gt; myapp &lt;span class=&quot;nv&quot;&gt;DOKKU_LETSENCRYPT_EMAIL&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;your.mail@your.host
-dokku-vlaada letsencrypt myapp&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;That was tough, but now you have deployed a valid, trusted certificate and configured your nginx to use it.  Please read the letsencrypt plugins README, as it also has some legal stuff on it.&lt;/p&gt;
-
-&lt;h3 id=&quot;notes&quot;&gt;Notes&lt;/h3&gt;
-&lt;p&gt;In the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;vmbuilder&lt;/code&gt; step you might find following options helpful:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;--mirror http://your-apt-mirror-cache-or-proxy&lt;/code&gt;
-This might save you some time and network traffic.&lt;/li&gt;
-  &lt;li&gt;You can checkout the scripts at http://github.com/fwolfst/scripts/setup_dokku_vm .&lt;/li&gt;
-  &lt;li&gt;To have the app logging to stdout and seeing the logs via &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dokku logs myapp&lt;/code&gt; the easiest way is to include the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;rails_12factor&lt;/code&gt; gem in your Gemfile.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;having-a-better-idea&quot;&gt;Having a better idea?&lt;/h4&gt;
-
-&lt;p&gt;Awesome!  Get in contact with me!&lt;/p&gt;
-
-</description>
-        <pubDate>Mon, 18 Apr 2016 19:01:25 +0200</pubDate>
-        <link>/docker/dokku/virtualization/2016/04/18/dokku-on-ubuntu-vm-complete-rails.html</link>
-        <guid isPermaLink="true">/docker/dokku/virtualization/2016/04/18/dokku-on-ubuntu-vm-complete-rails.html</guid>
-        
-        <category>docker</category>
-        
-        <category>dokku</category>
-        
-        
-        <category>docker</category>
-        
-        <category>dokku</category>
-        
-        <category>virtualization</category>
         
       </item>
     
