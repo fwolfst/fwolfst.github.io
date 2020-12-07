@@ -5,9 +5,40 @@
     <description>Mostly technical blog of Felix Wolfsteller (econya)</description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 07 Dec 2020 09:29:04 +0100</pubDate>
-    <lastBuildDate>Mon, 07 Dec 2020 09:29:04 +0100</lastBuildDate>
+    <pubDate>Mon, 07 Dec 2020 09:31:08 +0100</pubDate>
+    <lastBuildDate>Mon, 07 Dec 2020 09:31:08 +0100</lastBuildDate>
     <generator>Jekyll v4.1.1</generator>
+    
+      <item>
+        <title>Advent of code 2020</title>
+        <description>&lt;p&gt;This year I decided to spend some time on the &lt;a href=&quot;https://adventofcode.com/2020&quot;&gt;Advent of
+code&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;I will use my as-of-today favorite programming language, Ruby.&lt;/p&gt;
+
+&lt;p&gt;I am not a &lt;a href=&quot;https://en.wikipedia.org/wiki/Code_golf&quot;&gt;Code golfer&lt;/a&gt; and my goal
+was strictly do &lt;strong&gt;get the solution&lt;/strong&gt; while writing code that still can be
+explained somewhat.&lt;/p&gt;
+
+&lt;p&gt;I don’t think that I will revisit my solutions and so far I consider the code
+relatively clean, allthough not performant or always elegant wrt to the Ruby
+Standard Library.&lt;/p&gt;
+
+&lt;p&gt;Nevertheless, so far it is a fun experience and I’d be glad to join a Private
+Leaderboard next year. Give me a shout if you’d enjoy doing that in 2021.&lt;/p&gt;
+
+&lt;p&gt;My solutions are &lt;a href=&quot;https://github.com/fwolfst/aoc&quot;&gt;on github&lt;/a&gt;.&lt;/p&gt;
+</description>
+        <pubDate>Mon, 07 Dec 2020 08:30:00 +0100</pubDate>
+        <link>/snack/ruby/2020/12/07/aoc.html</link>
+        <guid isPermaLink="true">/snack/ruby/2020/12/07/aoc.html</guid>
+        
+        
+        <category>snack</category>
+        
+        <category>ruby</category>
+        
+      </item>
     
       <item>
         <title>updating php for nextcloud on xenial</title>
@@ -123,37 +154,6 @@ something.&lt;/p&gt;
         <category>php</category>
         
         <category>linux</category>
-        
-      </item>
-    
-      <item>
-        <title>Advent of code 2020</title>
-        <description>&lt;p&gt;This year I decided to spend some time on the &lt;a href=&quot;https://adventofcode.com/2020&quot;&gt;Advent of
-code&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;I will use my as-of-today favorite programming language, Ruby.&lt;/p&gt;
-
-&lt;p&gt;I am not a &lt;a href=&quot;https://en.wikipedia.org/wiki/Code_golf&quot;&gt;Code golfer&lt;/a&gt; and my goal
-was strictly do &lt;strong&gt;get the solution&lt;/strong&gt; while writing code that still can be
-explained somewhat.&lt;/p&gt;
-
-&lt;p&gt;I don’t think that I will revisit my solutions and so far I consider the code
-relatively clean, allthough not performant or always elegant wrt to the Ruby
-Standard Library.&lt;/p&gt;
-
-&lt;p&gt;Nevertheless, so far it is a fun experience and I’d be glad to join a Private
-Leaderboard next year. Give me a shout if you’d enjoy doing that in 2021.&lt;/p&gt;
-
-&lt;p&gt;My solutions are &lt;a href=&quot;https://github.com/fwolfst/aoc&quot;&gt;on github&lt;/a&gt;.&lt;/p&gt;
-</description>
-        <pubDate>Mon, 02 Nov 2020 10:02:02 +0100</pubDate>
-        <link>/snack/ruby/2020/11/02/aoc.html</link>
-        <guid isPermaLink="true">/snack/ruby/2020/11/02/aoc.html</guid>
-        
-        
-        <category>snack</category>
-        
-        <category>ruby</category>
         
       </item>
     
