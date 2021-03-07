@@ -1,0 +1,139 @@
+<!DOCTYPE html><html lang="en"><head><meta content="text/html; charset=UTF-8" http-equiv="Content-Type"><meta content="width=device-width, initial-scale=1" name="viewport"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>updating php for nextcloud on xenial | felix wolfsteller - blog</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="updating php for nextcloud on xenial" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Notes during an update process" />
+<meta property="og:description" content="Notes during an update process" />
+<link rel="canonical" href="/php/linux/2020/11/02/php-update.html" />
+<meta property="og:url" content="/php/linux/2020/11/02/php-update.html" />
+<meta property="og:site_name" content="felix wolfsteller - blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-11-02T17:04:00+01:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="updating php for nextcloud on xenial" />
+<script type="application/ld+json">
+{"headline":"updating php for nextcloud on xenial","dateModified":"2020-11-02T17:04:00+01:00","datePublished":"2020-11-02T17:04:00+01:00","description":"Notes during an update process","mainEntityOfPage":{"@type":"WebPage","@id":"/php/linux/2020/11/02/php-update.html"},"@type":"BlogPosting","url":"/php/linux/2020/11/02/php-update.html","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link href="/assets/css/style.css" rel="stylesheet"><link href="/assets/fork-awesome-1.1.7/css/fork-awesome.min.css" rel="stylesheet"></head><body><div id="header"><strong style="float:left;">updating php for nextcloud on xenial</strong>felix wolfsteller - blog</div><div id="sidebar"><div class="head"><a class="brand" href="/"><img class="brand" src="https://avatars2.githubusercontent.com/u/219373?s=460&v=4"></a></div><nav><div class="nav-item"><a href="/">HOME</a></div><div class="nav-item"><a href="/snacks">SNACKS</a></div><div class="nav-item"><a href="/resources">RESOURCES</a></div><div class="nav-item"><a href="/about">ABOUT</a></div></nav><div class="foot"><a href="https://troet.cafe/web/accounts/93840"><i class="fa fa-mastodon"></i></a><a href="https://github.com/fwolfst"><i class="fa fa-github"></i></a><a href="https://www.linkedin.com/in/felix-wolfsteller"><i class="fa fa-linkedin"></i></a><a href="https://www.xing.com/profile/Felix_Wolfsteller"><i class="fa fa-xing"></i></a><a href="/feed.xml"><i class="fa fa-rss"></i></a></div></div><div id="content"><h1 class="title">updating php for nextcloud on xenial</h1><div class="post-meta">2020-11-02</div><h2 id="notes-during-an-update-process">Notes during an update process</h2>
+
+<h3 id="world-views">World views</h3>
+
+<p><a href="https://nextcloud.com">Nextcloud</a> has a <a href="https://github.com/nextcloud/server/wiki/Maintenance-and-Release-Schedule">speedy release cycle</a> (and there is <a href="https://help.nextcloud.com/t/review-nextcloud-release-cycle/95501">controversy about that</a>), putting quite some pressure on the admins, but sparking joy with users, as the feature development has quite some momentum.</p>
+
+<p><a href="https://ubuntu.com">Ubuntu</a> follows a regular LTS release strategy since years.
+Wait for april in even years (and then wait a bit for added stability and
+experience).</p>
+
+<p><a href="https://php.net">php</a> is different, I believe. The most important thing seems
+to be that the upcoming release of 8.0 (scheduled this month, november 2020)
+will render trilliards of jokes invalid.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="mi">0</span> <span class="o">==</span> <span class="s2">"I am 42"</span>
+
+<span class="c1"># -&gt; evaluates to true @ php &lt;= 8.0</span>
+</code></pre></div></div>
+
+<p>At least thats proposed:
+<a href="https://wiki.php.net/rfc/string_to_number_comparison">https://wiki.php.net/rfc/string_to_number_comparison</a>.</p>
+
+<p>php is absolutely not <em>“my”</em> language, but <a href="https://stitcher.io/blog/new-in-php-8">this list of changes for 8.0</a> seems really reasonable. I do not follow phps development, but looks like a release with really powerful changes to me.</p>
+
+<h3 id="legacy">Legacy</h3>
+
+<p>But back to the problem. The setup is as follows: Nextcloud 19.0.4 (very recent, but not latest) on a Ubuntu 16.04 (not
+so recent) and php7.2 (-fpm, aged) from ondrej on an apache. Nextcloud 20 is out and 21 will only work with
+php7.4+ . Most likely until then the VM will need a dist-upgrade to Ubuntu 20.04 - or be replaced.</p>
+
+<h4 id="configuration-files">Configuration files</h4>
+
+<p>Performance is tuned/configuration is done in following locations (in my setup):</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/etc/php/7.2/apache/php.ini
+/etc/php/7.2/cli/php.ini
+/etc/php/7.2/fpm/php-fpm.conf
+/etc/php/7.2/fpm/php.ini
+/etc/php/7.2/fpm/pool.d/www.conf
+
+/etc/apache2/conf-enabled/php7.2-fpm.conf
+/etc/apache2/sites-enabled/nextcloud.conf
+</code></pre></div></div>
+
+<h3 id="install-php74-and-maybe-missing-modules">Install php7.4 (and maybe missing modules)</h3>
+
+<p><code class="language-plaintext highlighter-rouge">apt update &amp;&amp; apt install php7.4 php7.4-fpm</code> and check whether any of the modules (e.g.
+<code class="language-plaintext highlighter-rouge">php7.2-gd</code>) can receive updates, too.</p>
+
+<p>Also 
+<code class="language-plaintext highlighter-rouge">apt install libapache2-mod-php7.4</code> and <code class="language-plaintext highlighter-rouge">a2enmod php7.4</code>.</p>
+
+<h3 id="enable-fpm-in-apache">Enable fpm in apache</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>a2enmod proxy_fcgi setenvif
+a2enconf php7.4-fpm
+a2dismod php7.2-fpm
+</code></pre></div></div>
+
+<h3 id="move-overdiff-the-configuration-files">Move over/diff the configuration files</h3>
+
+<p>Check above mentioned files, e.g.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vimdiff /etc/php/7.<span class="o">{</span>2,4<span class="o">}</span>/cli/php.ini
+vimdiff /etc/php/7.<span class="o">{</span>2,4<span class="o">}</span>/apache2/php.ini
+vimdiff /etc/php/7.<span class="o">{</span>2,4<span class="o">}</span>/fpm/php.ini
+vimdiff /etc/php/7.<span class="o">{</span>2,4<span class="o">}</span>/fpm/php-fpm.conf
+vimdiff /etc/php/7.<span class="o">{</span>2,4<span class="o">}</span>/fpm/pool.d/www.conf
+</code></pre></div></div>
+
+<h3 id="restart-apache-and-fpm-service">Restart apache and fpm service</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>service apach2 restart
+service php7.4-fpm restart
+</code></pre></div></div>
+
+<h3 id="update-alternatives">update-alternatives</h3>
+
+<p>Now, make php7.4 the default.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>update-alternatives <span class="nt">--set</span> php /usr/bin/php7.4
+</code></pre></div></div>
+
+<p>Verify</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php <span class="nt">-v</span>
+</code></pre></div></div>
+
+<p>Check if the workers are up</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemctl status php7.2-fpm
+</code></pre></div></div>
+
+<h3 id="remove-php72">Remove php7.2</h3>
+
+<p>After some while, get rid of 7.2</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>apt purge php7.2
+</code></pre></div></div>
+
+<h2 id="when-things-go-wrong">When things go wrong</h2>
+
+<p>Oh, they will. Keep on going. Like, you will forget to install php7.4-mysql or
+something.</p>
+
+</div><div id="side"><div id="toc"><h2>Content</h2><ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#notes-during-an-update-process">Notes during an update process</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#world-views">World views</a></li>
+<li class="toc-entry toc-h3"><a href="#legacy">Legacy</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#configuration-files">Configuration files</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#install-php74-and-maybe-missing-modules">Install php7.4 (and maybe missing modules)</a></li>
+<li class="toc-entry toc-h3"><a href="#enable-fpm-in-apache">Enable fpm in apache</a></li>
+<li class="toc-entry toc-h3"><a href="#move-overdiff-the-configuration-files">Move over/diff the configuration files</a></li>
+<li class="toc-entry toc-h3"><a href="#restart-apache-and-fpm-service">Restart apache and fpm service</a></li>
+<li class="toc-entry toc-h3"><a href="#update-alternatives">update-alternatives</a></li>
+<li class="toc-entry toc-h3"><a href="#remove-php72">Remove php7.2</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#when-things-go-wrong">When things go wrong</a></li>
+</ul></div><div class="categories-vertical"><h2>Categories</h2><a href="/categories/#php"><div class="category">php</div></a><a href="/categories/#linux"><div class="category">linux</div></a></div></div><div id="footer"><div class="copyright">copyright 2020 Felix Wolfsteller,</div><div class="hire">available for hire&nbsp;<i class="fa fa-check"></i></div><div class="license">published under&nbsp;<a href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC-BY-NC-SA 4.0+</a></div><div class="code"><a href="https://github.com/fwolfst/"><span><i class="fa fa-github fa-fw"></i></span><span>this page</span></a></div></div></body></html>

@@ -1,0 +1,46 @@
+.resource-by-tag {
+  h3 {
+    border-bottom: 1px solid #ddd;
+  }
+}
+
+.tag-wrap {
+  padding-right: 0.5em;
+  padding-bottom: 0.5em;
+}
+
+.tags {
+  display: flex;
+  flex-direction: row;
+  padding-left: 0.5em;
+  float: left;
+  flex-wrap: wrap;
+
+  .tag {
+    background: #ddd;
+    border-radius: 20px;
+    padding-left:  10px;
+    padding-right: 10px;
+    padding-top:    2px;
+    padding-bottom: 2px;
+  }
+}
+
+.resources {
+  display: flex;
+  flex-direction: column;
+
+  .resource {
+    padding-bottom: 1.5em;
+
+    .resource-title {
+      font-size: 1.3em;
+      float: left;
+    }
+    .description {
+      color: #333;
+      clear: both;
+      padding-left: 1em;
+    }
+  }
+}
