@@ -1,0 +1,163 @@
+<!DOCTYPE html><html lang="en"><head><meta content="text/html; charset=UTF-8" http-equiv="Content-Type"><meta content="width=device-width, initial-scale=1" name="viewport"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>dokku on Ubuntu VM - Part 1: Setting up the VM | felix wolfsteller - blog</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="dokku on Ubuntu VM - Part 1: Setting up the VM" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Outdated. Find more up-to-date version in this newer article ." />
+<meta property="og:description" content="Outdated. Find more up-to-date version in this newer article ." />
+<link rel="canonical" href="/docker/dokku/virtualization/2015/04/27/dokku-on-ubuntu-vm-part-I.html" />
+<meta property="og:url" content="/docker/dokku/virtualization/2015/04/27/dokku-on-ubuntu-vm-part-I.html" />
+<meta property="og:site_name" content="felix wolfsteller - blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2015-04-27T19:01:25+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="dokku on Ubuntu VM - Part 1: Setting up the VM" />
+<script type="application/ld+json">
+{"headline":"dokku on Ubuntu VM - Part 1: Setting up the VM","dateModified":"2015-04-27T19:01:25+02:00","datePublished":"2015-04-27T19:01:25+02:00","description":"Outdated. Find more up-to-date version in this newer article .","mainEntityOfPage":{"@type":"WebPage","@id":"/docker/dokku/virtualization/2015/04/27/dokku-on-ubuntu-vm-part-I.html"},"@type":"BlogPosting","url":"/docker/dokku/virtualization/2015/04/27/dokku-on-ubuntu-vm-part-I.html","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link href="/assets/css/style.css" rel="stylesheet"><link href="/assets/fork-awesome-1.1.7/css/fork-awesome.min.css" rel="stylesheet"></head><body><div id="header"><strong style="float:left;">dokku on Ubuntu VM - Part 1: Setting up the VM</strong>felix wolfsteller - blog</div><div id="sidebar"><div class="head"><a class="brand" href="/"><img class="brand" src="https://avatars2.githubusercontent.com/u/219373?s=460&v=4"></a></div><nav><div class="nav-item"><a href="/">HOME</a></div><div class="nav-item"><a href="/snacks">SNACKS</a></div><div class="nav-item"><a href="/resources">RESOURCES</a></div><div class="nav-item"><a href="/about">ABOUT</a></div></nav><div class="foot"><a href="https://troet.cafe/web/accounts/93840"><i class="fa fa-mastodon"></i></a><a href="https://github.com/fwolfst"><i class="fa fa-github"></i></a><a href="https://www.linkedin.com/in/felix-wolfsteller"><i class="fa fa-linkedin"></i></a><a href="https://www.xing.com/profile/Felix_Wolfsteller"><i class="fa fa-xing"></i></a><a href="/feed.xml"><i class="fa fa-rss"></i></a></div></div><div id="content"><h1 class="title">dokku on Ubuntu VM - Part 1: Setting up the VM</h1><div class="post-meta">2015-04-27</div><p><span style="color: red;">
+<strong>Outdated. Find more up-to-date version in <a href="http://fwolfst.github.io/docker/dokku/dokku-alt/virtualization/2016/04/18/dokku-on-ubuntu-vm-complete-rails.html">this newer article</a> .</strong>
+</span></p>
+
+<blockquote>
+  <p>My notes in walking along the dokku path.</p>
+</blockquote>
+
+<p><img src="/assets/diagram.png" /></p>
+
+<p>(Not only) the rails community is going all excited about playing around with docker instead of with full-blown virtual machines.</p>
+
+<p>With <a href="https://github.com/progrium/dokku">dokku</a> and its fork <a href="https://github.com/dokku-alt/dokku-alt">dokku-alt</a> a (or count two and of course there are many others) project aims to build a thin but super-soft layer between the containers (if you don’t know them yet: think of them as virtual machines) and your deployment-fu.</p>
+
+<p>These tools scratch itches of mine: deployment for me is less fun than doing other stuff with a computer.  But slim tools usually are quite fun.  And I like heroku-style git-push-deploys.</p>
+
+<p><strong>So, lets get a dokku-thing up and running.</strong></p>
+
+<h2 id="aim">Aim</h2>
+
+<ul>
+  <li>Set up a dokku guest that we can deploy a rails 4 app to.</li>
+  <li>Run this dokku guest on a server in the wild.</li>
+  <li>Let this dokku guest serve our app to the outside world.</li>
+</ul>
+
+<p>###Requirements</p>
+
+<ul>
+  <li>Ubuntu 14.04 system</li>
+  <li>A bit of <em>patience</em>, as initial setup requires some data to be downloaded (you can speed this up by using local repositories)</li>
+  <li>DNS set up to resolve your domain</li>
+</ul>
+
+<p>Instead of spoiling my main system with other package installations, configurations and tasks, I will create a virtual machine running ubuntu to be my docker/dokku host.  I will call that machine <code class="language-plaintext highlighter-rouge">vlaada</code> and it will be a minimal Ubuntu 14.04 (trusty) system.  To be on the safe side, I will not create the VM by hand or with any mind-blowing creatures like puppet or chef, but use <code class="language-plaintext highlighter-rouge">vmbuilder</code> (<code class="language-plaintext highlighter-rouge">apt-get install python-vm-builder</code>).  Note that while I use kvm and libvirt here you can use other hypervisors.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c">#!/bin/bash</span>
+<span class="c"># Build base vm (kvm, libvirt) to use with dokku</span>
+<span class="c"># Felix Wolfsteller, 2015, GPL3+</span>
+<span class="nb">sudo </span>vmbuilder<span class="se">\</span>
+  kvm<span class="se">\</span>
+  ubuntu<span class="se">\</span>
+  <span class="nt">--suite</span> trusty<span class="se">\</span>
+  <span class="nt">--flavour</span> virtual<span class="se">\</span>
+  <span class="nt">--arch</span> amd64<span class="se">\</span>
+  <span class="nt">--name</span> vlaada<span class="se">\</span>
+  <span class="nt">--hostname</span> vlaada<span class="se">\</span>
+  <span class="nt">--mem</span> 1024<span class="se">\</span>
+  <span class="nt">--cpus</span> 1<span class="se">\</span>
+  <span class="nt">--rootsize</span> 20480<span class="se">\</span>
+  <span class="nt">--swapsize</span> 2048<span class="se">\</span>
+  <span class="nt">--addpkg</span> apparmor<span class="se">\</span>
+  <span class="nt">--addpkg</span> linux-image-generic<span class="se">\</span>
+  <span class="nt">--addpkg</span> openssh-server<span class="se">\</span>
+  <span class="nt">--addpkg</span> postgresql-client<span class="se">\</span>
+  <span class="nt">--addpkg</span> acpid<span class="se">\</span>
+  <span class="nt">--user</span> dokkulord<span class="se">\</span>
+  <span class="nt">--ssh-user-key</span><span class="o">=</span>/home/you/.ssh/id_rsa.pub<span class="se">\</span>
+  <span class="nt">--lock-user</span><span class="se">\</span>
+  <span class="nt">--timezone</span> Europe/Berlin<span class="se">\</span>
+  <span class="nt">--libvirt</span> qemu://system<span class="se">\</span>
+  <span class="nt">--verbose</span><span class="se">\</span>
+  <span class="nt">--execscript</span> <span class="sb">`</span><span class="nb">pwd</span><span class="sb">`</span>/setup-vlaada</code></pre></figure>
+
+<p>Some options require special attention:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">addpkg linux-image-generic</code>: vmbuilder (?) bug workaround (you might not need it)</li>
+  <li><code class="language-plaintext highlighter-rouge">addpkg acpid</code>: allows us to shut the machine down cleanly without logging in</li>
+  <li><code class="language-plaintext highlighter-rouge">addpkg apparmor</code>: another workaround, otherwise docker/dokku won’t play nice with us (again, ymmv)</li>
+  <li><code class="language-plaintext highlighter-rouge">addpkg postgresql-client</code>: will need this later to make postgresql database dumps, the dokku postgresql plugin <a href="https://github.com/Kloadut/dokku-pg-plugin/issues/71">won’t install this package for us</a></li>
+  <li><code class="language-plaintext highlighter-rouge">user</code> and <code class="language-plaintext highlighter-rouge">ssh-user-key</code>: locks the machine down (a bit), use the public key with which you want to log into the system later</li>
+  <li><code class="language-plaintext highlighter-rouge">--execscript ...</code>: assemble path to the setup-vlaada- script (see below); it is executed at the end of the build process</li>
+</ul>
+
+<p>The content of <code class="language-plaintext highlighter-rouge">setup-vlaada</code>-script:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c">#!/bin/bash</span>
+<span class="c"># Prepare a bare ubuntu VM for simple dokku installation</span>
+<span class="c"># Felix Wolfsteller, 2015, GPL3+</span>
+
+<span class="c"># called from vmbuilder, first argument is path to chroot us.</span>
+
+<span class="nb">echo</span> <span class="s2">"Enable passwordless sudo for admins"</span>
+<span class="nb">echo</span> <span class="s1">'# Allow members of group admin to not need a password'</span> <span class="o">&gt;&gt;</span> <span class="nv">$1</span>/etc/sudoers
+<span class="nb">echo</span> <span class="s1">'%admin ALL=NOPASSWD: ALL'</span> <span class="o">&gt;&gt;</span> <span class="nv">$1</span>/etc/sudoers
+
+<span class="nb">echo</span> <span class="s2">"Enable (passwordless) sudo for dokku"</span>
+<span class="nb">echo</span> <span class="s1">'# Allow members of group dokku to not need a password'</span> <span class="o">&gt;&gt;</span> <span class="nv">$1</span>/etc/sudoers
+<span class="nb">echo</span> <span class="s1">'%dokku ALL=(ALL:ALL) ALL'</span> <span class="o">&gt;&gt;</span> <span class="nv">$1</span>/etc/sudoers
+<span class="nb">echo</span> <span class="s1">'%dokku ALL=NOPASSWD: ALL'</span> <span class="o">&gt;&gt;</span> <span class="nv">$1</span>/etc/sudoers</code></pre></figure>
+
+<p>If that looks scary to you, it is.  It basically allows the dokku and dokkulord users to sudo without password.</p>
+
+<p>On my favorite machine, this vm-creation-process takes around 20 minutes.  On my development machine with ecovillage-internet multiply this by 3.</p>
+
+<p>If you are impatient when no white letters run over your black screen, the command above will tell you where to <code class="language-plaintext highlighter-rouge">sudo tail -f </code> to to see what is happening (<code class="language-plaintext highlighter-rouge"> .... logging to file: /tmp/tmpXXXXYYYZZZ</code>).</p>
+
+<p>vmbuilder will then provide us with a qcow image in the subfolder <code class="language-plaintext highlighter-rouge">ubuntu-kvm</code>.  Now might be a good time to clone this machine, e.g. using
+<code class="language-plaintext highlighter-rouge">virt-clone --auto-clone -o vlaada --prompt</code> (<code class="language-plaintext highlighter-rouge">apt-get install virtinst</code> to get <code class="language-plaintext highlighter-rouge">virt-clone</code>, this only applies to the libvirt setting I use).</p>
+
+<h2 id="configuring-access-to-the-dokku-vm">Configuring access to the dokku VM</h2>
+
+<p>vlaada (the dokku VM) lives on a server in the wild and it shall not be accessible from outside (except for ports 80 and 443).  To access it, I will dig an ssh tunnel through the server.</p>
+
+<p>In my <code class="language-plaintext highlighter-rouge">~/.ssh/config</code> I put</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># ~/.ssh/config</span>
+vlaada-tunnel
+  User felix-on-server
+  Hostname myserver.com
+  LocalForward 7722 192.168.122.77:22
+vlaada
+  User dokkulord
+  Port 7722</code></pre></figure>
+
+<p>Calling <code class="language-plaintext highlighter-rouge">ssh vlaada-tunnel</code> makes connections to the localhosts port 7722 end up at port 22 on the vm that we have set up (here, referenced by its IP <code class="language-plaintext highlighter-rouge">192.168.122.77</code>).</p>
+
+<p>I also add an host entry</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># /etc/hosts</span>
+127.0.0.1 vlaada</code></pre></figure>
+
+<h3 id="test-that">Test that</h3>
+
+<p>Now after digging the tunnel (<code class="language-plaintext highlighter-rouge">ssh vlaada-tunnel</code>) I am able to <code class="language-plaintext highlighter-rouge">ssh vlaada</code> into the dokku machine, which is somewhere out there, hidden in the wild.  Cool.</p>
+
+<h2 id="next-steps">Next steps</h2>
+
+<p>That’s how happy we will get today.  I hope to upgrade this post with some better prose and deliver part II, where we add dokku-juice to the mix.  Have fun.</p>
+
+<hr />
+
+<h3 id="notes">Notes</h3>
+<p>In the <code class="language-plaintext highlighter-rouge">vmbuilder</code> step you might find following options helpful:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">--mirror http://your-apt-mirror-cache-or-proxy</code>
+This might save you some time and network traffic.</li>
+</ul>
+
+<h4 id="having-a-better-idea">Having a better idea?</h4>
+
+<p>Awesome!  Get in contact with me!</p>
+
+</div><div id="side"><div class="categories-vertical"><h2>Categories</h2><a href="/categories/#docker"><div class="category">docker</div></a><a href="/categories/#dokku"><div class="category">dokku</div></a><a href="/categories/#virtualization"><div class="category">virtualization</div></a></div></div><div id="footer"><div class="copyright">copyright 2020 Felix Wolfsteller,</div><div class="hire">available for hire&nbsp;<i class="fa fa-check"></i></div><div class="license">published under&nbsp;<a href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC-BY-NC-SA 4.0+</a></div><div class="code"><a href="https://github.com/fwolfst/"><span><i class="fa fa-github fa-fw"></i></span><span>this page</span></a></div></div></body></html>

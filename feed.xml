@@ -1,0 +1,850 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>felix wolfsteller - blog</title>
+    <description>Mostly technical blog of Felix Wolfsteller (econya)</description>
+    <link>/</link>
+    <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Sun, 07 Mar 2021 17:17:57 +0100</pubDate>
+    <lastBuildDate>Sun, 07 Mar 2021 17:17:57 +0100</lastBuildDate>
+    <generator>Jekyll v4.1.1</generator>
+    
+      <item>
+        <title>Advent of code 2020</title>
+        <description>&lt;p&gt;This year I decided to spend some time on the &lt;a href=&quot;https://adventofcode.com/2020&quot;&gt;Advent of
+code&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;I will use my as-of-today favorite programming language, Ruby.&lt;/p&gt;
+
+&lt;p&gt;I am not a &lt;a href=&quot;https://en.wikipedia.org/wiki/Code_golf&quot;&gt;Code golfer&lt;/a&gt; and my goal
+was strictly do &lt;strong&gt;get the solution&lt;/strong&gt; while writing code that still can be
+explained somewhat.&lt;/p&gt;
+
+&lt;p&gt;I don’t think that I will revisit my solutions and so far I consider the code
+relatively clean, allthough not performant or always elegant wrt to the Ruby
+Standard Library.&lt;/p&gt;
+
+&lt;p&gt;Nevertheless, so far it is a fun experience and I’d be glad to join a Private
+Leaderboard next year. Give me a shout if you’d enjoy doing that in 2021.&lt;/p&gt;
+
+&lt;p&gt;My solutions are &lt;a href=&quot;https://github.com/fwolfst/aoc&quot;&gt;on github&lt;/a&gt;.&lt;/p&gt;
+</description>
+        <pubDate>Mon, 07 Dec 2020 08:30:00 +0100</pubDate>
+        <link>/snack/ruby/2020/12/07/aoc.html</link>
+        <guid isPermaLink="true">/snack/ruby/2020/12/07/aoc.html</guid>
+        
+        
+        <category>snack</category>
+        
+        <category>ruby</category>
+        
+      </item>
+    
+      <item>
+        <title>updating php for nextcloud on xenial</title>
+        <description>&lt;h2 id=&quot;notes-during-an-update-process&quot;&gt;Notes during an update process&lt;/h2&gt;
+
+&lt;h3 id=&quot;world-views&quot;&gt;World views&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://nextcloud.com&quot;&gt;Nextcloud&lt;/a&gt; has a &lt;a href=&quot;https://github.com/nextcloud/server/wiki/Maintenance-and-Release-Schedule&quot;&gt;speedy release cycle&lt;/a&gt; (and there is &lt;a href=&quot;https://help.nextcloud.com/t/review-nextcloud-release-cycle/95501&quot;&gt;controversy about that&lt;/a&gt;), putting quite some pressure on the admins, but sparking joy with users, as the feature development has quite some momentum.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://ubuntu.com&quot;&gt;Ubuntu&lt;/a&gt; follows a regular LTS release strategy since years.
+Wait for april in even years (and then wait a bit for added stability and
+experience).&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://php.net&quot;&gt;php&lt;/a&gt; is different, I believe. The most important thing seems
+to be that the upcoming release of 8.0 (scheduled this month, november 2020)
+will render trilliards of jokes invalid.&lt;/p&gt;
+
+&lt;div class=&quot;language-php highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;I am 42&quot;&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# -&amp;gt; evaluates to true @ php &amp;lt;= 8.0&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;At least thats proposed:
+&lt;a href=&quot;https://wiki.php.net/rfc/string_to_number_comparison&quot;&gt;https://wiki.php.net/rfc/string_to_number_comparison&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;php is absolutely not &lt;em&gt;“my”&lt;/em&gt; language, but &lt;a href=&quot;https://stitcher.io/blog/new-in-php-8&quot;&gt;this list of changes for 8.0&lt;/a&gt; seems really reasonable. I do not follow phps development, but looks like a release with really powerful changes to me.&lt;/p&gt;
+
+&lt;h3 id=&quot;legacy&quot;&gt;Legacy&lt;/h3&gt;
+
+&lt;p&gt;But back to the problem. The setup is as follows: Nextcloud 19.0.4 (very recent, but not latest) on a Ubuntu 16.04 (not
+so recent) and php7.2 (-fpm, aged) from ondrej on an apache. Nextcloud 20 is out and 21 will only work with
+php7.4+ . Most likely until then the VM will need a dist-upgrade to Ubuntu 20.04 - or be replaced.&lt;/p&gt;
+
+&lt;h4 id=&quot;configuration-files&quot;&gt;Configuration files&lt;/h4&gt;
+
+&lt;p&gt;Performance is tuned/configuration is done in following locations (in my setup):&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/etc/php/7.2/apache/php.ini
+/etc/php/7.2/cli/php.ini
+/etc/php/7.2/fpm/php-fpm.conf
+/etc/php/7.2/fpm/php.ini
+/etc/php/7.2/fpm/pool.d/www.conf
+
+/etc/apache2/conf-enabled/php7.2-fpm.conf
+/etc/apache2/sites-enabled/nextcloud.conf
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;install-php74-and-maybe-missing-modules&quot;&gt;Install php7.4 (and maybe missing modules)&lt;/h3&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;apt update &amp;amp;&amp;amp; apt install php7.4 php7.4-fpm&lt;/code&gt; and check whether any of the modules (e.g.
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;php7.2-gd&lt;/code&gt;) can receive updates, too.&lt;/p&gt;
+
+&lt;p&gt;Also 
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;apt install libapache2-mod-php7.4&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;a2enmod php7.4&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;enable-fpm-in-apache&quot;&gt;Enable fpm in apache&lt;/h3&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;a2enmod proxy_fcgi setenvif
+a2enconf php7.4-fpm
+a2dismod php7.2-fpm
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;move-overdiff-the-configuration-files&quot;&gt;Move over/diff the configuration files&lt;/h3&gt;
+
+&lt;p&gt;Check above mentioned files, e.g.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;vimdiff /etc/php/7.&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;2,4&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;/cli/php.ini
+vimdiff /etc/php/7.&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;2,4&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;/apache2/php.ini
+vimdiff /etc/php/7.&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;2,4&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;/fpm/php.ini
+vimdiff /etc/php/7.&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;2,4&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;/fpm/php-fpm.conf
+vimdiff /etc/php/7.&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;2,4&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;/fpm/pool.d/www.conf
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;restart-apache-and-fpm-service&quot;&gt;Restart apache and fpm service&lt;/h3&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;service apach2 restart
+service php7.4-fpm restart
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;update-alternatives&quot;&gt;update-alternatives&lt;/h3&gt;
+
+&lt;p&gt;Now, make php7.4 the default.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;update-alternatives &lt;span class=&quot;nt&quot;&gt;--set&lt;/span&gt; php /usr/bin/php7.4
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Verify&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;php &lt;span class=&quot;nt&quot;&gt;-v&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Check if the workers are up&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;systemctl status php7.2-fpm
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;remove-php72&quot;&gt;Remove php7.2&lt;/h3&gt;
+
+&lt;p&gt;After some while, get rid of 7.2&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;apt purge php7.2
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;when-things-go-wrong&quot;&gt;When things go wrong&lt;/h2&gt;
+
+&lt;p&gt;Oh, they will. Keep on going. Like, you will forget to install php7.4-mysql or
+something.&lt;/p&gt;
+
+</description>
+        <pubDate>Mon, 02 Nov 2020 17:04:00 +0100</pubDate>
+        <link>/php/linux/2020/11/02/php-update.html</link>
+        <guid isPermaLink="true">/php/linux/2020/11/02/php-update.html</guid>
+        
+        
+        <category>php</category>
+        
+        <category>linux</category>
+        
+      </item>
+    
+      <item>
+        <title>symbols for pads</title>
+        <description>&lt;p&gt;While using “Pads” (like &lt;a href=&quot;https://github.com/ether/etherpad-lite&quot;&gt;etherpad lite&lt;/a&gt;, &lt;a href=&quot;https://cryptpad.fr&quot;&gt;cryptpad&lt;/a&gt; etc.) or other poor text editors you sometimes might need symbols
+to indicate lists, important items, separate sections and other stuff. This is
+the beginning of a collection of mine.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Copy and paste them as you like&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;For technical reference: these are UTF-8 symbols and will probably not be
+supported by real legacy software.&lt;/p&gt;
+
+&lt;table width=&quot;100%&quot;&gt;
+&lt;tr&gt;
+&lt;td width=&quot;33%&quot;&gt;
+  &lt;!-- clocks --&gt;
+  &amp;#9201;
+  &amp;#9200;
+  &lt;!-- coffee --&gt;
+  &amp;#9749;
+  &amp;#127799;
+&lt;/td&gt;
+&lt;td width=&quot;33%&quot;&gt;
+  &amp;#10004; &amp;#10003;
+  
+  &amp;#10007; &amp;#10008;
+  
+  &lt;!-- stars --&gt;
+  &amp;#9733; &amp;#9734;
+
+  &amp;hearts;
+
+  &amp;#10026;
+  
+  &amp;#10047;
+  
+  &amp;#10048;
+&lt;/td&gt;
+&lt;td width=&quot;33%&quot;&gt;
+  &amp;#10148;
+  
+  &lt;!-- onetwothree --&gt;
+  &amp;#10112;
+  &amp;#10113;
+  &amp;#10114;
+
+  &amp;#10140;
+  
+  &amp;#10085;
+  
+  &amp;#9989;
+
+  &amp;#9775;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+
+</description>
+        <pubDate>Mon, 02 Nov 2020 10:02:02 +0100</pubDate>
+        <link>/snack/2020/11/02/symbols-for-pads.html</link>
+        <guid isPermaLink="true">/snack/2020/11/02/symbols-for-pads.html</guid>
+        
+        
+        <category>snack</category>
+        
+      </item>
+    
+      <item>
+        <title>list all crontabs</title>
+        <description>&lt;p&gt;Often enough, we search a cron entry and are not sure which user is issuing it,
+or we doubt if there is a crontab entry present (or missing).&lt;/p&gt;
+
+&lt;p&gt;In this case, outputting all manually registered crontabs can be handy:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;user &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;si&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cut&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-f1&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-d&lt;/span&gt;: /etc/passwd&lt;span class=&quot;si&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do &lt;/span&gt;crontab &lt;span class=&quot;nt&quot;&gt;-u&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$user&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-l&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;done&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;(you need extended permissions for that command).&lt;/p&gt;
+</description>
+        <pubDate>Sun, 01 Nov 2020 10:01:01 +0100</pubDate>
+        <link>/linux/snack/2020/11/01/list-all-crontabs.html</link>
+        <guid isPermaLink="true">/linux/snack/2020/11/01/list-all-crontabs.html</guid>
+        
+        
+        <category>linux</category>
+        
+        <category>snack</category>
+        
+      </item>
+    
+      <item>
+        <title>deploy to github.io with jekyll-github-deploy</title>
+        <description>&lt;p&gt;At github you can have jekyll generated sites for your repositories and they
+will be published at &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&amp;lt;whatever&amp;gt;.github.io&lt;/code&gt;. In your repositories settings you
+can select the branch from which the site is built or served.&lt;/p&gt;
+
+&lt;p&gt;However for &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&amp;lt;username&amp;gt;.github.io&lt;/code&gt; pages, stuff has to be served from your
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;master&lt;/code&gt; branch.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/yegor256/jekyll-github-deploy&quot;&gt;jekyll-github-deploy&lt;/a&gt; (jgd) is a shell-script wrapper that makes building
+your site locally and pushing the result into the master branch easy:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;jgd &lt;span class=&quot;nt&quot;&gt;--branch-from&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--branch&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;master
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;(That means that your jekyll sources are to be found in another branch)&lt;/p&gt;
+
+&lt;p&gt;Unfortunately, the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;README.md&lt;/code&gt; is removed from the master branch (where you
+“deploy” your site into), but that is the branch that is shown by default when
+people browse the repo. &lt;a href=&quot;https://github.com/yegor256/jekyll-github-deploy/issues/32&quot;&gt;We are working on that, though&lt;/a&gt;.&lt;/p&gt;
+</description>
+        <pubDate>Fri, 30 Oct 2020 07:44:02 +0100</pubDate>
+        <link>/jekyll/snack/2020/10/30/jgd.html</link>
+        <guid isPermaLink="true">/jekyll/snack/2020/10/30/jgd.html</guid>
+        
+        
+        <category>jekyll</category>
+        
+        <category>snack</category>
+        
+      </item>
+    
+      <item>
+        <title>Nice to locals: ActiveStorage might soon come with a ProxyController</title>
+        <description>&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ActiveStorage&lt;/code&gt; is the Ruby on Rails storage framework for “uploaded” stuff like
+images etc.
+The whole thing is a bit complicated (with signed
+keys for representations, polymorphic associations, cache-header support and so on), but here I will focus
+on a single simple implementation detail.&lt;/p&gt;
+
+&lt;p&gt;Well engineered it was crafted as a wrapper around various “cloud” storage
+providers - called Services.&lt;/p&gt;
+
+&lt;p&gt;A &lt;em&gt;local&lt;/em&gt; (“Disk”) service was implemented to &lt;a href=&quot;https://discuss.rubyonrails.org/t/local-activestorage-and-url-expiration-with-big-long-file-uploads/74749/12&quot;&gt;mimic the behavior of these
+cloud services&lt;/a&gt;
+ and allow storage on the development and testing machine. It suffers from that
+heritage a bit.&lt;/p&gt;
+
+&lt;p&gt;I use the local disk service also in production because I like to keep my
+systems compact and “local”.&lt;/p&gt;
+
+&lt;p&gt;When you (or actually, typically your browser) request a file, ActiveStorage
+will answer with a redirect to the actual location (for different reasons these
+might and should change within a cloud service setup). In the “local” setup this
+means that &lt;strong&gt;an additional redirect, request and dispatch&lt;/strong&gt; is done for every
+access to the resource (lets ignore client-side cache for a second), which is
+not necessary in all cases.&lt;/p&gt;
+
+&lt;p&gt;But that issue might be gone sooner or later, as a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ProxyController&lt;/code&gt; was merged
+this year: &lt;a href=&quot;https://github.com/rails/rails/commit/dfb5a82b259e134eac89784ac4ace0c44d1b4aee&quot;&gt;https://github.com/rails/rails/commit/dfb5a82b259e134eac89784ac4ace0c44d1b4aee&lt;/a&gt; .&lt;/p&gt;
+
+&lt;h2 id=&quot;proxycontroller-to-the-rescue&quot;&gt;ProxyController to the rescue!&lt;/h2&gt;
+
+&lt;p&gt;The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ProxyController&lt;/code&gt; will be able to “stream” the binary data directly to the
+client without&lt;/p&gt;
+
+&lt;p&gt;Very cool, looking forward if this change will make it into a release.&lt;/p&gt;
+</description>
+        <pubDate>Wed, 28 Oct 2020 11:00:00 +0100</pubDate>
+        <link>/rails/snack/2020/10/28/proxy.html</link>
+        <guid isPermaLink="true">/rails/snack/2020/10/28/proxy.html</guid>
+        
+        <category>solidus</category>
+        
+        <category>online-shop</category>
+        
+        
+        <category>rails</category>
+        
+        <category>snack</category>
+        
+      </item>
+    
+      <item>
+        <title>Operations: runbook</title>
+        <description>&lt;p&gt;From the KISS (keep it simple, stupid) universe come stubbed Semi-automation,
+README-based development and plain text data storage.&lt;/p&gt;
+
+&lt;p&gt;Braintree released a framework called &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;runbook&lt;/code&gt;. You can start e.g. from a
+ToDo-list and gradually improve until you end up with script that does whatever it should, but fully automatically.&lt;/p&gt;
+
+&lt;p&gt;I had fun with it. While it especially scratches some DevOps itches (with
+support to work on multiple remote servers via ssh and stuff) it can also be used
+for any other task that your computer should be able to do.&lt;/p&gt;
+
+&lt;p&gt;Look into the gem itself at &lt;a href=&quot;https://github.com/braintree/runbook/&quot;&gt;https://github.com/braintree/runbook/&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;The introductory post is a good read, at &lt;a href=&quot;https://medium.com/braintree-product-technology/https-medium-com-braintree-product-technology-runbook-be6f072cfc0d&quot;&gt;https://medium.com/braintree-product-technology/https-medium-com-braintree-product-technology-runbook-be6f072cfc0d&lt;/a&gt;.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;The philosophy of Runbook is heavily aligned with &lt;a href=&quot;https://blog.danslimmon.com/2019/07/15/do-nothing-scripting-the-key-to-gradual-automation/&quot;&gt;Dan Slimmon’s Do-nothing scripting&lt;/a&gt; and &lt;a href=&quot;http://atulgawande.com/book/the-checklist-manifesto/&quot;&gt;Atul Gawande’s The Checklist Manifesto&lt;/a&gt;. It is designed to minimize &lt;a href=&quot;https://landing.google.com/sre/sre-book/chapters/eliminating-toil/&quot;&gt;Toil&lt;/a&gt;.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;For some experiments, see
+&lt;a href=&quot;https://github.com/ecovillage/operations&quot;&gt;ecovillage/operations&lt;/a&gt;. Included is
+an auto-documentation (-&amp;gt; markdown) feature.&lt;/p&gt;
+</description>
+        <pubDate>Mon, 26 Oct 2020 09:00:00 +0100</pubDate>
+        <link>/snack/2020/10/26/operations.html</link>
+        <guid isPermaLink="true">/snack/2020/10/26/operations.html</guid>
+        
+        
+        <category>snack</category>
+        
+      </item>
+    
+      <item>
+        <title>Welcome to Jekyll II</title>
+        <description>&lt;p&gt;A while ago I wanted to revamp my blog a little, add some more flavor for professionals and
+open it up to put some smaller tipps (“snacks”) there.&lt;/p&gt;
+
+&lt;p&gt;The blog is realized with &lt;a href=&quot;jekyllrb.com&quot;&gt;jekyll&lt;/a&gt; and after browsing some
+pre-made “themes” I stumbled upon Cotes Chungs &lt;a href=&quot;https://github.com/cotes2020/jekyll-theme-chirpy&quot;&gt;chirpy&lt;/a&gt;. Looked nice, fancy features, active dev. However, it is full of client-side rendering and phoning-home stuff (all assets come via CDNs etc).&lt;/p&gt;
+
+&lt;p&gt;I throwed some patches at it and went on with other projects. Now, a couple of
+month later I come back to Jekyll and my blog. Initially I wanted to go all
+Chirpy but realized that dev there is too fast and it wouldnt be easy to create
+and keep up a fork of my taste.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;So, let’s start from scratch.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;learning-goals&quot;&gt;Learning goals&lt;/h2&gt;
+
+&lt;p&gt;I had several itches:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;playing with “modern CSS” (flex and grid)&lt;/li&gt;
+  &lt;li&gt;playing with “modern JavaScript” (nobloat, stimulus style)&lt;/li&gt;
+  &lt;li&gt;how to use jekyll more as a knowledgebase&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;The rest of this post will likely become more a list of notes along the process
+than a well-written instructional recap.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;A repository to follow along is at &lt;a href=&quot;https://github.com    /commits&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;what-i-learned&quot;&gt;What I learned&lt;/h2&gt;
+
+&lt;p&gt;Getting a naked jekyll thing is easy, just remove all references to the theme.
+Is that a good idea? Probably not.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;I might put key insights into quote-styles in this post.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Like this:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;bundle exec jekyll s --livereload&lt;/code&gt; saves you a few keystrokes&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;flex-and-grid&quot;&gt;Flex and Grid&lt;/h2&gt;
+
+&lt;p&gt;Very smooth experience, good summaries regarding the approaches:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://css-tricks.com/snippets/css/complete-guide-grid/&quot;&gt;Guide to Grid&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://css-tricks.com/snippets/css/a-guide-to-flexbox/&quot;&gt;Guide to Flexbox&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;fork-awesome&quot;&gt;Fork Awesome&lt;/h2&gt;
+
+&lt;p&gt;At a certain point my browser was showing the &lt;a href=&quot;https://forkaweso.me/Fork-Awesome/whats-new/&quot;&gt;Fork Awesome&lt;/a&gt; page. Never heard of it before, and was I was reading sounded fine. It has a mastodon icon which I wanted, so it was an easy choice.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;a href=&quot;https://forkaweso.me&quot;&gt;Fork Awesome&lt;/a&gt; works for me.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;categories-andor-tags&quot;&gt;Categories and/or tags&lt;/h2&gt;
+
+&lt;p&gt;I want my posts to be organized in categories. Jekyll itself will not create a
+new category page for every found category and there are multiple approaches and
+plugins to tackle this issue.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;From jekylls perspective there is no difference between tags and
+categories&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;The quickest solution is to put all available data on a single categories page.
+As long as there isnt too much content and you can ignore SEO-stuff this will
+work just fine.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;There are many ways, data, collections, scripts to populate pages or
+collections …&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;snacks-and-resources&quot;&gt;Snacks and resources&lt;/h2&gt;
+
+&lt;p&gt;Idea was: &lt;strong&gt;snacks&lt;/strong&gt; are very short articles (what I learned, or something sweet
+that I discovered).&lt;/p&gt;
+
+&lt;p&gt;Rather then having them as separate collection, I just added a category and
+filter on the snack page.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Resources&lt;/strong&gt; is basically a link list, with tags added to each link. I modelled
+these as data.&lt;/p&gt;
+
+&lt;p&gt;However, tagging works differently for these resources, and for now I reverted
+to to use heaps of loops (https://stackoverflow.com/questions/64524362/how-to-get-the-unique-values-of-nested-lists-in-jekyll-data).&lt;/p&gt;
+
+&lt;h2 id=&quot;seo&quot;&gt;SEO&lt;/h2&gt;
+
+&lt;p&gt;Nothing hot, just using the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;jekyll-seo-tag&lt;/code&gt; plugin.&lt;/p&gt;
+
+&lt;h2 id=&quot;licensing&quot;&gt;Licensing&lt;/h2&gt;
+
+&lt;p&gt;Finally, I also need to choose a license to put the code and content under. Code
+(which there is none yet anyway) is easy, I default to (A)GPLv3+.&lt;/p&gt;
+
+&lt;p&gt;Content shall be CC-BY-NC-SA .&lt;/p&gt;
+
+&lt;h2 id=&quot;deployment&quot;&gt;Deployment&lt;/h2&gt;
+
+&lt;p&gt;I use Jekyll github deploy: https://github.com/yegor256/jekyll-github-deploy .
+See also &lt;a href=&quot;https://fwolfst.github.io/jekyll/snack/2020/10/30/jgd.html&quot;&gt;https://fwolfst.github.io/jekyll/snack/2020/10/30/jgd.html&lt;/a&gt; .&lt;/p&gt;
+
+&lt;h2 id=&quot;very-much-open-questions&quot;&gt;Very much open questions&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Do I really want to add some stimulus and turbolinks sprinkles?&lt;/li&gt;
+  &lt;li&gt;How to achieve &lt;a href=&quot;[https://reuse.software&quot;&gt;reuse compliance&lt;/a&gt;?&lt;/li&gt;
+  &lt;li&gt;How to make the grid responsive, e.g. with sweet SCSS mixins?&lt;/li&gt;
+  &lt;li&gt;How to make tags hierarchical (web:css, web:assets, …) and group resources
+by it?&lt;/li&gt;
+  &lt;li&gt;Where to indicate license more clearly?&lt;/li&gt;
+&lt;/ul&gt;
+
+</description>
+        <pubDate>Fri, 23 Oct 2020 17:44:02 +0200</pubDate>
+        <link>/jekyll/ruby/2020/10/23/jekyll-myself.html</link>
+        <guid isPermaLink="true">/jekyll/ruby/2020/10/23/jekyll-myself.html</guid>
+        
+        
+        <category>jekyll</category>
+        
+        <category>ruby</category>
+        
+      </item>
+    
+      <item>
+        <title>Rails 6 and vendor sass assets</title>
+        <description>&lt;h2 id=&quot;aim&quot;&gt;Aim&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;make &lt;a href=&quot;bulma.io&quot;&gt;bulma&lt;/a&gt; available to and customizable via the Rails assets pipeline&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;requirements&quot;&gt;Requirements&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Rails6 setup&lt;/li&gt;
+  &lt;li&gt;tolerance: probably we will place files where they do not belong&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;why&quot;&gt;Why&lt;/h2&gt;
+
+&lt;p&gt;In Bulma 0.9 there is a new “spacing feature” that I happen to need right
+now. Or a least, it would feel stupid not to use bulma for that. The
+bulma-rails gem still carries the version 0.8 of bulma.&lt;/p&gt;
+
+&lt;h2 id=&quot;aside-why-not-using-a-gem&quot;&gt;Aside: Why not using a gem?&lt;/h2&gt;
+
+&lt;p&gt;I read quite some comments and articles argueing that gems that bundle assets
+like javascript or css-libraries should be abandoned in favor of webpack / yarn
+/ npm.&lt;/p&gt;
+
+&lt;p&gt;Letting a third party control your assets (let it be CDNs, npm or rubygems) has
+benefits and downsides.  I prefer others to iron out smaller bugs and keep the
+libraries up to date.  But I dislike dependance on additional “packaging
+software” and infrastructure as well as potentially more involved deployment
+processes.&lt;/p&gt;
+
+&lt;p&gt;For the &lt;a href=&quot;bulma.io&quot;&gt;bulma css framework&lt;/a&gt;, I usually reach out to
+&lt;a href=&quot;https://github.com/joshuajansen/bulma-rails&quot;&gt;bulma-rails&lt;/a&gt;. Having gemified
+assets also has the benefit of a single point where to raise issues or provide
+examples that might originate from the combination of the technology (e.g. how
+to integrate to sprockets, or use &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dom_id&lt;/code&gt;, …).  Also, installation is often
+trivial (one line in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Gemfile&lt;/code&gt; and one somewhere for asset integration).&lt;/p&gt;
+
+&lt;p&gt;Bottom line: I am pro assets-as-a-gem. Which does not mean that
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;this is the way&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;installing-assets&quot;&gt;Installing assets&lt;/h2&gt;
+
+&lt;p&gt;So, I want to get rid of the gem for the time being (will re-enable it once 0.9
+is out) and put the original SASS assets from bulma in my asset pipeline.&lt;/p&gt;
+
+&lt;h3 id=&quot;download-the-sass&quot;&gt;Download the sass&lt;/h3&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# Let us grab the tarball from the release page:&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# https://github.com/jgthms/bulma/releases&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; /tmp
+wget https://github.com/jgthms/bulma/archive/0.9.0.tar.gz
+&lt;span class=&quot;nb&quot;&gt;tar &lt;/span&gt;xzf 0.9.0.tar.gz
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;move-the-sass-to-appassetsvendorbulma-090&quot;&gt;Move the sass to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;app/assets/vendor/bulma-0.9.0&lt;/code&gt;&lt;/h3&gt;
+
+&lt;p&gt;Assuming your project lives in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/home/projects/project&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;BULMA_VENDOR_ASSET_DIR&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/home/projects/project/app/assets/vendor/bulma-0.9.0
+&lt;span class=&quot;nb&quot;&gt;mkdir&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$BULMA_VENDOR_ASSET_DIR&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;cp&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-ar&lt;/span&gt; /tmp/bulma-0.9.0/bulma.sass &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$BULMA_VENDOR_ASSET_DIR&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;cp&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-ar&lt;/span&gt; /tmp/bulma-0.9.0/sass &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$BULMA_VENDOR_ASSET_DIR&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;include-the-sass-assets&quot;&gt;Include the SASS assets&lt;/h3&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git &lt;span class=&quot;nb&quot;&gt;mv &lt;/span&gt;app/assets/stylesheets/application.&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;,s&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;css
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;And in that file&lt;/p&gt;
+
+&lt;div class=&quot;language-scss highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;@import&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;bulma-0.9.0/bulma&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;thats-it&quot;&gt;That’s it&lt;/h3&gt;
+
+&lt;p&gt;I can’t really believe it, but more is not to be done.&lt;/p&gt;
+
+&lt;h4 id=&quot;having-a-better-idea&quot;&gt;Having a better idea?&lt;/h4&gt;
+
+&lt;p&gt;Awesome!  Get in contact with me!&lt;/p&gt;
+
+</description>
+        <pubDate>Wed, 17 Jun 2020 13:01:25 +0200</pubDate>
+        <link>/rails/assets/snack/2020/06/17/rails-assets.html</link>
+        <guid isPermaLink="true">/rails/assets/snack/2020/06/17/rails-assets.html</guid>
+        
+        <category>rails</category>
+        
+        <category>css</category>
+        
+        
+        <category>rails</category>
+        
+        <category>assets</category>
+        
+        <category>snack</category>
+        
+      </item>
+    
+      <item>
+        <title>Solidus I</title>
+        <description>&lt;h2 id=&quot;aim&quot;&gt;Aim&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Identify &lt;a href=&quot;solidus.io&quot;&gt;solidus&lt;/a&gt; workflow (version 2.10!)&lt;/li&gt;
+  &lt;li&gt;Identify some shop and customization needs from a German Shop perspective&lt;/li&gt;
+  &lt;li&gt;Get used to write jekyll blog posts&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;requirements&quot;&gt;Requirements&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Linux System able to run “modern” (as of 2020) Rails tech stack&lt;/li&gt;
+  &lt;li&gt;tolerance: I write down as I learn&lt;/li&gt;
+  &lt;li&gt;capacity to forget: solidus will further emancipate from spree and the
+installation process will change&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;As this is my first contact with solidus, I can guarantee that next time I would
+do things different. Nonetheless, I want to keep some notes for me along the
+way.&lt;/p&gt;
+
+&lt;h2 id=&quot;pretext-what-i-understand-about-solidus-so-far&quot;&gt;Pretext: What I understand about solidus so far&lt;/h2&gt;
+
+&lt;p&gt;Solidus is an e-commerce (“online shop”) system that you can integrate with your
+Ruby on Rails web-application.&lt;/p&gt;
+
+&lt;p&gt;It is a fork of Spree, which was acquired - I’d call it a “protective fork” but
+do not know the details.&lt;/p&gt;
+
+&lt;p&gt;While it seems possible to “install solidus” as engines and gems into an empty
+Rails application and have a basic shop running, it is also possible to extend
+the solidus business logic, or just use some parts in the light of your bigger
+application. It looks like a pretty big thing.&lt;/p&gt;
+
+&lt;h2 id=&quot;step-one-bring-up-the-framework&quot;&gt;Step one: Bring up the framework&lt;/h2&gt;
+
+&lt;p&gt;For playing around we want a solidus shop with the whole shebang, thus instead
+of requiring only the frontend, backend or other parts, we grab the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;solidus&lt;/code&gt;
+dependency, which will pull in all the other stuff.&lt;/p&gt;
+
+&lt;p&gt;We will basically follow the &lt;a href=&quot;https://github.com/solidusio/solidus/&quot;&gt;solidus README&lt;/a&gt;.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;# Create a new Rails app (time of writing: Rails6)&lt;/span&gt;
+rails new soshop
+&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;soshop
+
+&lt;span class=&quot;c&quot;&gt;# Add dependencies (will modify Gemfile and run bundler)&lt;/span&gt;
+bundle add solidus
+bundle add solidus_auth_devise
+
+&lt;span class=&quot;c&quot;&gt;# Hook it all up - including migrations, sample data etc.&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# This step is interactive (will ask for email and password)&lt;/span&gt;
+rails g spree:install&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;That’s it, we can now fire up the server.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;rails s&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;and visit &lt;a href=&quot;http://localhost:3000&quot;&gt;localhost:3000&lt;/a&gt; to see the frontend or
+&lt;a href=&quot;http://localhost:3000/admin&quot;&gt;localhost:3000/admin&lt;/a&gt; to log into the backend with
+the credentials given in the install step (admin@example.com and test123 by
+default).&lt;/p&gt;
+
+&lt;h2 id=&quot;step-two-dont-pay&quot;&gt;Step Two: Don’t pay&lt;/h2&gt;
+
+&lt;p&gt;&lt;em&gt;We want to make the default currency Euros and look at a checkout process.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;As the scenario is a German shop I want to change the Default currency from $ to
+€ (admin -&amp;gt; Settings -&amp;gt; Store -&amp;gt; Default Currency). While we are there, we can
+also set the default tax country (“Tax Country for Empty Carts”).&lt;/p&gt;
+
+&lt;p&gt;Just under that the frontend language can be changed, but we leave that for now.&lt;/p&gt;
+
+&lt;p&gt;It is already time for a test-dive and put we can something in our shopping cart and
+see that the price is listed in €. However, when we continue to checkout the Billing
+Adress Form&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;requires users to enter a phone number,&lt;/li&gt;
+  &lt;li&gt;doesnt require users to enter a last name and&lt;/li&gt;
+  &lt;li&gt;the default address country is the US&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;– we would like to change all of that.&lt;/p&gt;
+
+&lt;h3 id=&quot;billing-address-switch-off-your-phone&quot;&gt;Billing-Address: Switch off your phone&lt;/h3&gt;
+
+&lt;p&gt;&lt;em&gt;We want to make the phone number field in addresses optional.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;The solidus documentation points us directly to the
+&lt;a href=&quot;https://guides.solidus.io/developers/users/addresses.html&quot;&gt;NoPhone monkey-patch&lt;/a&gt; .&lt;/p&gt;
+
+&lt;p&gt;However, I had to figure out how to apply this monkey patch. After some
+&lt;a href=&quot;https://github.com/solidusio/solidus/issues/3651&quot;&gt;professional help&lt;/a&gt; I figured
+that the file needs to end on &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_decorator.rb&lt;/code&gt; (rtfm) to be auto-required.&lt;/p&gt;
+
+&lt;p&gt;So, add a file:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# app/models/spree/address/optional_phone_decorator.rb
+module Spree::Address::OptionalPhoneDecorator                                    
+  def require_phone?                                                             
+    false                                                                        
+  end                                                                            
+                                                                                 
+  Spree::Address.prepend self                                                    
+end 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;In this case the “required” markers in the frontend are already aware that the
+requiredness is optional (the red asterix next to the form input will disappear
+on server restart).&lt;/p&gt;
+
+&lt;h3 id=&quot;billing-address-hi-bill--&quot;&gt;Billing-Address: Hi Bill … ?&lt;/h3&gt;
+
+&lt;p&gt;&lt;em&gt;We want to make the last name field in addresses mandatory.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Apparently, in version 3.0, solidus will replace &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;firstname&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;lastname&lt;/code&gt; of
+addresses by a single name field, but the current (2.10) backend and frontend
+still use both attributes.&lt;/p&gt;
+
+&lt;p&gt;For whatever reason, only &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;firstname&lt;/code&gt; is a required attribute - in order to
+identify users/addresses and make a valid “contract” (bill) with them we need
+both, though. At least I believe that it works like that in the EU.&lt;/p&gt;
+
+&lt;p&gt;Therefore, we will add a validation in the Backend and adjust the
+frontend address form (in contrast to the phone number case above, this is not
+pre-arranged).&lt;/p&gt;
+
+&lt;h4 id=&quot;backend-address-validation-for-lastname&quot;&gt;Backend: Address validation for lastname&lt;/h4&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# app/models/spree/address/mandatory_last_name_decorator.rb&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;module&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;Spree::Address::MandatoryLastNameDecorator&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;prepended&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;base&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;base&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;validates&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:lastname&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;presence: &lt;/span&gt;&lt;span class=&quot;kp&quot;&gt;true&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+
+  &lt;span class=&quot;no&quot;&gt;Spree&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Address&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;prepend&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;self&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;frontend-address-validation-for-lastname&quot;&gt;Frontend: Address validation for lastname&lt;/h4&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# Copy the address form&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;mkdir&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; app/views/spree/address/
+&lt;span class=&quot;nb&quot;&gt;cp&lt;/span&gt; &lt;span class=&quot;si&quot;&gt;$(&lt;/span&gt;bundle show solidus_frontend&lt;span class=&quot;si&quot;&gt;)&lt;/span&gt;/app/views/spree/address/_form.html.erb &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  app/views/spree/address
+
+&lt;span class=&quot;c&quot;&gt;# solidus also has a generator to copy views, something like this:&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# bundle exec rails generate solidus:views:override --only \&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;#  address/something&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# In that file, add `class: 'required' and `, required: true` to the lastname&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# field (around line 10, as an example see the firstname field at line 5)&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# Also, add the `field-required` class to the containing div (again, see above.)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This basically reverts this Pull Request: https://github.com/solidusio/solidus/pull/2393&lt;/p&gt;
+
+&lt;h3 id=&quot;billing-address-adjust-default-customer-location&quot;&gt;Billing-Address: Adjust default customer location&lt;/h3&gt;
+
+&lt;p&gt;&lt;em&gt;We want that the default customers billing and shipping address is within
+Germany.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;The form will default to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Spree::Country.default&lt;/code&gt;, which we can
+influence by modifying &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;config/initializers/spree.rb&lt;/code&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# config/initializers/spree.rb add&lt;/span&gt;
+
+  &lt;span class=&quot;c1&quot;&gt;# ...&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;config&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;default_country_iso&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'DE'&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;# ...&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;In case you need a different iso code, refer to the docs or look what is already
+seeded: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;rails r 'p Spree::Country.all.to_a'&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;exclude-customers&quot;&gt;Exclude customers&lt;/h3&gt;
+
+&lt;p&gt;It’s sad and not fair and we love all our “neighbours” (that includes humans on
+other continents), but right now we cannot spend resources on intensive
+regulation, tax and shipping company research.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;We &lt;del&gt;want&lt;/del&gt; have to restrict billing and shipping addresses to a predefined list of
+countries.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Thus we will exclude countries from the list of countries to chose from as
+shipping and billing address.&lt;/p&gt;
+
+&lt;p&gt;Therefore, in the backend navigate to Settings -&amp;gt; Zones and delete
+“North America”. Reflect.&lt;/p&gt;
+
+&lt;p&gt;Now, either create a new zone that includes just the countries that are fitting
+your business needs and possibilities, or modify the example one (“EU_VAT”).&lt;/p&gt;
+
+&lt;p&gt;Afterwards, set the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;checkout_zone&lt;/code&gt; in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;config/initializers/spree.rb&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# config/initializers/spree.rb
+
+  #...
+  config.checkout_zone = 'EU_VAT' # referenced by zone name
+  #...
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;taxes&quot;&gt;Taxes&lt;/h3&gt;
+
+&lt;p&gt;&lt;em&gt;We need to define the German default tax rates.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;In Germany, you’ll probably need two tax items. Specify in Backend -&amp;gt; Settings
+-&amp;gt; Taxes .
+As this is vanilla solidus, I do not dive into details here.&lt;/p&gt;
+
+&lt;h2 id=&quot;wrapup&quot;&gt;Wrapup&lt;/h2&gt;
+
+&lt;p&gt;So far, most things went relatively smooth - few hours including writing this
+post. Of course to be compliant we
+would need a lot more customizations (base prices, gdpr and other legal stuff).
+Maybe I will look
+into that later.&lt;/p&gt;
+
+&lt;p&gt;If you want to cherry-pick commits or see how the whole codebase looks, I set up
+&lt;a href=&quot;https://github.com/fwolfst/solidus_playground/commits/master&quot;&gt;a github-repository with relatively clean commits&lt;/a&gt;
+for that.&lt;/p&gt;
+
+&lt;h4 id=&quot;having-a-better-idea&quot;&gt;Having a better idea?&lt;/h4&gt;
+
+&lt;p&gt;Awesome!  Get in contact with me!&lt;/p&gt;
+
+</description>
+        <pubDate>Wed, 03 Jun 2020 08:03:20 +0200</pubDate>
+        <link>/solidus/2020/06/03/solidus-i.html</link>
+        <guid isPermaLink="true">/solidus/2020/06/03/solidus-i.html</guid>
+        
+        <category>solidus</category>
+        
+        <category>online-shop</category>
+        
+        
+        <category>solidus</category>
+        
+      </item>
+    
+  </channel>
+</rss>

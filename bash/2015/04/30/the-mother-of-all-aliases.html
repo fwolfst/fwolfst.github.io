@@ -1,0 +1,47 @@
+<!DOCTYPE html><html lang="en"><head><meta content="text/html; charset=UTF-8" http-equiv="Content-Type"><meta content="width=device-width, initial-scale=1" name="viewport"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>The Mother of All Aliases | felix wolfsteller - blog</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="The Mother of All Aliases" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Sometimes I feel old. Like too old to use zsh or fish instead of bash. So, I stick to bash (well, sometimes). Anyways, following instructions probably work for zsh (oh-my-zsh) as well." />
+<meta property="og:description" content="Sometimes I feel old. Like too old to use zsh or fish instead of bash. So, I stick to bash (well, sometimes). Anyways, following instructions probably work for zsh (oh-my-zsh) as well." />
+<link rel="canonical" href="/bash/2015/04/30/the-mother-of-all-aliases.html" />
+<meta property="og:url" content="/bash/2015/04/30/the-mother-of-all-aliases.html" />
+<meta property="og:site_name" content="felix wolfsteller - blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2015-04-30T00:00:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="The Mother of All Aliases" />
+<script type="application/ld+json">
+{"headline":"The Mother of All Aliases","dateModified":"2015-04-30T00:00:00+02:00","datePublished":"2015-04-30T00:00:00+02:00","description":"Sometimes I feel old. Like too old to use zsh or fish instead of bash. So, I stick to bash (well, sometimes). Anyways, following instructions probably work for zsh (oh-my-zsh) as well.","mainEntityOfPage":{"@type":"WebPage","@id":"/bash/2015/04/30/the-mother-of-all-aliases.html"},"@type":"BlogPosting","url":"/bash/2015/04/30/the-mother-of-all-aliases.html","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link href="/assets/css/style.css" rel="stylesheet"><link href="/assets/fork-awesome-1.1.7/css/fork-awesome.min.css" rel="stylesheet"></head><body><div id="header"><strong style="float:left;">The Mother of All Aliases</strong>felix wolfsteller - blog</div><div id="sidebar"><div class="head"><a class="brand" href="/"><img class="brand" src="https://avatars2.githubusercontent.com/u/219373?s=460&v=4"></a></div><nav><div class="nav-item"><a href="/">HOME</a></div><div class="nav-item"><a href="/snacks">SNACKS</a></div><div class="nav-item"><a href="/resources">RESOURCES</a></div><div class="nav-item"><a href="/about">ABOUT</a></div></nav><div class="foot"><a href="https://troet.cafe/web/accounts/93840"><i class="fa fa-mastodon"></i></a><a href="https://github.com/fwolfst"><i class="fa fa-github"></i></a><a href="https://www.linkedin.com/in/felix-wolfsteller"><i class="fa fa-linkedin"></i></a><a href="https://www.xing.com/profile/Felix_Wolfsteller"><i class="fa fa-xing"></i></a><a href="/feed.xml"><i class="fa fa-rss"></i></a></div></div><div id="content"><h1 class="title">The Mother of All Aliases</h1><div class="post-meta">2015-04-30</div><p>Sometimes I feel old.  Like too old to use zsh or fish instead of bash.  <del>So, I stick to bash (well, sometimes).</del>  Anyways, following instructions <del>probably</del> work for zsh (oh-my-zsh) as well.</p>
+
+<p>I do not use aliases extensively.  But when I do, I want them to be ‘just there’.  I do not remember where I got the following trick from, but its one of the adjustments to new systems I find myself to do rather sooner than later.</p>
+
+<p>##Create an alias with a quick command
+My aliases go to their own file, <code class="language-plaintext highlighter-rouge">~/.bash_aliases</code> .</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># ~/.bash_aliases
+# The Mother of Alias
+alias nalias='echo "" &gt;&gt; ~/.bash_aliases;\
+  vim -c "startinsert" + ~/.bash_aliases;\
+  source ~/.bash_aliases'
+</code></pre></div></div>
+
+<p>After linking this up, e.g. with a
+<code class="language-plaintext highlighter-rouge">source ~/.bash_aliases</code>
+in your <code class="language-plaintext highlighter-rouge">~/.bashrc</code>, you can now type
+<code class="language-plaintext highlighter-rouge">nalias</code> (“new alias”) and will be put in vim in your <code class="language-plaintext highlighter-rouge">~/.bash_aliases</code> ready to enter a new alias.  Once done and <code class="language-plaintext highlighter-rouge">:x</code>ed, your new alias is ready to be used.</p>
+
+<p>If you happen to work in multiple terminals, add a
+<code class="language-plaintext highlighter-rouge">alias ralias='source ~/.bash_aliases'</code> (reload alias)
+to allow you to quickly resource the <code class="language-plaintext highlighter-rouge">~/.bash_aliases</code>.</p>
+
+<hr />
+
+<h4 id="having-a-better-idea">Having a better idea?</h4>
+
+<p>Awesome!  Get in contact with me!</p>
+
+</div><div id="side"><div class="categories-vertical"><h2>Categories</h2><a href="/categories/#bash"><div class="category">bash</div></a></div></div><div id="footer"><div class="copyright">copyright 2020 Felix Wolfsteller,</div><div class="hire">available for hire&nbsp;<i class="fa fa-check"></i></div><div class="license">published under&nbsp;<a href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC-BY-NC-SA 4.0+</a></div><div class="code"><a href="https://github.com/fwolfst/"><span><i class="fa fa-github fa-fw"></i></span><span>this page</span></a></div></div></body></html>
