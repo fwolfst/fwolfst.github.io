@@ -190,6 +190,18 @@ charms me more and leads to less hazzle (e.g. with letsencrypt setup).
 However, I couldnt get the default buildpacks run mailtrain nicely. I would
 blame the still very busy nodejs ecosystem (grunt, nodeversion, blabla).
 
+Putting sensitive configuration in a git repository is not the optimal solution
+here, but allowed us to fire up the application quickly.
+
+It would be great if mailtrain supported setting the database urls via
+a single environment variable (it does allow environment callbacks in its
+configuration file, though - so feel free to do that, via `dokku config:set`).
+
+Heroku, dokku and at least Ruby on Rails set and read `DATABASE_URL`, which
+would make the manual database configuration obsolete. I [filed an issue](https://github.com/Mailtrain-org/mailtrain/issues/1020) on
+mailtrain, but the project is most likely busy with v2; but anyone js should be
+able to craft a PR pretty quickly.
+
 #### Having a better idea?
 
 Awesome!  Get in contact with me!
