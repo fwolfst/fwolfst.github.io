@@ -8,7 +8,7 @@ toc: true
 
 ## Aim
 
-* install [mailtrain](https://mailtrain.org) on a [dokku](dokku.com)
+* install [mailtrain](https://mailtrain.org) on a [dokku](https://dokku.com)
 
 ### Requirements
 
@@ -65,7 +65,7 @@ dokku apps:create mailtrain
 
 ##### Plugin installation
 
-If you have not yet install the dokku plugin, do so
+If you have not yet installed the dokku plugin, do so
 
 ```bash
 dokku plugin:install https://github.com/dokku/dokku-mysql.git mysql
@@ -82,7 +82,7 @@ dokku mysql:link mailtrain mailtrain
 
 ##### Plugin installation
 
-If you have not yet install the dokku plugin, do so
+If you have not yet installed the dokku plugin, do so
 
 ```bash
 dokku plugin:install https://github.com/dokku/dokku-redis.git redis
