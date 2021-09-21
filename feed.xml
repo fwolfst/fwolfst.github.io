@@ -5,8 +5,8 @@
     <description>Mostly technical blog of Felix Wolfsteller (econya)</description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 08 Mar 2021 10:52:44 +0100</pubDate>
-    <lastBuildDate>Mon, 08 Mar 2021 10:52:44 +0100</lastBuildDate>
+    <pubDate>Tue, 21 Sep 2021 09:57:12 +0200</pubDate>
+    <lastBuildDate>Tue, 21 Sep 2021 09:57:12 +0200</lastBuildDate>
     <generator>Jekyll v4.1.1</generator>
     
       <item>
@@ -14,7 +14,7 @@
         <description>&lt;h2 id=&quot;aim&quot;&gt;Aim&lt;/h2&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;install &lt;a href=&quot;https://mailtrain.org&quot;&gt;mailtrain&lt;/a&gt; on a &lt;a href=&quot;dokku.com&quot;&gt;dokku&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;install &lt;a href=&quot;https://mailtrain.org&quot;&gt;mailtrain&lt;/a&gt; on a &lt;a href=&quot;https://dokku.com&quot;&gt;dokku&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h3 id=&quot;requirements&quot;&gt;Requirements&lt;/h3&gt;
@@ -71,7 +71,7 @@ git commit &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; &lt;span class=&quot
 
 &lt;h5 id=&quot;plugin-installation&quot;&gt;Plugin installation&lt;/h5&gt;
 
-&lt;p&gt;If you have not yet install the dokku plugin, do so&lt;/p&gt;
+&lt;p&gt;If you have not yet installed the dokku plugin, do so&lt;/p&gt;
 
 &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;dokku plugin:install https://github.com/dokku/dokku-mysql.git mysql
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
@@ -86,7 +86,7 @@ dokku mysql:link mailtrain mailtrain
 
 &lt;h5 id=&quot;plugin-installation-1&quot;&gt;Plugin installation&lt;/h5&gt;
 
-&lt;p&gt;If you have not yet install the dokku plugin, do so&lt;/p&gt;
+&lt;p&gt;If you have not yet installed the dokku plugin, do so&lt;/p&gt;
 
 &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;dokku plugin:install https://github.com/dokku/dokku-redis.git redis
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
